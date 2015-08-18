@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Harvestman install problem
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Harvestman%20install%20problem&In-Reply-To=%3C8548c5f30807100150l4bf9c0bfy4dbdded967432e96%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000100.html">
+   <LINK REL="Next"  HREF="000102.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Harvestman install problem</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Harvestman%20install%20problem&In-Reply-To=%3C8548c5f30807100150l4bf9c0bfy4dbdded967432e96%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Harvestman install problem">abpillai at gmail.com
+       </A><BR>
+    <I>Thu Jul 10 10:50:57 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000100.html">[HarvestMan-devel] RSS Integration
+</A></li>
+        <LI>Next message: <A HREF="000102.html">[HarvestMan-devel] Harvestman install problem
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#101">[ date ]</a>
+              <a href="thread.html#101">[ thread ]</a>
+              <a href="subject.html#101">[ subject ]</a>
+              <a href="author.html#101">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Thanks, fixed this. Update your svn and it will install.
+
+Hereafter please CC &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">harvestman-devel at lists.berlios.de</A>&gt; also in your emails
+regarding HarvestMan.
+
+Thanks
+
+--Anand
+
+On Thu, Jul 10, 2008 at 2:46 AM, wenjie zheng &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">wenjie.zheng at gmail.com</A>&gt; wrote:
+&gt;<i> Hi Anand,
+</I>&gt;<i>
+</I>&gt;<i> I encountered a problem when I tried to install the latest version
+</I>&gt;<i> Harvestman (svn co ...)
+</I>&gt;<i>
+</I>&gt;<i> It got stuck when trying to creating config file
+</I>&gt;<i>
+</I>&gt;<i> ...
+</I>&gt;<i> Creating basic configuration in /etc/harvestman...
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>  File &quot;setup.py&quot;, line 463, in ?
+</I>&gt;<i>    main()
+</I>&gt;<i>  File &quot;setup.py&quot;, line 406, in main
+</I>&gt;<i>    conf_data = cfg.generate_system_configuration()
+</I>&gt;<i>  File &quot;/home/wzheng/code/HarvestMan-2.0/harvestman/lib/config.py&quot;,
+</I>&gt;<i> line 1526, in generate_system_configuration
+</I>&gt;<i>    return CONFIG_XML_TEMPLATE % self
+</I>&gt;<i> KeyError: 'USERAGENT'
+</I>&gt;<i>
+</I>&gt;<i> I am using Python 2.4.3 on a CentOS box with 2.6 kernel.
+</I>&gt;<i>
+</I>&gt;<i> Thanks a bunch!
+</I>&gt;<i>
+</I>&gt;<i> Wenjie
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000100.html">[HarvestMan-devel] RSS Integration
+</A></li>
+	<LI>Next message: <A HREF="000102.html">[HarvestMan-devel] Harvestman install problem
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#101">[ date ]</a>
+              <a href="thread.html#101">[ thread ]</a>
+              <a href="subject.html#101">[ subject ]</a>
+              <a href="author.html#101">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

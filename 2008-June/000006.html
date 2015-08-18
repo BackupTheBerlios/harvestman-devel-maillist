@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman schedule crawl at x speed per y	time?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20schedule%20crawl%20at%20x%20speed%20per%20y%0A%09time%3F&In-Reply-To=%3C8548c5f30806120300pea3bc6ck132fdd3185445498%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000005.html">
+   <LINK REL="Next"  HREF="000007.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman schedule crawl at x speed per y	time?</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20schedule%20crawl%20at%20x%20speed%20per%20y%0A%09time%3F&In-Reply-To=%3C8548c5f30806120300pea3bc6ck132fdd3185445498%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman schedule crawl at x speed per y	time?">abpillai at gmail.com
+       </A><BR>
+    <I>Thu Jun 12 12:00:08 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000005.html">[HarvestMan-devel] harvestman schedule crawl at x speed per y	time?
+</A></li>
+        <LI>Next message: <A HREF="000007.html">[HarvestMan-devel] harvestman schedule crawl at x speed per y	time?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+       Thanks for the tip. I already know about urlgrabber and has integrated
+its keep-alive module to HarvestMan.
+
+       He is doing the throttling at the reading phase by  creating a special
+file object that supports throttling to make it close to the required rate.
+However HarvestMan is multi-threaded and a throttle rate in HarvestMan
+should mean a combined rate for all the threads doing the download.
+
+     This is much more difficult to implement - one can do a rough translation
+by dividing the expected throttle rate by number of download threads and
+assigning the result to each as its throttle rate. But at any given time, not
+all the download threads will be busy, so this will be inaccurate. Otherwise
+there needs to be a way of determining the number of active download
+threads and then creating a dynamic throttle per thread. This could be
+assigned to the connector of that thread. I think it might work.
+
+ I will have a go at it next week. Code contributions are welcome...!
+
+Regards
+
+--Anand
+
+
+On Thu, Jun 12, 2008 at 12:06 PM, Vaibhav Bhatia &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">vaikings at gmail.com</A>&gt; wrote:
+&gt;<i> Anand, I found an implementation to throttle download bandwidth. You
+</I>&gt;<i> might have already seen it though.
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://devel.linux.duke.edu/cgi-bin/viewcvs.cgi/urlgrabber/urlgrabber/grabber.py?root=urlgrabber&amp;view=markup">http://devel.linux.duke.edu/cgi-bin/viewcvs.cgi/urlgrabber/urlgrabber/grabber.py?root=urlgrabber&amp;view=markup</A>
+</I>&gt;<i>
+</I>&gt;<i> regards,
+</I>&gt;<i> vaibhav
+</I>&gt;<i>
+</I>&gt;<i> On Thu, Jun 12, 2008 at 7:20 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> On Tue, Jun 3, 2008 at 10:17 AM, Anand Balachandran Pillai
+</I>&gt;&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;<i> Hi Lukasz,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>    Currently scheduler functionality is not there. Also you cannot specify a
+</I>&gt;&gt;&gt;<i> throttle download rate such as 5 kb/s. But these are getting added and will
+</I>&gt;&gt;&gt;<i> be present in 2.0 when it is released.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> Is i already in a trunk maybe?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I really need to make it 5kb/s max download. So if its in a trunk I
+</I>&gt;&gt;<i> could check it out and use it.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Lucas
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> HarvestMan-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> vaibhav
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000005.html">[HarvestMan-devel] harvestman schedule crawl at x speed per y	time?
+</A></li>
+	<LI>Next message: <A HREF="000007.html">[HarvestMan-devel] harvestman schedule crawl at x speed per y	time?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

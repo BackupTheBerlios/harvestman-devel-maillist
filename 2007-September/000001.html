@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Welcome ...
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2007-September/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Welcome%20...&In-Reply-To=%3C8548c5f30709120523j198331pa8e95fe78fa58c1d%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000002.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Welcome ...</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Welcome%20...&In-Reply-To=%3C8548c5f30709120523j198331pa8e95fe78fa58c1d%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Welcome ...">abpillai at gmail.com
+       </A><BR>
+    <I>Wed Sep 12 14:23:46 CEST 2007</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000002.html">[HarvestMan-devel] Testing, please ignore &lt;eom&gt;
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+   First of all, thanks for joining the HarvestMan-devel mailing list!
+ I am hoping that the members of this list can come together to write
+some quality software together and try and have fun at the same
+time...:)
+
+The main purpose of this list is to get together developers who are
+interested in writing code for the HarvestMan project. The specific
+immediate purpose is to develop a design and do a prototype
+implementation of a distributed HarvestMan using p2p architecture by
+reusing existing HarvestMan code.
+
+First of all, you need to be familiar with the HarvestMan project. The
+project website is at <A HREF="http://harvestmanontheweb.com.">http://harvestmanontheweb.com.</A> You can find some
+documentation there - the FAQ is useful but some parts of it is out of
+date. Most of the documentation is also pretty out of date w.r.t the
+current code.
+
+The project is hosted at Berlios as &quot;harvestman&quot;. The project URL is
+<A HREF="http://developer.berlios.de/projects/harvestman.">http://developer.berlios.de/projects/harvestman.</A> The current development version
+is 2.0.
+
+You need to create a developer id at berlios so I can add you to the
+project as a developer (Ignore if you are already in). Once that is
+done, you can check out  the code as developer. For that do the
+following.
+
+$export CVSROOT=&lt;username&gt;@cvs.harvestman.berlios.de:/cvsroot/harvestman
+$export CVS_RSH=ssh
+
+Then checkout the latest source code using
+
+$ cvs co HarvestMan-2.0
+
+You need to teach yourself how to use the program. The easiest way is to run it
+out of the box (no installation required though a setup.py is
+provided). Developers should *not* do a setup.py installation since
+this will copy the modules to your Python installation folder and any
+local changes you make may not be visible later.
+
+$ python harvestman.py
+
+This will do a crawl using the default config.xml file and if everything
+goes fine, the website referred in that will get saved to your disk.
+
+You can even do a command line crawl in the Python interpreter. This is done
+as follows.
+$ python
+&gt;&gt;&gt;<i> from harvestman import *
+</I>&gt;&gt;&gt;<i> prepare()
+</I>&gt;&gt;&gt;<i> cfg = GetObject('config')
+</I>#    Modify any params for crawl if u feel like
+# Here we set download of images to false and no localization
+# (localization means converting outward pointing links to disk ones)
+&gt;&gt;&gt;<i> cfg.images = 0
+</I>&gt;&gt;&gt;<i> cfg.localize = 0
+</I>&gt;&gt;&gt;<i> spider = HarvestMan()
+</I>&gt;&gt;&gt;<i> spider.main()
+</I>...
+
+This uses the default config.xml file to do the crawling (it has to be
+present).
+
+The source package also has some documentation I have written for
+the upcoming 2.0 release - mostly about how to write plugins. Read that
+and play around with the sample plugins - the simulator, userbrowse
+and lucene plugin are quite interesting.
+
+Since there is not much documentation on the design etc, I am attaching
+two presentations I gave on the project - one which I gave in Norway
+for the EIAO project and another one in BangPypers. Some of the information
+there is also a bit out of date, however it will give you a good idea on
+the design and architecture. Kindly go through them (there are a lot of
+common slides which you can skip) and let me know if you have any doubts.
+
+Another project which is related is the d-harvestman project which I
+did as a part of a distant course with the Norwegian university. We managed
+to develop a prototype of a distributed crawler with a master-slave architecture
+in this course. The source code for this is public. It can be seen
+at <A HREF="http://sourceforge.net/projects/dcrawler.">http://sourceforge.net/projects/dcrawler.</A> There are no file releases,
+so you can check out the source code using anonymous CVS. It defines
+ a distributed crawler on top of old HarvestMan code (Code as of
+November 2005). It uses Pyro (<A HREF="http://pyro.sourceforge.net">http://pyro.sourceforge.net</A>) to
+communicate between masters and slaves.
+
+The project report and design document for this project can
+be downloaded from <A HREF="http://steinbit.agder-ikt.hia.no/~aandas99/">http://steinbit.agder-ikt.hia.no/~aandas99/</A> .
+
+The design planned for the new distributed harvestman is not  a master-slave
+one but a p2p one. So not much code can be reused from this project, still
+it is good for reference.
+
+Please reply back with any questions, to the list. Thanks for
+your participation.
+
+-- 
+-Anand
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: HarvestMan_EIAO.ppt
+Type: application/vnd.ms-powerpoint
+Size: 144384 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/harvestman-devel/attachments/20070912/b90bb332/attachment.ppt">https://lists.berlios.de/pipermail/harvestman-devel/attachments/20070912/b90bb332/attachment.ppt</A>&gt;
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: HarvestMan_BangPypers.odp
+Type: application/vnd.oasis.opendocument.presentation
+Size: 40519 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/harvestman-devel/attachments/20070912/b90bb332/attachment.odp">https://lists.berlios.de/pipermail/harvestman-devel/attachments/20070912/b90bb332/attachment.odp</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000002.html">[HarvestMan-devel] Testing, please ignore &lt;eom&gt;
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

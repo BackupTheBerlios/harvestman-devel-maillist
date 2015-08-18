@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman to use paste setup.py
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20to%20use%20paste%20setup.py&In-Reply-To=%3C804e5c70809301824i75640386v6db249f8c9e69f46%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000135.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman to use paste setup.py</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20to%20use%20paste%20setup.py&In-Reply-To=%3C804e5c70809301824i75640386v6db249f8c9e69f46%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman to use paste setup.py">szybalski at gmail.com
+       </A><BR>
+    <I>Wed Oct  1 03:24:49 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000135.html">[HarvestMan-devel] harvestman and data storage?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#134">[ date ]</a>
+              <a href="thread.html#134">[ thread ]</a>
+              <a href="subject.html#134">[ subject ]</a>
+              <a href="author.html#134">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Should we merge the harvestman-topaste branch into trunk?
+
+With the new setup.py and folder structure we are able to upload the
+harvestman into PyPI which would allow for installation like:
+
+easy_install harvestman
+
+This on the other hand will install all the necessary packages that
+you currently supply with the project.
+
+Let me know. If there is no objection I would like to merge it back to
+trunk, and take it from there.
+
+Thanks,
+Lucas
+
+
+On Mon, Sep 29, 2008 at 8:52 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> Can you check the tests again? 2 to go... Is there a way to enable it
+</I>&gt;<i> to display more information as to where it failed?
+</I>&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Lucas
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  harvestman --selftest
+</I>&gt;<i> module_path /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman
+</I>&gt;<i> Loading system configuration...
+</I>&gt;<i> Loading user configuration...
+</I>&gt;<i> Running self-test...
+</I>&gt;<i> Running unit-test for
+</I>&gt;<i> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_pageparser.py...
+</I>&gt;<i> Running unit-test for
+</I>&gt;<i> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_urlparser.py...
+</I>&gt;<i> Running unit-test for
+</I>&gt;<i> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_logger.py...
+</I>&gt;<i> Running unit-test for
+</I>&gt;<i> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_urltypes.py...
+</I>&gt;<i> Running unit-test for
+</I>&gt;<i> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_connector.py...
+</I>&gt;<i> Error in fetching data, skipping tests...
+</I>&gt;<i> Error in fetching data, skipping tests...
+</I>&gt;<i> Connecting to <A HREF="http://www.python.org...">http://www.python.org...</A>
+</I>&gt;<i> Length: 17179 (16K) Type: text/html
+</I>&gt;<i> Content Encoding: plain
+</I>&gt;<i>
+</I>&gt;<i> 119.51K/s (1) eta: 0:00:00      [======================================&gt;][100%]
+</I>&gt;<i>
+</I>&gt;<i> Saved to index.html
+</I>&gt;<i> 17179 bytes downloaded in 0:00:04 hours at an average of 3.90 kb/s.
+</I>&gt;<i> Running unit-test for
+</I>&gt;<i> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_urlcollections.py...
+</I>&gt;<i> &lt;unittest.TestResult run=18 errors=3 failures=2&gt;
+</I>&gt;<i> self-test failed. Please check your installation!
+</I>&gt;<i>
+</I>
+
+
+-- 
+Python and OpenOffice documents and templates
+<A HREF="http://lucasmanual.com/mywiki/OpenOffice">http://lucasmanual.com/mywiki/OpenOffice</A>
+Fast and Easy Backup solution with Bacula
+<A HREF="http://lucasmanual.com/mywiki/Bacula">http://lucasmanual.com/mywiki/Bacula</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000135.html">[HarvestMan-devel] harvestman and data storage?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#134">[ date ]</a>
+              <a href="thread.html#134">[ thread ]</a>
+              <a href="subject.html#134">[ subject ]</a>
+              <a href="author.html#134">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

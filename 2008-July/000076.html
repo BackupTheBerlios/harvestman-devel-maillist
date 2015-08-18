@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Issue%201%20in%20harvestman-crawler%3A%20Implement%0A%09download%20throttling%20to%20constraint%20download%20speeds&In-Reply-To=%3C8548c5f30807010245p6256b7eer3fad696180e1d9aa%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000078.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Issue%201%20in%20harvestman-crawler%3A%20Implement%0A%09download%20throttling%20to%20constraint%20download%20speeds&In-Reply-To=%3C8548c5f30807010245p6256b7eer3fad696180e1d9aa%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds">abpillai at gmail.com
+       </A><BR>
+    <I>Tue Jul  1 11:45:24 CEST 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000078.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#76">[ date ]</a>
+              <a href="thread.html#76">[ thread ]</a>
+              <a href="subject.html#76">[ subject ]</a>
+              <a href="author.html#76">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Lucas,
+
+        I have fixed both issues #1 and #11. #1 is fixed by moving the
+bandwidth checking logic to the controller thread on the entire
+data downloaded so far. The thread then calculates the lagging time,
+divides it by number of connectors and sets it as the sleep time per
+connector. I use a factor of 1% more on the sleep time, otherwise
+the threads won't sleep enough and finally a single connector will
+have to sleep off the accumulated sleep time.
+
+This works fine in my tests. It was even able to limit the speed
+to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+side, so that even if we under achieve the speeds, we never overshoot
+them.
+
+Please test now and close the bug as verified. I have marked it as fixed.
+
+Regards
+
+--Anand
+
+On Sun, Jun 29, 2008 at 10:15 AM,  &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">codesite-noreply at google.com</A>&gt; wrote:
+&gt;<i> Issue 1: Implement download throttling to constraint download speeds
+</I>&gt;<i> <A HREF="http://code.google.com/p/harvestman-crawler/issues/detail?id=1">http://code.google.com/p/harvestman-crawler/issues/detail?id=1</A>
+</I>&gt;<i>
+</I>&gt;<i> Comment #4 by szybalski:
+</I>&gt;<i> Hope this one helps too.
+</I>&gt;<i> <A HREF="http://www.ibm.com/developerworks/aix/library/au-threadingpython/">http://www.ibm.com/developerworks/aix/library/au-threadingpython/</A>
+</I>&gt;<i> or
+</I>&gt;<i> <A HREF="http://www.velocityreviews.com/forums/t583705-urllib2-rate-limiting.html">http://www.velocityreviews.com/forums/t583705-urllib2-rate-limiting.html</A>
+</I>&gt;<i>
+</I>&gt;<i> Lucas
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> You received this message because you are listed in the owner
+</I>&gt;<i> or CC fields of this issue, or because you starred this issue.
+</I>&gt;<i> You may adjust your issue notification preferences at:
+</I>&gt;<i> <A HREF="http://code.google.com/hosting/settings">http://code.google.com/hosting/settings</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000078.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#76">[ date ]</a>
+              <a href="thread.html#76">[ thread ]</a>
+              <a href="subject.html#76">[ subject ]</a>
+              <a href="author.html#76">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

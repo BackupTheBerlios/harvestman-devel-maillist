@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70809120712ydc00b67h6b593ad21b430a2d%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000117.html">
+   <LINK REL="Next"  HREF="000123.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70809120712ydc00b67h6b593ad21b430a2d%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">szybalski at gmail.com
+       </A><BR>
+    <I>Fri Sep 12 16:12:27 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000117.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000123.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#118">[ date ]</a>
+              <a href="thread.html#118">[ thread ]</a>
+              <a href="subject.html#118">[ subject ]</a>
+              <a href="author.html#118">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, Sep 12, 2008 at 2:38 AM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> I saw the HarvestMan-to-paste branch. I will check it out and try this out.
+</I>&gt;<i> Btw, how do I setup this ? Do I need Python paste ? Is documentation
+</I>&gt;<i> available somewhere ?
+</I>&gt;<i>
+</I>
+I don't think you need &quot;paste&quot; it only created my setup.py and folder
+structure, thats all
+
+Just do:
+
+
+svn checkout <A HREF="https://harvestman-crawler.googlecode.com/svn/branches/HarvestMan-topaste">https://harvestman-crawler.googlecode.com/svn/branches/HarvestMan-topaste</A>
+HarvestMan-topaste --username yourusername
+
+then
+virtualenv --no-site-packages harvenv   (This will create virtual environment)
+then
+source harvenv/bin/activate   (this will activate the environment)
+then
+cd HarvestMan-topaste/Harvestman
+python setup.py develop   (this will install harvestman and its
+requirements into harvenv enviroment)
+
+now you are running harvestman in virtual environment which is
+controlled by user (you)
+
+&quot;harvestman -h&quot; to see if it works.
+
+to deactivate the virtual environment use:
+
+deactivate
+
+Let me know.
+
+The main difference now is that everything can be referenced by
+&quot;harvestman.lib.xyz or harvestman.lib.event harvestman.apps.hget
+...from any file in the package. The configuration gets created in
+harveenv/etc/harvestman/config.xml... or /etc/harvestman/config.xml if
+you are installing without virtualenv.
+
+What is left for me to do is to get harvestman working again. If you
+wanted to go ahead with this new setup, if you got the trunk working
+then we could merge changes to trunk and continue from there. (let me
+know)
+
+
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000117.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000123.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#118">[ date ]</a>
+              <a href="thread.html#118">[ thread ]</a>
+              <a href="subject.html#118">[ subject ]</a>
+              <a href="author.html#118">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

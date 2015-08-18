@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Question about HarvestMan
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Question%20about%20HarvestMan&In-Reply-To=%3C8548c5f30809290503p2fae3df6x7cc7b3a48585fe6c%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000131.html">
+   <LINK REL="Next"  HREF="000133.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Question about HarvestMan</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Question%20about%20HarvestMan&In-Reply-To=%3C8548c5f30809290503p2fae3df6x7cc7b3a48585fe6c%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Question about HarvestMan">abpillai at gmail.com
+       </A><BR>
+    <I>Mon Sep 29 14:03:36 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000131.html">[HarvestMan-devel] Question about HarvestMan
+</A></li>
+        <LI>Next message: <A HREF="000133.html">[HarvestMan-devel] harvestman to use paste setup.py
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#132">[ date ]</a>
+              <a href="thread.html#132">[ thread ]</a>
+              <a href="subject.html#132">[ subject ]</a>
+              <a href="author.html#132">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Meanwhile if you are interested in HarvestMan, I suggest you
+check out the new project page and try out the under development
+HarvestMan-2.0 . The 2.0 version is way ahead of the old
+,1.4.x versions.
+
+<A HREF="http://harvestman-crawler.googlecode.com">http://harvestman-crawler.googlecode.com</A>
+
+Regards
+
+--Anand
+
+On Mon, Sep 29, 2008 at 5:31 PM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> Hi Nick,
+</I>&gt;<i>
+</I>&gt;<i> On Mon, Sep 29, 2008 at 4:57 PM, Nick Kaklanis &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">nkak at iti.gr</A>&gt; wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thank you very much for your quick reply!
+</I>&gt;&gt;<i> I used HarvestMan-1.4.6-win32.exe to install harvestman because I wanted a
+</I>&gt;&gt;<i> binary version of the crawler. I'm developing a Java application that calls
+</I>&gt;&gt;<i> via system call &quot;harvestman.exe&quot; with input a config.xml file that is
+</I>&gt;&gt;<i> created on-the-fly by the application. I want to follow this approach
+</I>&gt;&gt;<i> because I don't want my application be depended on Python. So, I'm wondering
+</I>&gt;&gt;<i> if there is a way to fix this bug while I keep using only 4 essential files
+</I>&gt;&gt;<i> for harvestman:
+</I>&gt;&gt;<i> 1)harvestman.exe
+</I>&gt;&gt;<i> 2)library.zip
+</I>&gt;&gt;<i> 3)MSVCR71.dll
+</I>&gt;&gt;<i> 4)w9xpopen.exe
+</I>&gt;<i>
+</I>&gt;<i> If I understand py2exe (which is used to build an exe from Python source files)
+</I>&gt;<i> correctly, the library.zip file contains all the rest of the Python source code
+</I>&gt;<i> of the program apart from the module containing the &quot;main&quot; function,
+</I>&gt;<i> which is harvestman.py .
+</I>&gt;<i>
+</I>&gt;<i> So you could try this hack.
+</I>&gt;<i>
+</I>&gt;<i> 1. unzip library.zip
+</I>&gt;<i> 2. I think it should contain .pyc or .pyo files. Make a .pyc or .pyo
+</I>&gt;<i> from the new
+</I>&gt;<i> patched datamgr.py and copy it here. Zip it back and put the new library.zip
+</I>&gt;<i> in place of original.
+</I>&gt;<i>
+</I>&gt;<i> To make a .pyc from .py, just import it in Python prompt.
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> import datamgr
+</I>&gt;<i>
+</I>&gt;<i> To generate a .pyo, run Python as follows and do the same as above.
+</I>&gt;<i>
+</I>&gt;<i> $ python -O
+</I>&gt;&gt;&gt;&gt;<i> import datamgr
+</I>&gt;<i>
+</I>&gt;<i> Let me know if this works.
+</I>&gt;<i>
+</I>&gt;&gt;<i> Otherwise, I'll try the solution you gave me. The bad thing is that if I
+</I>&gt;&gt;<i> want to test my application on another pc, it must have Python already
+</I>&gt;&gt;<i> installed as well as HarvestMan.
+</I>&gt;<i>
+</I>&gt;<i> If above does not work, the only other option on Windows is to
+</I>&gt;<i> recreate the executable from source. Since this bug is important,
+</I>&gt;<i> I am planning to do this today and upload a  fresh exe to the site.
+</I>&gt;<i> Someone had reported the same bug earlier, but I am sorry
+</I>&gt;<i> to say, I did not follow up on it !
+</I>&gt;<i>
+</I>&gt;<i> So, if this does not work, you can wait for the fresh exe or try
+</I>&gt;<i> to build one yourself from source. I think with HarvestMan-1.4.6,
+</I>&gt;<i> you just need to run HarvestMan/py2exesetup.bat for this, after
+</I>&gt;<i> installing py2exe (www.py2exe.org)
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thank you very much for your help!
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Nick Kaklanis
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Regards
+</I>&gt;<i> --
+</I>&gt;<i> -Anand
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000131.html">[HarvestMan-devel] Question about HarvestMan
+</A></li>
+	<LI>Next message: <A HREF="000133.html">[HarvestMan-devel] harvestman to use paste setup.py
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#132">[ date ]</a>
+              <a href="thread.html#132">[ thread ]</a>
+              <a href="subject.html#132">[ subject ]</a>
+              <a href="author.html#132">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

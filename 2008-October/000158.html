@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70810110932i2476afc8k87c6ba79e099f35b%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000156.html">
+   <LINK REL="Next"  HREF="000176.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70810110932i2476afc8k87c6ba79e099f35b%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">szybalski at gmail.com
+       </A><BR>
+    <I>Sat Oct 11 18:32:52 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000156.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000176.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#158">[ date ]</a>
+              <a href="thread.html#158">[ thread ]</a>
+              <a href="subject.html#158">[ subject ]</a>
+              <a href="author.html#158">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Sat, Oct 11, 2008 at 2:24 AM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> I was a bit wrong here. In fact just importing won't work. But
+</I>&gt;<i> this works.
+</I>&gt;<i>
+</I>&gt;<i> import ez_setup
+</I>&gt;<i> ez_setup.main(['setuptools==dev'])
+</I>&gt;<i>
+</I>&gt;<i> I think this might be a good solution - i.e if we don't detect
+</I>&gt;<i> setuptools we can invoke this logic. Let me know what you think.
+</I>
+
+I'll look into it. Yes setup tools is required. I am working with
+turbogears and that is what they use. (turbogears depends on at least
+30-40 other packages so the way we have it setup will be very easy to
+install.)
+
+Let me play around with the
+ez_setup.main(['setuptools==dev']) I think this installs the most
+recent version. I'll try to remove setuptools from my virtualenv and
+then see what happens.
+
+
+ virtualenv --no-site-packages harv1testenv
+New python executable in harv1testenv/bin/python
+Installing setuptools............done.
+
+source harv1testenv/bin/activate
+
+easy_install -m setuptools
+Searching for setuptools
+Best match: setuptools 0.6c8
+Processing setuptools-0.6c8-py2.5.egg
+Removing setuptools 0.6c8 from easy-install.pth file
+Installing easy_install script to /home/lucas/tmp/harv1testenv/bin
+Installing easy_install-2.5 script to /home/lucas/tmp/harv1testenv/bin
+
+Using /home/lucas/tmp/harv1testenv/lib/python2.5/site-packages/setuptools-0.6c8-py2.5.egg
+
+Because this distribution was installed --multi-version, before you can
+import modules from this package in an application, you will need to
+'import pkg_resources' and then use a 'require()' call similar to one of
+these examples, in order to select the desired version:
+
+    pkg_resources.require(&quot;setuptools&quot;)  # latest installed version
+    pkg_resources.require(&quot;setuptools==0.6c8&quot;)  # this exact version
+    pkg_resources.require(&quot;setuptools&gt;=0.6c8&quot;)  # this version or higher
+
+Processing dependencies for setuptools
+Finished processing dependencies for setuptools
+
+
+I tried import the ez_setup
+&gt;&gt;&gt;<i> import ez_setup
+</I>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+ImportError: No module named ez_setup
+
+
+Solution 1:
+
+I also tried:
+import pkg_resources
+pkg_resources.require(&quot;setuptools&quot;)
+
+which installs the setuptools, but I it gets it from somewhere in my system.
+I guess we would have to try this on windows, as it will probably be
+the only system that might not have setuptools.
+
+Solution 2:
+Include this file, and then run your command:
+<A HREF="http://peak.telecommunity.com/dist/ez_setup.py">http://peak.telecommunity.com/dist/ez_setup.py</A>
+import ez_setup
+ez_setup.main(['setuptools'])
+
+
+So if solution 1 doesn't work we can go with solution2.
+
+
+Thanks for bringing that out. Its a good point.
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000156.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000176.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#158">[ date ]</a>
+              <a href="thread.html#158">[ thread ]</a>
+              <a href="subject.html#158">[ subject ]</a>
+              <a href="author.html#158">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

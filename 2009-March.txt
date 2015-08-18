@@ -1,0 +1,58 @@
+From Jamal.Mazrui at fcc.gov  Wed Mar  4 23:44:34 2009
+From: Jamal.Mazrui at fcc.gov (Jamal Mazrui)
+Date: Wed, 4 Mar 2009 17:44:34 -0500
+Subject: [HarvestMan-devel] Developing a wxPython GUI for HarvestMan
+Message-ID: <495842C725E7F8459B0460FC3A1060B10A4C4028@P2PXMB01S1.fccnet.win.fcc.gov>
+
+I am using wxPython on Windows to develop a GUI front end to this
+powerful web crawler.  I intend to make it publicly available under GPL.
+I have studied all HarvestMan documentation I could find, as well as the
+source code, including doc strings.  I have several questions which I
+hope can be answered through this list.
+
+The GUI dialog I developed offers a subset of criteria for determining
+what files are downloaded.  When a button is pressed, the spider
+application is initiated in a manner similar to the samples provided
+with HarvestMan.    I want to make the program a Windows/rather than
+console mode one where status messages are redirected to a multiline
+edit box rather than printed to the console.  I have not figured out a
+way to do this until the crawling/fetching process is over.  When the
+spider runs on the main thread, it blocks other wx events that update
+the GUI.  This happens even with the wx.CallAfter technique for changing
+a GUI from other than the main thread.  Once the spider has completed a
+project, all the status messages appear at once in the edit box (so I
+know the issue is mainly a matter of threading and timing).
+
+I posted a message about this problem on the wxPython list.  A
+suggestion was to launch the spider in a separate thread.  I tried this,
+but got a HarvestMan fatal error about a signal having to be called from
+the main thread.
+
+Besides the problem of redirecting status messages to the GUI in real
+time, I have not figured out how to terminate the spider other than by
+pressing Control+C.  This is not a friendly technique on Windows because
+users are accustomed to Control+C being the key to copy text to the
+clipboard, and GUI users are more accustomed to something that can be
+done with a mouse.  Thus, I would like to have a button in the GUI
+dialog that can cancel the spider without exiting the whole program.  Is
+there a particular method I can call for doing this cleanly?
+
+Other questions are related to the conceptual organization of the
+spider.  I know there are crawler, fetcher, and tracker threads, but do
+not truly understand their interaction.  Can someone give more detail
+about what each type of thread does, what queues are involved, and how
+the threads communicate?  I am relatively new to threading but trying
+hard to understand the key aspects needed for this application.
+
+I am also interested in an explanation of the fields in the SqLite
+tables that HarvestMan maintains, in case my program can make use of
+that data in other ways.
+
+Naturally, I may have more questions later, but answers to these will
+help a lot!
+
+Regards,
+Jamal
+
+
+

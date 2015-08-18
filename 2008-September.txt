@@ -1,0 +1,1272 @@
+From szybalski at gmail.com  Wed Sep 10 03:20:13 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 9 Sep 2008 20:20:13 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+Message-ID: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+
+Hello,
+I have the installation working with paster and now I need to find out
+where do you create config.xml? which file and function.
+
+Where do you read it when you start harvestman? file and function?
+
+Thanks,
+
+Lucas
+
+
+From szybalski at gmail.com  Thu Sep 11 00:18:22 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Wed, 10 Sep 2008 17:18:22 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+Message-ID: <804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+
+On Tue, Sep 9, 2008 at 8:20 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+> I have the installation working with paster and now I need to find out
+> where do you create config.xml? which file and function.
+>
+> Where do you read it when you start harvestman? file and function?
+
+
+I got the config.py file figured out.
+
+Would you know what happens here:
+  File "/home/lucas/tmp/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/appbase.py",
+line 45, in process_plugins
+    from harvestman.lib import hooks
+  File "/home/lucas/tmp/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/lib/hooks.py",
+line 198, in <module>
+    HarvestManHooks.add_all_plugins()
+  File "/home/lucas/tmp/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/lib/hooks.py",
+line 57, in add_all_plugins
+    M = __import__(module)
+ImportError: No module named crawler
+
+
+Lucas
+
+
+From remarkability at gmail.com  Thu Sep 11 12:40:23 2008
+From: remarkability at gmail.com (Tom Smith)
+Date: Thu, 11 Sep 2008 11:40:23 +0100
+Subject: [HarvestMan-devel] The world's simplest crawler...
+In-Reply-To: <804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+Message-ID: <40E707FE-901F-4920-A599-9CC72042905D@everythingability.com>
+
+hello all,
+
+I've asked this question a few times and I'm still struggling to know  
+how best to achieve it...
+
+I'd like to create a *very* simple crawler that doesn't save pages, is  
+passed minimal config data and has a callback (where I decide what to  
+do with the data etc)
+
+htmlcrawler.py looks like the best example but when I run it, I get...
+
+$ python htmlcrawler.py http://www.theotherblog.com
+projects: [{'url': 'http://www.theotherblog.com'}]
+[]
+... and nothing happens...
+
+Any ideas?
+
+tom
+
+
+From abpillai at gmail.com  Fri Sep 12 09:36:22 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 12 Sep 2008 09:36:22 +0200
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+Message-ID: <8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+
+Hi Lukasz,
+
+       We are trying to process the plugins in appbase.py module.
+The crawler module is part of harvestman.lib. I don't understand
+why it is giving an import error.
+
+        For the time being, you could comment out the line
+which tries to import the hooks module in appbase.py. Plugins perform
+the same service as events do and perhaps we don't need both of these
+ways of extending the program. I am thinking of removing or hiding
+the plugins feature.
+
+--Anand
+
+On Thu, Sep 11, 2008 at 12:18 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Tue, Sep 9, 2008 at 8:20 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> Hello,
+>> I have the installation working with paster and now I need to find out
+>> where do you create config.xml? which file and function.
+>>
+>> Where do you read it when you start harvestman? file and function?
+>
+>
+> I got the config.py file figured out.
+>
+> Would you know what happens here:
+>  File "/home/lucas/tmp/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/appbase.py",
+> line 45, in process_plugins
+>    from harvestman.lib import hooks
+>  File "/home/lucas/tmp/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/lib/hooks.py",
+> line 198, in <module>
+>    HarvestManHooks.add_all_plugins()
+>  File "/home/lucas/tmp/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/lib/hooks.py",
+> line 57, in add_all_plugins
+>    M = __import__(module)
+> ImportError: No module named crawler
+>
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Sep 12 09:38:33 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 12 Sep 2008 09:38:33 +0200
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+	<8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+Message-ID: <8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+
+I saw the HarvestMan-to-paste branch. I will check it out and try this out.
+Btw, how do I setup this ? Do I need Python paste ? Is documentation
+available somewhere ?
+
+Thanks
+
+--Anand
+
+On Fri, Sep 12, 2008 at 9:36 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+>       We are trying to process the plugins in appbase.py module.
+> The crawler module is part of harvestman.lib. I don't understand
+> why it is giving an import error.
+>
+>        For the time being, you could comment out the line
+> which tries to import the hooks module in appbase.py. Plugins perform
+> the same service as events do and perhaps we don't need both of these
+> ways of extending the program. I am thinking of removing or hiding
+> the plugins feature.
+>
+> --Anand
+>
+> On Thu, Sep 11, 2008 at 12:18 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Tue, Sep 9, 2008 at 8:20 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> Hello,
+>>> I have the installation working with paster and now I need to find out
+>>> where do you create config.xml? which file and function.
+>>>
+>>> Where do you read it when you start harvestman? file and function?
+>>
+>>
+>> I got the config.py file figured out.
+>>
+>> Would you know what happens here:
+>>  File "/home/lucas/tmp/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/appbase.py",
+>> line 45, in process_plugins
+>>    from harvestman.lib import hooks
+>>  File "/home/lucas/tmp/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/lib/hooks.py",
+>> line 198, in <module>
+>>    HarvestManHooks.add_all_plugins()
+>>  File "/home/lucas/tmp/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/lib/hooks.py",
+>> line 57, in add_all_plugins
+>>    M = __import__(module)
+>> ImportError: No module named crawler
+>>
+>>
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Fri Sep 12 16:12:27 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 12 Sep 2008 09:12:27 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+	<8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+	<8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+Message-ID: <804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+
+On Fri, Sep 12, 2008 at 2:38 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> I saw the HarvestMan-to-paste branch. I will check it out and try this out.
+> Btw, how do I setup this ? Do I need Python paste ? Is documentation
+> available somewhere ?
+>
+
+I don't think you need "paste" it only created my setup.py and folder
+structure, thats all
+
+Just do:
+
+
+svn checkout https://harvestman-crawler.googlecode.com/svn/branches/HarvestMan-topaste
+HarvestMan-topaste --username yourusername
+
+then
+virtualenv --no-site-packages harvenv   (This will create virtual environment)
+then
+source harvenv/bin/activate   (this will activate the environment)
+then
+cd HarvestMan-topaste/Harvestman
+python setup.py develop   (this will install harvestman and its
+requirements into harvenv enviroment)
+
+now you are running harvestman in virtual environment which is
+controlled by user (you)
+
+"harvestman -h" to see if it works.
+
+to deactivate the virtual environment use:
+
+deactivate
+
+Let me know.
+
+The main difference now is that everything can be referenced by
+"harvestman.lib.xyz or harvestman.lib.event harvestman.apps.hget
+...from any file in the package. The configuration gets created in
+harveenv/etc/harvestman/config.xml... or /etc/harvestman/config.xml if
+you are installing without virtualenv.
+
+What is left for me to do is to get harvestman working again. If you
+wanted to go ahead with this new setup, if you got the trunk working
+then we could merge changes to trunk and continue from there. (let me
+know)
+
+
+Lucas
+
+
+From abpillai at gmail.com  Tue Sep 16 09:07:22 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 16 Sep 2008 09:07:22 +0200
+Subject: [HarvestMan-devel] Just checking
+In-Reply-To: <6EB72ABD-DA16-4F0B-8825-12CD79359E34@everythingability.com>
+References: <6EB72ABD-DA16-4F0B-8825-12CD79359E34@everythingability.com>
+Message-ID: <8548c5f30809160007h1eb54edem6777f6fb0a142afb@mail.gmail.com>
+
+Hello Tom,
+
+    This is the way to do it.
+
+>>> from harvestman.apps.harvestmanimp import HarvestMan
+# Initialize crawler
+>>> spider = HarvestMan()
+>>> spider.init()
+# Get config object
+>>> cfg = spider.get_config()
+# Add a URL as project
+>>> cfg.add('http://www.python.org/doc/current/tut/tut.html', 'pytut', '/tmp')
+# Set cfg up
+>>> cfg.setup()
+# See project info if you want
+>>> cfg.projects
+[{'url': 'http://www.python.org/doc/current/tut/tut.html', 'project':
+'pytut', 'verbosity': 20, 'basedir': '/tmp'}]
+# Run crawl
+>>> spider.main()
+>>> spider.main()
+[]
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[08:58:31] *** Log Started ***
+
+[08:58:31] Starting project pytut ...
+[08:58:31] Writing Project Files...
+[08:58:31] Starting download of url
+http://www.python.org/doc/current/tut/tut.html ...
+[08:58:31] Reading Project Cache...
+[08:58:31] Project cache not found
+[08:58:31] Downloading file for url
+http://www.python.org/doc/current/tut/tut.html
+[08:58:32] Saved to /tmp/pytut/www.python.org/doc/current/tut/tut.html
+[08:58:32] Fetching links for url http://www.python.org/doc/current/tut/tut.html
+[08:58:32] Downloading file for url
+http://www.python.org/doc/current/tut/node4.html
+[08:58:32] Downloading file for url
+http://www.python.org/doc/current/tut/about.html
+....
+
+Now if you try to run the project again without resetting the
+config object,
+
+>>> spider.main()
+[]
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[09:04:06] *** Log Started ***
+
+Traceback (most recent call last):
+  File "/usr/lib/python2.5/logging/__init__.py", line 750, in emit
+    self.stream.write(fs % msg)
+ValueError: I/O operation on closed file
+[09:04:06] Starting project pytut ...
+Traceback (most recent call last):
+  File "/usr/lib/python2.5/logging/__init__.py", line 750, in emit
+    self.stream.write(fs % msg)
+ValueError: I/O operation on closed file
+[09:04:06] Writing Project Files...
+Traceback (most recent call last):
+  File "/usr/lib/python2.5/logging/__init__.py", line 750, in emit
+    self.stream.write(fs % msg)
+ValueError: I/O operation on closed file
+[09:04:06] Starting download of url
+http://www.python.org/doc/current/tut/tut.html ...
+Traceback (most recent call last):
+
+Disaster happens, because you are trying to re-run a session which
+has closed handles to logging etc. In order to re-run the same project
+as different session,
+
+# Reset session (this creates a new session)
+>>> spider.reset()
+>>> spider.main()
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[09:05:08] *** Log Started ***
+
+[09:05:08] Starting project pytut ...
+[09:05:08] Writing Project Files...
+[09:05:08] Starting download of url
+http://www.python.org/doc/current/tut/tut.html ...
+[09:05:08] Reading Project Cache...
+[09:05:08] Downloading file for url
+http://www.python.org/doc/current/tut/tut.html
+[09:05:09] Fetching links for url http://www.python.org/doc/current/tut/tut.html
+[09:05:09] Downloading file for url
+http://www.python.org/doc/current/tut/node4.html
+
+Hope it is clear.
+
+I have modified the config object. It no longer has a 'urls' list, but instead
+the project information including urls is kept in the 'projects' dictionary.
+
+Btw, I have modified the trunk so that it is working again. I have decided
+to do my changes to the rules filters in another branch...
+
+Perhaps you could add this somewhere in the Wiki.
+
+Sorry for the delayed reply. I have been putting off HarvestMan
+development to the "next day" for last few months. Finally I have
+decided to restart things today, so you will see lot of activity in the
+mailing list and subversion in the coming days...
+
+
+Regards
+
+--Anand
+
+On Mon, Sep 15, 2008 at 10:43 AM, Tom Smith <remarkability at gmail.com> wrote:
+> Hi Anand,
+>
+> Sorry to nag you, and I know this is a very simple question, but from the
+> python shell, how would I create a crawler that simple calls one of my
+> functions. I know Harvestman is designed to do this but every time I try and
+> initiate an object with a cfg object, it doesn't seem clear how I add the
+> base url?
+> My basic needs are simply for a crawler that can be set running and I decide
+> what to do in my code, I'm usually either grabbing all of a site or fishing
+> out bits of data (I rarely need to actually get and save all the data)..
+> regards and thanks
+> tom
+>
+> Tom Smith --------------------
+> tom at everythingability.com
+> http://everythingability.com
+> http://theotherblog.com
+> AIM: theotherblog
+> Skype: everythingability
+> +44 (0)7720 288285
+> ------------------------------
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Tue Sep 16 09:10:57 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 16 Sep 2008 09:10:57 +0200
+Subject: [HarvestMan-devel] Trunk is working again
+Message-ID: <8548c5f30809160010j4eed50dbof2259c6569f18216@mail.gmail.com>
+
+Hi list,
+
+    After quite some time, I am restarting dev on harvestman
+today. The first thing I did was to reset the trunk so it is working
+again by resetting some modules.
+
+    I will be doing further development in another branch and
+merge the changes to the trunk once it stabilizes.
+
+    Pls let me know if you find some issues with the trunk.
+
+Thanks
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Tue Sep 16 09:18:15 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 16 Sep 2008 09:18:15 +0200
+Subject: [HarvestMan-devel] harvestman install question
+In-Reply-To: <1220915056.8841.74.camel@stuwe-laptop>
+References: <1220915056.8841.74.camel@stuwe-laptop>
+Message-ID: <8548c5f30809160018n330000cdxd62341836c09831c@mail.gmail.com>
+
+Hi Stuart,
+
+         This is fixed, please update your copy of trunk and check now.
+Btw, sorry for the late reply. I was swamped and out of time. Just
+restarted dev on HarvestMan today. Getting to the problems one
+by one... :)
+
+Regards
+
+--Anand
+
+On Tue, Sep 9, 2008 at 1:04 AM, Stuart Wells <stu at callmekrazy.com> wrote:
+> I apologize if this would be better addressed in a mailing list email,
+> but i didn't want to bug the entire dev list with what is probably a
+> PEBCAK.  If this is addressed in another location, please point me to
+> it, I looked for and didn't find any solutions.
+>
+> While installing from svn, I got the following output on my ubuntu 8.04:
+>
+> sudo python setup.py install
+> Python version 2.5.2 detected...
+> Found sgmlop...
+> Testing sgmlop...
+> tested sgmlop ok
+> sgmlop found, will be used as fall-back HTML parser...
+> Checking for pyparsing...
+> found pyparsing.
+> Checking for web.py version >=0.2...
+> Found web.py...
+> running install
+> running build
+> running build_py
+> running install_lib
+> running install_egg_info
+> Removing /usr/lib/python2.5/site-packages/HarvestMan-2.0alpha.egg-info
+> Writing /usr/lib/python2.5/site-packages/HarvestMan-2.0alpha.egg-info
+> Creating basic configuration in /etc/harvestman...
+> Traceback (most recent call last):
+>  File "setup.py", line 463, in <module>
+>    main()
+>  File "setup.py", line 406, in main
+>    conf_data = cfg.generate_system_configuration()
+>  File
+> "/home/stuwe/Desktop/tmp/HarvestMan-2.0/harvestman/lib/config.py", line
+> 1550, in generate_system_configuration
+>    return CONFIG_XML_TEMPLATE % self
+> KeyError: 'serverfilter'
+>
+>
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Tue Sep 16 09:53:10 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 16 Sep 2008 09:53:10 +0200
+Subject: [HarvestMan-devel] 2.0 dev branch
+Message-ID: <8548c5f30809160053g32a68a7frbbf9c7e38a89c88f@mail.gmail.com>
+
+I have added HarvestMan-2.0dev to 'branches'. Hereafter,
+2.0 changes will go to this branch. As of today, trunk will
+remain frozen, unless there are some major issues to be
+fixed.
+
+We will merge to trunk once 2.0 development is completed.
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Tue Sep 16 11:03:57 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 16 Sep 2008 11:03:57 +0200
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+	<8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+	<8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+	<804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+Message-ID: <8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+
+Hi Lukasz,
+
+On Fri, Sep 12, 2008 at 4:12 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Fri, Sep 12, 2008 at 2:38 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> I saw the HarvestMan-to-paste branch. I will check it out and try this out.
+>> Btw, how do I setup this ? Do I need Python paste ? Is documentation
+>> available somewhere ?
+>>
+>
+> I don't think you need "paste" it only created my setup.py and folder
+> structure, thats all
+>
+> Just do:
+>
+>
+> svn checkout https://harvestman-crawler.googlecode.com/svn/branches/HarvestMan-topaste
+> HarvestMan-topaste --username yourusername
+>
+> then
+> virtualenv --no-site-packages harvenv   (This will create virtual environment)
+> then
+> source harvenv/bin/activate   (this will activate the environment)
+> then
+> cd HarvestMan-topaste/Harvestman
+> python setup.py develop   (this will install harvestman and its
+> requirements into harvenv enviroment)
+>
+> now you are running harvestman in virtual environment which is
+> controlled by user (you)
+>
+> "harvestman -h" to see if it works.
+>
+> to deactivate the virtual environment use:
+>
+> deactivate
+>
+> Let me know.
+
+I tried all this and everything worked, including harvestman -h.
+But when I tried to do 'harvestman --selftest', it failed.
+
+(harvenv)anand at anand-laptop:~/projects/harvestman/branches/HarvestMan-topaste/HarvestMan$
+harvestman --selftest
+Loading user configuration...
+Running self-test...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_pageparser.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_logger.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urltypes.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urlcollections.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urlparser.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_connector.py...
+Error in fetching data, skipping tests...
+Error in fetching data, skipping tests...
+Connecting to http://www.google.com...
+Redirected to http://www.google.no/...
+Length: (Unknown) Type: text/html
+Content Encoding: plain
+
+RT: 1  index.html                           [<=>
+                              ](...)
+Saved to index.html
+0 bytes downloaded in 0:00:00 hours at an average of 0.00 kb/s.
+<unittest.TestResult run=18 errors=3 failures=2>
+self-test failed. Please check your installation!
+
+Btw, you had old harvestman test code, so I deleted it and copied
+the new test folder from the trunk. This is checked in, so it is fine.
+
+>
+> The main difference now is that everything can be referenced by
+> "harvestman.lib.xyz or harvestman.lib.event harvestman.apps.hget
+> ...from any file in the package. The configuration gets created in
+> harveenv/etc/harvestman/config.xml... or /etc/harvestman/config.xml if
+> you are installing without virtualenv.
+>
+> What is left for me to do is to get harvestman working again. If you
+> wanted to go ahead with this new setup, if you got the trunk working
+> then we could merge changes to trunk and continue from there. (let me
+> know)
+
+It would be nice to do that, but let us merge into the new 2.0-dev
+branch once it is working rather than into trunk. I dont want to touch
+the trunk, once we have every feature checked into the branch,
+well-tested and we are ready to merge back into trunk.
+
+It does not seem to work now, because I tested it right now and it failed.
+
+(harvenv)anand at anand-laptop:~/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman$
+harvestman -C apps/config-sample.xml
+Loading user configuration...
+Using configuration file apps/config-sample.xml...
+Traceback (most recent call last):
+  File "/home/anand/projects/harvestman/branches/harvenv/bin/harvestman",
+line 8, in <module>
+    load_entry_point('HarvestMan==2.0.2dev-r93', 'console_scripts',
+'harvestman')()
+  File "/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/harvestman_run.py",
+line 685, in run
+    spider.initialize()
+  File "/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/harvestman_run.py",
+line 427, in initialize
+    self.init_config()
+  File "/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/harvestman_run.py",
+line 414, in init_config
+    self.process_plugins()
+  File "/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/appbase.py",
+line 45, in process_plugins
+    from lib import hooks
+ImportError: No module named lib
+
+I think there are still some issues with internal paths. Let me know if
+you need me to look into this. I might be slow in doing this, since I
+am now planning to work on all remaining 2.0 features, which I guess
+is a lot of stuff to do!
+
+>
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+Regards
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Tue Sep 16 15:33:53 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 16 Sep 2008 08:33:53 -0500
+Subject: [HarvestMan-devel] 2.0 dev branch
+In-Reply-To: <8548c5f30809160053g32a68a7frbbf9c7e38a89c88f@mail.gmail.com>
+References: <8548c5f30809160053g32a68a7frbbf9c7e38a89c88f@mail.gmail.com>
+Message-ID: <804e5c70809160633u55ca7e25lbdba3ad2b67d9418@mail.gmail.com>
+
+On Tue, Sep 16, 2008 at 2:53 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> I have added HarvestMan-2.0dev to 'branches'. Hereafter,
+> 2.0 changes will go to this branch. As of today, trunk will
+> remain frozen, unless there are some major issues to be
+> fixed.
+>
+> We will merge to trunk once 2.0 development is completed.
+
+I don't know if doing that will help. After reading a little I think
+we should do it the other way around. I think if you are working with
+features that you need to implement you should continue doing that in
+trunk. All dev stuff should go into trunk, and when we are ready for
+release then you setup a branch 2.0alpha and you do bug fixes there.
+(unless this new feature is really big more then 3weeks+)
+
+I have read about creating a branch and setting up the start branch
+points thanks to which I can later just issue a command " svn merge
+this to that" and I'm done.
+
+So to keep things simple I would prefer if we work in trunk on any dev
+stuff. (Unless you have a reason not to do that?)
+
+If you get a trunk working (since you said it was broken 3-4 weeks
+back) just send me an email, and I can merge the trunk into my branch
+to update the code a little and continue working until I fix it all.
+
+Let me know.
+Lucas
+
+
+From szybalski at gmail.com  Tue Sep 16 15:35:42 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 16 Sep 2008 08:35:42 -0500
+Subject: [HarvestMan-devel] Trunk is working again
+In-Reply-To: <8548c5f30809160010j4eed50dbof2259c6569f18216@mail.gmail.com>
+References: <8548c5f30809160010j4eed50dbof2259c6569f18216@mail.gmail.com>
+Message-ID: <804e5c70809160635p32b433bet4709d3eaac8fa64c@mail.gmail.com>
+
+On Tue, Sep 16, 2008 at 2:10 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi list,
+>
+>    After quite some time, I am restarting dev on harvestman
+> today. The first thing I did was to reset the trunk so it is working
+> again by resetting some modules.
+>
+>    I will be doing further development in another branch and
+> merge the changes to the trunk once it stabilizes.
+>
+>    Pls let me know if you find some issues with the trunk.
+>
+
+It is .. that's great. I will merge the changes into my branch.
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Mon Sep 22 15:41:56 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 22 Sep 2008 08:41:56 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+	<8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+	<8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+	<804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+	<8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+Message-ID: <804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+
+Checked in fixe for the error you send by changing from lib import xyz
+to "from harvestman.lib import xyz"  :
+
+
+Now I get this error, any idea how to solve it?
+
+harvestman -C harvestman/apps/config-sample.xml
+Loading user configuration...
+Using configuration file harvestman/apps/config-sample.xml...
+Traceback (most recent call last):
+  File "/home/lucas/tmp/harvenv/bin/harvestman", line 7, in ?
+    sys.exit(
+  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/harvestman_run.py",
+line 685, in run
+    spider.initialize()
+  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/harvestman_run.py",
+line 427, in initialize
+    self.init_config()
+  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/harvestman_run.py",
+line 414, in init_config
+    self.process_plugins()
+  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/appbase.py",
+line 45, in process_plugins
+    from harvestman.lib import hooks
+  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/lib/hooks.py",
+line 198, in ?
+    HarvestManHooks.add_all_plugins()
+  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/lib/hooks.py",
+line 57, in add_all_plugins
+    M = __import__(module)
+ImportError: No module named crawler
+
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Wed Sep 24 00:48:35 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 23 Sep 2008 17:48:35 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+	<8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+	<8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+	<804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+	<8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+	<804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+Message-ID: <804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+
+Hello Anand,
+Any news on this? You mentioned that the plugin part doesn't really
+work. If its not used could you remove it then.
+
+We could implement in the future something like this:
+
+http://ianbicking.org/docs/pycon2006/plugins.html
+
+Let me know as I don't know how to get rid of this error.
+
+Thanks,
+Lucas
+
+On Mon, Sep 22, 2008 at 8:41 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Checked in fixe for the error you send by changing from lib import xyz
+> to "from harvestman.lib import xyz"  :
+>
+>
+> Now I get this error, any idea how to solve it?
+>
+> harvestman -C harvestman/apps/config-sample.xml
+> Loading user configuration...
+> Using configuration file harvestman/apps/config-sample.xml...
+> Traceback (most recent call last):
+>  File "/home/lucas/tmp/harvenv/bin/harvestman", line 7, in ?
+>    sys.exit(
+>  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/harvestman_run.py",
+> line 685, in run
+>    spider.initialize()
+>  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/harvestman_run.py",
+> line 427, in initialize
+>    self.init_config()
+>  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/harvestman_run.py",
+> line 414, in init_config
+>    self.process_plugins()
+>  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/appbase.py",
+> line 45, in process_plugins
+>    from harvestman.lib import hooks
+>  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/lib/hooks.py",
+> line 198, in ?
+>    HarvestManHooks.add_all_plugins()
+>  File "/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/lib/hooks.py",
+> line 57, in add_all_plugins
+>    M = __import__(module)
+> ImportError: No module named crawler
+>
+>
+> Thanks,
+> Lucas
+>
+
+
+
+-- 
+Python and OpenOffice documents and templates
+http://lucasmanual.com/mywiki/OpenOffice
+Fast and Easy Backup solution with Bacula
+http://lucasmanual.com/mywiki/Bacula
+
+
+From szybalski at gmail.com  Fri Sep 26 05:19:48 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 25 Sep 2008 22:19:48 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+	<8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+	<8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+	<804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+	<8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+	<804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+	<804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+Message-ID: <804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+
+ok try now:
+
+cd
+cd tmp
+
+virtualenv --no-site-packages harvENV
+source harvENV/bin/activate
+
+cd /path..to/HarvestMan-topaste/HarvestMan
+svn update
+
+python setup.py develop
+....
+....
+
+harvestman --selftest
+
+module_path /home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman
+Loading system configuration...
+Loading user configuration...
+Running self-test...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_connector.py...
+Error in fetching data, skipping tests...
+Error in fetching data, skipping tests...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_pageparser.py...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urlcollections.py...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urltypes.py...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urlparser.py...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_logger.py...
+<unittest.TestResult run=18 errors=4 failures=3>
+self-test failed. Please check your installation!
+
+
+Could you look into why there are 4 errors ?
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Sat Sep 27 06:47:05 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 26 Sep 2008 23:47:05 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+	<8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+	<8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+	<804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+	<8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+	<804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+	<804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+Message-ID: <804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+
+On Thu, Sep 25, 2008 at 10:19 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> ok try now:
+>
+> cd
+> cd tmp
+>
+> virtualenv --no-site-packages harvENV
+> source harvENV/bin/activate
+>
+> cd /path..to/HarvestMan-topaste/HarvestMan
+> svn update
+>
+> python setup.py develop
+
+
+I've checked in a fix for hooks.py, pritty much just replaced with
+harvestman.lib.xxxx
+
+I can download files now;
+harvestman -C /pathto/config-sample.xml
+
+Give that a try...
+The test still fails do...
+
+make sure you do
+
+svn update first.
+
+Thanks,
+Lucas
+
+
+From abpillai at gmail.com  Mon Sep 29 13:08:25 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 29 Sep 2008 16:38:25 +0530
+Subject: [HarvestMan-devel] Question about HarvestMan
+In-Reply-To: <48E0B11A.4070606@iti.gr>
+References: <48E0B11A.4070606@iti.gr>
+Message-ID: <8548c5f30809290408q35b7f888kec9d4a992ec94ad4@mail.gmail.com>
+
+Hi Nick,
+
+          This is a small bug. To fix it download
+http://harvestmanontheweb.com/files/patches/datamgr_1.4.6.py and
+copy it to your HarvestMan installation as "datamgr.py". That will fix
+the issue.
+
+        Or better, if you are used to applying patches, download
+http://harvestmanontheweb.com/files/patches/datamgr_1.4.6.py.patch and
+apply the patch to datamgr.py as follows.
+
+$ cd <your harvestman install folder>
+$ cd HarvestMan
+$ patch -i datamgr_1.4.6.py.patch datamgr.py
+
+Typically your install folder will be
+<prefix>/lib/<python-x.x.x>/site-packages if
+you have installed HarvestMan to Python.
+
+However, if you are running HarvestMan on Ubuntu or derived
+distro, it will be in /usr/share/pyshared folder.
+
+Let me know if this helps.
+
+Regards
+
+--Anand
+
+On Mon, Sep 29, 2008 at 4:12 PM, Nick Kaklanis <nkak at iti.gr> wrote:
+> Dear Mr.Anand Pillai
+>
+> I'm trying to use HarvestMan-1.4.6 but when I put some limits such as file
+> number or size it throws an exception :
+>
+> Specified file limit of 5 reached!
+> Exception in thread HarvestMan Control Class:
+> Traceback (most recent call last):
+> File "threading.pyc", line 442, in __bootstrap
+> File "datamgr.pyc", line 1109, in run
+> File "datamgr.pyc", line 1183, in __manage_file_limits
+> AttributeError: 'harvestManController' object has no attribute 'terminator'
+>
+> Could you help me?
+>
+> Thanks in advance
+>
+> Nick Kaklanis
+>
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Sep 29 14:01:17 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 29 Sep 2008 17:31:17 +0530
+Subject: [HarvestMan-devel] Question about HarvestMan
+In-Reply-To: <48E0BB88.1000807@iti.gr>
+References: <48E0B11A.4070606@iti.gr>
+	<8548c5f30809290408q35b7f888kec9d4a992ec94ad4@mail.gmail.com>
+	<48E0BB88.1000807@iti.gr>
+Message-ID: <8548c5f30809290501h1104de5cr8116e79699a7f71@mail.gmail.com>
+
+Hi Nick,
+
+On Mon, Sep 29, 2008 at 4:57 PM, Nick Kaklanis <nkak at iti.gr> wrote:
+
+>
+> Thank you very much for your quick reply!
+> I used HarvestMan-1.4.6-win32.exe to install harvestman because I wanted a
+> binary version of the crawler. I'm developing a Java application that calls
+> via system call "harvestman.exe" with input a config.xml file that is
+> created on-the-fly by the application. I want to follow this approach
+> because I don't want my application be depended on Python. So, I'm wondering
+> if there is a way to fix this bug while I keep using only 4 essential files
+> for harvestman:
+> 1)harvestman.exe
+> 2)library.zip
+> 3)MSVCR71.dll
+> 4)w9xpopen.exe
+
+If I understand py2exe (which is used to build an exe from Python source files)
+correctly, the library.zip file contains all the rest of the Python source code
+of the program apart from the module containing the "main" function,
+which is harvestman.py .
+
+So you could try this hack.
+
+1. unzip library.zip
+2. I think it should contain .pyc or .pyo files. Make a .pyc or .pyo
+from the new
+patched datamgr.py and copy it here. Zip it back and put the new library.zip
+in place of original.
+
+To make a .pyc from .py, just import it in Python prompt.
+
+>>> import datamgr
+
+To generate a .pyo, run Python as follows and do the same as above.
+
+$ python -O
+>>> import datamgr
+
+Let me know if this works.
+
+> Otherwise, I'll try the solution you gave me. The bad thing is that if I
+> want to test my application on another pc, it must have Python already
+> installed as well as HarvestMan.
+
+If above does not work, the only other option on Windows is to
+recreate the executable from source. Since this bug is important,
+I am planning to do this today and upload a  fresh exe to the site.
+Someone had reported the same bug earlier, but I am sorry
+to say, I did not follow up on it !
+
+So, if this does not work, you can wait for the fresh exe or try
+to build one yourself from source. I think with HarvestMan-1.4.6,
+you just need to run HarvestMan/py2exesetup.bat for this, after
+installing py2exe (www.py2exe.org)
+
+>
+> Thank you very much for your help!
+>
+> Nick Kaklanis
+>
+>
+
+
+Regards
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Sep 29 14:03:36 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 29 Sep 2008 17:33:36 +0530
+Subject: [HarvestMan-devel] Question about HarvestMan
+In-Reply-To: <8548c5f30809290501h1104de5cr8116e79699a7f71@mail.gmail.com>
+References: <48E0B11A.4070606@iti.gr>
+	<8548c5f30809290408q35b7f888kec9d4a992ec94ad4@mail.gmail.com>
+	<48E0BB88.1000807@iti.gr>
+	<8548c5f30809290501h1104de5cr8116e79699a7f71@mail.gmail.com>
+Message-ID: <8548c5f30809290503p2fae3df6x7cc7b3a48585fe6c@mail.gmail.com>
+
+Meanwhile if you are interested in HarvestMan, I suggest you
+check out the new project page and try out the under development
+HarvestMan-2.0 . The 2.0 version is way ahead of the old
+,1.4.x versions.
+
+http://harvestman-crawler.googlecode.com
+
+Regards
+
+--Anand
+
+On Mon, Sep 29, 2008 at 5:31 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Nick,
+>
+> On Mon, Sep 29, 2008 at 4:57 PM, Nick Kaklanis <nkak at iti.gr> wrote:
+>
+>>
+>> Thank you very much for your quick reply!
+>> I used HarvestMan-1.4.6-win32.exe to install harvestman because I wanted a
+>> binary version of the crawler. I'm developing a Java application that calls
+>> via system call "harvestman.exe" with input a config.xml file that is
+>> created on-the-fly by the application. I want to follow this approach
+>> because I don't want my application be depended on Python. So, I'm wondering
+>> if there is a way to fix this bug while I keep using only 4 essential files
+>> for harvestman:
+>> 1)harvestman.exe
+>> 2)library.zip
+>> 3)MSVCR71.dll
+>> 4)w9xpopen.exe
+>
+> If I understand py2exe (which is used to build an exe from Python source files)
+> correctly, the library.zip file contains all the rest of the Python source code
+> of the program apart from the module containing the "main" function,
+> which is harvestman.py .
+>
+> So you could try this hack.
+>
+> 1. unzip library.zip
+> 2. I think it should contain .pyc or .pyo files. Make a .pyc or .pyo
+> from the new
+> patched datamgr.py and copy it here. Zip it back and put the new library.zip
+> in place of original.
+>
+> To make a .pyc from .py, just import it in Python prompt.
+>
+>>>> import datamgr
+>
+> To generate a .pyo, run Python as follows and do the same as above.
+>
+> $ python -O
+>>>> import datamgr
+>
+> Let me know if this works.
+>
+>> Otherwise, I'll try the solution you gave me. The bad thing is that if I
+>> want to test my application on another pc, it must have Python already
+>> installed as well as HarvestMan.
+>
+> If above does not work, the only other option on Windows is to
+> recreate the executable from source. Since this bug is important,
+> I am planning to do this today and upload a  fresh exe to the site.
+> Someone had reported the same bug earlier, but I am sorry
+> to say, I did not follow up on it !
+>
+> So, if this does not work, you can wait for the fresh exe or try
+> to build one yourself from source. I think with HarvestMan-1.4.6,
+> you just need to run HarvestMan/py2exesetup.bat for this, after
+> installing py2exe (www.py2exe.org)
+>
+>>
+>> Thank you very much for your help!
+>>
+>> Nick Kaklanis
+>>
+>>
+>
+>
+> Regards
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Sep 29 15:52:00 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 29 Sep 2008 08:52:00 -0500
+Subject: [HarvestMan-devel] harvestman to use paste setup.py
+Message-ID: <804e5c70809290652n55ecd46di86c5033f1875a88f@mail.gmail.com>
+
+Can you check the tests again? 2 to go... Is there a way to enable it
+to display more information as to where it failed?
+
+Thanks,
+Lucas
+
+
+ harvestman --selftest
+module_path /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman
+Loading system configuration...
+Loading user configuration...
+Running self-test...
+Running unit-test for
+/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_pageparser.py...
+Running unit-test for
+/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_urlparser.py...
+Running unit-test for
+/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_logger.py...
+Running unit-test for
+/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_urltypes.py...
+Running unit-test for
+/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_connector.py...
+Error in fetching data, skipping tests...
+Error in fetching data, skipping tests...
+Connecting to http://www.python.org...
+Length: 17179 (16K) Type: text/html
+Content Encoding: plain
+
+119.51K/s (1) eta: 0:00:00      [======================================>][100%]
+
+Saved to index.html
+17179 bytes downloaded in 0:00:04 hours at an average of 3.90 kb/s.
+Running unit-test for
+/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_urlcollections.py...
+<unittest.TestResult run=18 errors=3 failures=2>
+self-test failed. Please check your installation!
+
+

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] HarvestMan Lite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2009-May/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20HarvestMan%20Lite&In-Reply-To=%3C8548c5f30905070724k5c007569kb485d425a4f6a79b%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000204.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] HarvestMan Lite</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20HarvestMan%20Lite&In-Reply-To=%3C8548c5f30905070724k5c007569kb485d425a4f6a79b%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] HarvestMan Lite">abpillai at gmail.com
+       </A><BR>
+    <I>Thu May  7 16:24:29 CEST 2009</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000204.html">[HarvestMan-devel] HarvestMan Lite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Lukasz,
+
+  I have created a new entry in trunk named &quot;HarvestMan-lite&quot;.
+The idea is to trim unncessary and old code from HarvestMan
+code base to create a lightweight ( in terms  of amount of code
+and also performance) program.
+
+ I have done the first level of work today, removing a number
+of irrelevant modules and files from the codebase. Also a number
+of modules were trimmed.
+
+Going ahead, the plan would be to refactor the code and remove
+un-necessary logic (like the &quot;objects&quot; namespace holding each object
+, instead make everything with single instance a singleton) and
+to take a re-look at the code and remove/collate functions etc.
+
+The final phase would be a performance improvement, identifying
+bottle necks and removing/updating data structures to improve
+the memory usage of the program.
+
+Once this is done the current HarvestMan source trunk would be
+archived and HarvestMan-lite would replace it. I would also
+move the &quot;Hget&quot; downloader to a separate project.
+
+The idea is to then use this trimmed codebase to work on
+the scalable &quot;super HarvestMan&quot; which would use multiple processes
+(each being a &quot;HarvestMan&quot; application) to scale up crawling.
+
+The complete refactoring I guess would take around 1 month
+plus.
+
+Kindly let me know your thoughts.
+
+-- 
+-Anand
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090507/e1d12e2f/attachment.html">https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090507/e1d12e2f/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000204.html">[HarvestMan-devel] HarvestMan Lite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#203">[ date ]</a>
+              <a href="thread.html#203">[ thread ]</a>
+              <a href="subject.html#203">[ subject ]</a>
+              <a href="author.html#203">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

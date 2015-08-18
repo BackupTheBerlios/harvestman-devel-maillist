@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Recently committed changes
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Recently%20committed%20changes&In-Reply-To=%3C804e5c70810130726n27768badk7ec62cbf3fcff20f%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000169.html">
+   <LINK REL="Next"  HREF="000165.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Recently committed changes</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Recently%20committed%20changes&In-Reply-To=%3C804e5c70810130726n27768badk7ec62cbf3fcff20f%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Recently committed changes">szybalski at gmail.com
+       </A><BR>
+    <I>Mon Oct 13 16:26:54 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000169.html">[HarvestMan-devel] Recently committed changes
+</A></li>
+        <LI>Next message: <A HREF="000165.html">[HarvestMan-devel] New alpha package uploaded
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>I've printed optdict in config.py and this is what I got?
+look at the cache?
+
+Where are these values from?
+
+{'basedir': '', 'projectfile': '', 'connections': '', 'configfile':
+'', 'genconfig': False, 'plugins': '', 'urllist': '', 'maxthreads':
+'', 'workers': '', 'cache': '../apps/config-sample.xml', 'localise':
+'', 'version': False, 'selftest': False, 'subdomain': False,
+'maxfiles': '', 'option': '', 'proxyuser': '', 'robots': '', 'proxy':
+'', 'simulate': False, 'fetchlevel': '', 'retries': '', 'urlfilter':
+'', 'verbosity': '', 'project': '', 'timelimit': '', 'depth': '',
+'ui': False, 'proxypasswd': ''}
+
+Thanks,
+Lucas
+
+
+On Mon, Oct 13, 2008 at 8:53 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> I still get this error:
+</I>&gt;<i> Error assigning option &quot;cache_status&quot; =&gt; Error: invalid literal for
+</I>&gt;<i> int() with base 10: 'config-sample.xml'
+</I>&gt;<i>
+</I>&gt;<i> Its trying to convert &quot;config-sample.xml&quot; to an integer???
+</I>&gt;<i>
+</I>&gt;<i> I removed ~/.harvestman and any other installation.
+</I>&gt;<i>
+</I>&gt;<i> Where else could it be sitting? when is .harvestman generated/created?
+</I>&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Lucas
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> :~/projects/harvestman-crawler/trunk/HarvestMan/harvestman/apps$
+</I>&gt;&gt;<i> harvestman -c config-sample.xml
+</I>&gt;&gt;<i> Loading system configuration...
+</I>&gt;&gt;<i> Loading user configuration...
+</I>&gt;&gt;<i> Error assigning option &quot;cache_status&quot; =&gt; Error: invalid literal for
+</I>&gt;&gt;<i> int() with base 10: 'config-sample.xml'
+</I>&gt;&gt;<i> Pass option -h for command line usage.
+</I>&gt;&gt;<i> Printing error traceback for debugging...
+</I>&gt;&gt;<i>  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+</I>&gt;&gt;<i> line 730, in set_option_xml
+</I>&gt;&gt;<i>    self.assign_option(option_val, value)
+</I>&gt;&gt;<i>  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+</I>&gt;&gt;<i> line 623, in assign_option
+</I>&gt;&gt;<i>    raise HarvestManConfigError, &quot;Error: &quot; + str(e)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thanks,
+</I>&gt;&gt;<i> Lucas
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Python and OpenOffice documents and templates
+</I>&gt;<i> <A HREF="http://lucasmanual.com/mywiki/OpenOffice">http://lucasmanual.com/mywiki/OpenOffice</A>
+</I>&gt;<i> Fast and Easy Backup solution with Bacula
+</I>&gt;<i> <A HREF="http://lucasmanual.com/mywiki/Bacula">http://lucasmanual.com/mywiki/Bacula</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+Python and OpenOffice documents and templates
+<A HREF="http://lucasmanual.com/mywiki/OpenOffice">http://lucasmanual.com/mywiki/OpenOffice</A>
+Fast and Easy Backup solution with Bacula
+<A HREF="http://lucasmanual.com/mywiki/Bacula">http://lucasmanual.com/mywiki/Bacula</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000169.html">[HarvestMan-devel] Recently committed changes
+</A></li>
+	<LI>Next message: <A HREF="000165.html">[HarvestMan-devel] New alpha package uploaded
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#170">[ date ]</a>
+              <a href="thread.html#170">[ thread ]</a>
+              <a href="subject.html#170">[ subject ]</a>
+              <a href="author.html#170">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

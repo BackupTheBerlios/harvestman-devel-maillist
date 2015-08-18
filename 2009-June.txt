@@ -1,0 +1,96 @@
+From aaron at campusactivism.org  Fri Jun  5 00:47:53 2009
+From: aaron at campusactivism.org (Aaron Kreider)
+Date: Thu, 04 Jun 2009 18:47:53 -0400
+Subject: [HarvestMan-devel] Storing page text in mysql
+Message-ID: <4A284F19.9040701@campusactivism.org>
+
+I want to store page text in MySQL (along with the url).  I'm wondering 
+if anyone has already done this or would have suggestions as to how I 
+should do it?
+
+I'm completely new to python, but have been doing php for a long time.
+
+Ultimately I want to grab non-html text for each page. Tokenize into 
+words.  Then count how many times each word appers on each page.  But 
+for starters, I need the non-html text.
+
+(I apologize if this is the wrong place to post this, I didn't see a 
+users/support forum).
+
+Aaron
+
+
+From vijayr at wisdomtap.com  Fri Jun  5 13:34:11 2009
+From: vijayr at wisdomtap.com (Vijay Ramachandran)
+Date: Fri, 5 Jun 2009 17:04:11 +0530
+Subject: [HarvestMan-devel] Storing page text in mysql
+Message-ID: <ac3072180906050434w222d4275pbd46371ffe813b19@mail.gmail.com>
+
+On Fri, Jun 5, 2009 at 3:34 PM,
+<harvestman-devel-request at lists.berlios.de>wrote:
+
+>
+> From: Aaron Kreider <aaron at campusactivism.org>
+> Subject: [HarvestMan-devel] Storing page text in mysql
+> To: harvestman-devel at lists.berlios.de
+> Message-ID: <4A284F19.9040701 at campusactivism.org>
+> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+>
+> I want to store page text in MySQL (along with the url).  I'm wondering
+> if anyone has already done this or would have suggestions as to how I
+> should do it?
+>
+
+Aaron, its not clear if you want to do this within the context of
+HarvestMan, or in some other context? HM is a web
+crawler,<http://en.wikipedia.org/wiki/Web_crawler>providing a
+framework to crawl web sites, and ultimately provides you the
+html from the crawled web pages.
+
+
+> I'm completely new to python, but have been doing php for a long time.
+>
+> Ultimately I want to grab non-html text for each page. Tokenize into
+> words.  Then count how many times each word appers on each page.  But
+> for starters, I need the non-html text.
+>
+
+To parse html, you can use Beautiful Soup or lxml. To access MySQL, you can
+use MySQLdb (be sure to use the pythonic form of the api as specified in the
+PEP <http://www.python.org/dev/peps/pep-0249/>, not the raw "c" style
+functions).
+
+If you need to know how to integrate these into the HM framework - I'm sure
+one of the devs will jump in.
+
+HTH,
+Vijay
+
+-- 
+http://www.wisdomtap.com/
+http://services.wisdomtap.com/
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090605/9d9167f5/attachment.html>
+
+From ivo at iugrina.com  Mon Jun 22 17:32:32 2009
+From: ivo at iugrina.com (Ivo Ugrina)
+Date: Mon, 22 Jun 2009 17:32:32 +0200
+Subject: [HarvestMan-devel] status of HarvestMan-Lite?
+Message-ID: <4A3FA410.5010501@iugrina.com>
+
+Hi,
+
+I'm interested in status of HarvestMan-Lite?
+Will it be over soon?
+
+
+Also, is there a way of making donations?
+
+
+Have fun,
+-- 
+Ivo Ugrina | www.iugrina.com
+
+
+

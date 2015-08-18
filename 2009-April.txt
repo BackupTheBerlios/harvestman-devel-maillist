@@ -1,0 +1,26 @@
+From frank at telesma.com  Thu Apr  9 02:40:29 2009
+From: frank at telesma.com (Frank Rossi)
+Date: Thu, 9 Apr 2009 02:40:29 +0200
+Subject: [HarvestMan-devel] simulator plugin error
+Message-ID: <20090409024029854862.86514346@telesma.com>
+
+Hello,
+
+I?m getting an error in the console when I try to use the the simulator 
+option.
+Using "Harvestman-2.0.4beta" with Python 2.4:
+
+Loading system configuration... 
+Loading user configuration... 
+Using configuration file config.xml... 
+Loading plugin simulator... 
+Applying plugin simulator... 
+Error while trying to apply plugin simulator 
+Error is: Error: connector has no plugins defined!
+
+
+Any hints to resolve this?
+
+Thank you in advance
+Frank
+

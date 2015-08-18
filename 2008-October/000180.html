@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Harvestman - useragent value
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Harvestman%20-%20useragent%20value&In-Reply-To=%3C8548c5f30810262234m556711e3y6e8ebed0937b0349%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000179.html">
+   <LINK REL="Next"  HREF="000181.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Harvestman - useragent value</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Harvestman%20-%20useragent%20value&In-Reply-To=%3C8548c5f30810262234m556711e3y6e8ebed0937b0349%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Harvestman - useragent value">abpillai at gmail.com
+       </A><BR>
+    <I>Mon Oct 27 06:34:58 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000179.html">[HarvestMan-devel] performance
+</A></li>
+        <LI>Next message: <A HREF="000181.html">[HarvestMan-devel] Harvestman - useragent value
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#180">[ date ]</a>
+              <a href="thread.html#180">[ thread ]</a>
+              <a href="subject.html#180">[ subject ]</a>
+              <a href="author.html#180">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Saiful,
+
+    Thanks for testing HarvestMan.
+
+I assume you tested the code from the project subversion trunk. If so,
+could you add a bug for this issue ? To report a new bug, go to
+
+<A HREF="http://code.google.com/p/harvestman-crawler/issues/entry">http://code.google.com/p/harvestman-crawler/issues/entry</A>
+
+Regards
+
+--Anand
+
+On Sat, Oct 25, 2008 at 7:20 AM, saiful bahri &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">saifulbahri at gmail.com</A>&gt; wrote:
+&gt;<i> Hi,
+</I>&gt;<i>
+</I>&gt;<i> I tested Harvestman with python2.6.
+</I>&gt;<i> I found out that even if i set the config useragent, it still append the
+</I>&gt;<i> default user-agent value 'Python-urllib/2.6'
+</I>&gt;<i>
+</I>&gt;<i> e.g. in config:
+</I>&gt;<i> &lt;useragent value=&quot;Mozilla/5.0&quot;/&gt;
+</I>&gt;<i>
+</I>&gt;<i> In the request made by Harvestman, here is what the http server captured:
+</I>&gt;<i> HTTP_USER_AGENT : Python-urllib/2.6, Mozilla/5.0
+</I>&gt;<i>
+</I>&gt;<i> If i test urllib2 directly, after i set the request.add_header(), it does
+</I>&gt;<i> not append the default 'Python-urllib/2.6'.
+</I>&gt;<i> Why is this so? Where in the code that add_header will be called? I only
+</I>&gt;<i> find in connector.py.
+</I>&gt;<i>
+</I>&gt;<i> here is the code i tested urllib2 directly
+</I>&gt;<i>
+</I>&gt;<i> import urllib2
+</I>&gt;<i>
+</I>&gt;<i> request = urllib2.Request(&quot;<A HREF="http://localhost/harvest/server/test.php">http://localhost/harvest/server/test.php</A>&quot;)
+</I>&gt;<i> request.add_header('User-Agent', 'test')
+</I>&gt;<i> f = urllib2.urlopen(request)
+</I>&gt;<i>
+</I>&gt;<i> regards,
+</I>&gt;<i> bahri
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000179.html">[HarvestMan-devel] performance
+</A></li>
+	<LI>Next message: <A HREF="000181.html">[HarvestMan-devel] Harvestman - useragent value
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#180">[ date ]</a>
+              <a href="thread.html#180">[ thread ]</a>
+              <a href="subject.html#180">[ subject ]</a>
+              <a href="author.html#180">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

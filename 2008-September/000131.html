@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Question about HarvestMan
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Question%20about%20HarvestMan&In-Reply-To=%3C8548c5f30809290501h1104de5cr8116e79699a7f71%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000130.html">
+   <LINK REL="Next"  HREF="000132.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Question about HarvestMan</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Question%20about%20HarvestMan&In-Reply-To=%3C8548c5f30809290501h1104de5cr8116e79699a7f71%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Question about HarvestMan">abpillai at gmail.com
+       </A><BR>
+    <I>Mon Sep 29 14:01:17 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000130.html">[HarvestMan-devel] Question about HarvestMan
+</A></li>
+        <LI>Next message: <A HREF="000132.html">[HarvestMan-devel] Question about HarvestMan
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#131">[ date ]</a>
+              <a href="thread.html#131">[ thread ]</a>
+              <a href="subject.html#131">[ subject ]</a>
+              <a href="author.html#131">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Nick,
+
+On Mon, Sep 29, 2008 at 4:57 PM, Nick Kaklanis &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">nkak at iti.gr</A>&gt; wrote:
+
+&gt;<i>
+</I>&gt;<i> Thank you very much for your quick reply!
+</I>&gt;<i> I used HarvestMan-1.4.6-win32.exe to install harvestman because I wanted a
+</I>&gt;<i> binary version of the crawler. I'm developing a Java application that calls
+</I>&gt;<i> via system call &quot;harvestman.exe&quot; with input a config.xml file that is
+</I>&gt;<i> created on-the-fly by the application. I want to follow this approach
+</I>&gt;<i> because I don't want my application be depended on Python. So, I'm wondering
+</I>&gt;<i> if there is a way to fix this bug while I keep using only 4 essential files
+</I>&gt;<i> for harvestman:
+</I>&gt;<i> 1)harvestman.exe
+</I>&gt;<i> 2)library.zip
+</I>&gt;<i> 3)MSVCR71.dll
+</I>&gt;<i> 4)w9xpopen.exe
+</I>
+If I understand py2exe (which is used to build an exe from Python source files)
+correctly, the library.zip file contains all the rest of the Python source code
+of the program apart from the module containing the &quot;main&quot; function,
+which is harvestman.py .
+
+So you could try this hack.
+
+1. unzip library.zip
+2. I think it should contain .pyc or .pyo files. Make a .pyc or .pyo
+from the new
+patched datamgr.py and copy it here. Zip it back and put the new library.zip
+in place of original.
+
+To make a .pyc from .py, just import it in Python prompt.
+
+&gt;&gt;&gt;<i> import datamgr
+</I>
+To generate a .pyo, run Python as follows and do the same as above.
+
+$ python -O
+&gt;&gt;&gt;<i> import datamgr
+</I>
+Let me know if this works.
+
+&gt;<i> Otherwise, I'll try the solution you gave me. The bad thing is that if I
+</I>&gt;<i> want to test my application on another pc, it must have Python already
+</I>&gt;<i> installed as well as HarvestMan.
+</I>
+If above does not work, the only other option on Windows is to
+recreate the executable from source. Since this bug is important,
+I am planning to do this today and upload a  fresh exe to the site.
+Someone had reported the same bug earlier, but I am sorry
+to say, I did not follow up on it !
+
+So, if this does not work, you can wait for the fresh exe or try
+to build one yourself from source. I think with HarvestMan-1.4.6,
+you just need to run HarvestMan/py2exesetup.bat for this, after
+installing py2exe (www.py2exe.org)
+
+&gt;<i>
+</I>&gt;<i> Thank you very much for your help!
+</I>&gt;<i>
+</I>&gt;<i> Nick Kaklanis
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+Regards
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000130.html">[HarvestMan-devel] Question about HarvestMan
+</A></li>
+	<LI>Next message: <A HREF="000132.html">[HarvestMan-devel] Question about HarvestMan
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#131">[ date ]</a>
+              <a href="thread.html#131">[ thread ]</a>
+              <a href="subject.html#131">[ subject ]</a>
+              <a href="author.html#131">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Throttling/Bandwidth Control
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C8548c5f30806232339y6ae29b5dnb76f81c938f46810%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000052.html">
+   <LINK REL="Next"  HREF="000055.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Throttling/Bandwidth Control</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C8548c5f30806232339y6ae29b5dnb76f81c938f46810%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Throttling/Bandwidth Control">abpillai at gmail.com
+       </A><BR>
+    <I>Tue Jun 24 08:39:19 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000052.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+        <LI>Next message: <A HREF="000055.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#54">[ date ]</a>
+              <a href="thread.html#54">[ thread ]</a>
+              <a href="subject.html#54">[ subject ]</a>
+              <a href="author.html#54">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Lucas,
+
+On Tue, Jun 24, 2008 at 8:36 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> On Mon, Jun 23, 2008 at 9:39 AM, Anand Balachandran Pillai
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> Hi Lucas,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  Could you look into this ? I added it as issue #5.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="http://code.google.com/p/harvestman-crawler/issues/detail?id=5">http://code.google.com/p/harvestman-crawler/issues/detail?id=5</A>
+</I>&gt;&gt;<i> is assigned to you.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> It is very easy to add a new param and relate it to a config variable
+</I>&gt;&gt;<i> in harvestman.
+</I>&gt;<i>
+</I>&gt;<i> I added maxbytes, and self.maxbytes to config.py.
+</I>
+Just adding this is not enough. You need to make an entry in
+the dictionary self.xml_map and associate the XML element/attribute
+to an action.
+
+This is done as follows. For elements, you create a key with the
+element name. For attributes, you suffix &quot;_&lt;attrname&gt;&quot; to the element
+name and create a key with that.
+
+The value is a pair of ('&lt;configparam&gt;', '&lt;action&gt;') where '&lt;configparam&gt;'
+is the param to which the value is finally assigned in the config object.
+'&lt;action&gt;' can be either a data type or a function.
+
+For example, to set a simple value, say 'connections' in config XML
+and assign it to 'maxconnections' on the config object. Assume that
+'connections' in the XML specifies its value in the &quot;value&quot; attribute.
+
+&lt;connections value=&quot;5&quot; /&gt;
+
+The entry for this in self.xml_map would be,
+
+{'connections_value':  ('maxconnections', 'int'),
+ ...
+}
+
+This is interpreted as =&gt; The value of &quot;value&quot; attribute of
+'connections' element
+is assigned to 'maxconnections' attribute after converting it to 'int' type.
+
+However for values which require complex processing, a simple conversion
+won't work, so you need functions. In this case you do, since you want
+to support different specifications for the 'maxbytes' param such as '5 kb',
+'5 mb' etc.
+
+To assign a function to processing of an element/attribute, simply replace
+the type name above with 'func:&lt;funcname&gt;'. So in this case,
+
+{'maxbytes_value' : ('maxbytes', 'func:set_maxbytes'),
+ ...
+ }
+
+The function template is as follows.
+
+def f(self, key, val, dict):
+      ...
+
+where,
+
+  key =&gt; name of the XML element
+  val  =&gt; value of the key in xml map above
+  dict =&gt; Attribute dictionary of the element
+
+So for &lt;maxbytes value=&quot;50 k&quot; /&gt;, these would be
+
+key =&gt; 'maxbytes'
+val =&gt; '50 k'
+dict =&gt; {u'value': u'50 k'}
+
+Then the function needs to process the value and assign it to the
+config variable.
+
+I have already made this change and checked in the code. Look
+at function 'set_maxbytes' in config.py .
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Also, to implement maxbytes control is also easy, since
+</I>&gt;&gt;<i> there is already a controller thread that takes care of enforcing
+</I>&gt;&gt;<i> max file count and max time limit. We can add this as part of it.
+</I>&gt;<i>
+</I>&gt;<i> I added
+</I>&gt;<i> def _manage_maxbytes_limits(self):
+</I>&gt;<i> which uses:
+</I>&gt;<i>
+</I>&gt;<i>  lsaved = self._dmgr.savedbytes
+</I>&gt;<i>  lmax = self._cfg.maxbytes
+</I>&gt;<i>
+</I>&gt;<i> and incrementing the count in
+</I>&gt;<i> def update_bytes(self, count):
+</I>&gt;<i>
+</I>&gt;<i> Lets hope that's right.
+</I>
+_bytes is same as savedbytes, so latter is not needed. I just made _bytes
+as public to 'bytes'. The controller thread checks 'bytes'.
+
+The function _manage_maxbytes_limits was fine, but you forgot to
+call it from the thread's run loop :). I fixed that also. Also you need to
+change the check &quot;if lsaved==lmax&quot; to &quot;if lsaved&gt;=lmax&quot;, since
+we can never be sure that the limit we gave would be equaled
+during the run, mostly it will be surpassed, since we save different
+URLs with non-uniform sizes.
+
+&gt;<i> How would I test it now?
+</I>It is working fine now, except for a minor issue which is basically an effect
+of multi-threading. Even after the controller kills the threads as
+limit is reached,
+still the threads which were downloading data at the time, will complete their
+writing to disk after that and then only exit - this is required to make sure
+that threads shutdown cleanly.
+
+So even if you specify your limit as X bytes, the actual bytes saved would
+be X+dx, where dx is mostly a random factor, depending on the number of
+max connections, thread state etc. This is not a problem with large limits,
+since it will be exceeded only by a few KBs, but for a smaller limit,
+the difference
+can be significant.
+
+In the config-sample.xml I indicate a max limit of 50 K, but the actual
+download comes to 123k due to this. This can be fixed by use of internal
+state flags which will indicate to connector objects to not save their data to
+disk, if the threads are killed - let me know if you want to work on this.
+The code will have to be changed in connector.py, datamgr.py and perhaps
+in crawler.py, urlthread.py and urlqueue.py, otherwise I will implement this
+and close the bug.
+
+Anyway, I have checked in these changes I made, so you can test it
+at your end.
+
+&gt;<i>
+</I>&gt;<i> Lucas
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Look into modules config.py, datamgr.py . Former contains all
+</I>&gt;&gt;<i> option/config parsing and latter contains code for the control thread
+</I>&gt;&gt;<i> at the end.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Ping me for any questions.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thanks!
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --Anand
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> On Mon, Jun 23, 2008 at 7:58 PM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;<i> On Mon, Jun 23, 2008 at 9:13 AM, Anand Balachandran Pillai
+</I>&gt;&gt;&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;&gt;<i> Hi Lucas,
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> On Sat, Jun 21, 2008 at 3:40 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;&gt;&gt;<i> Hello,
+</I>&gt;&gt;&gt;&gt;&gt;<i> Actually is there a max download size. After max bandwidth , I would
+</I>&gt;&gt;&gt;&gt;&gt;<i> like to say, download maximum of  50mb.
+</I>&gt;&gt;&gt;&gt;<i> Well, it is not what you think. It is a maximum size of a single file (URL).
+</I>&gt;&gt;&gt;<i> I see
+</I>&gt;&gt;&gt;&gt;<i> There is no control variable for a net total download size in bytes. But
+</I>&gt;&gt;&gt;&gt;<i> I will add this, since it sounds like a useful thing. Perhaps &quot;maxbytes&quot; ?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Can we use a a mb,kb  when setting it up. For example something
+</I>&gt;&gt;&gt;<i> reasonable would be 50mb, or 500mb in a day, so converting that number
+</I>&gt;&gt;&gt;<i> to bytes would be troublesome. It would be best if we can use &quot;50mb&quot;
+</I>&gt;&gt;&gt;<i> or assume the default &quot;maxbytes&quot; is in &quot;megabytes MB&quot;.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> maxbytes = 50mb or maxbytes = 50
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I don't think anybody would use kb or less as that is too small to get anything.
+</I>&gt;&gt;&gt;<i> maxbytes = 50kb
+</I>&gt;&gt;&gt;<i> maxbytes = 50   (50 bytes)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> Then I could schedule it to run every day at 23, and download 50mb at 5kb.
+</I>&gt;&gt;&gt;&gt;<i> Yes, this will be possible once a control var for &quot;maxbytes&quot; is added.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Thanks.
+</I>&gt;&gt;&gt;<i> Lucas
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> HarvestMan-devel mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> -Anand
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> HarvestMan-devel mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Where was my car manufactured?
+</I>&gt;<i> <A HREF="http://cars.lucasmanual.com/vin">http://cars.lucasmanual.com/vin</A>
+</I>&gt;<i> TurboGears Manual-Howto
+</I>&gt;<i> <A HREF="http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf">http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> HarvestMan-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000052.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+	<LI>Next message: <A HREF="000055.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#54">[ date ]</a>
+              <a href="thread.html#54">[ thread ]</a>
+              <a href="subject.html#54">[ subject ]</a>
+              <a href="author.html#54">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

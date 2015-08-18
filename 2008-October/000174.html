@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] cache status error
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20cache%20status%20error&In-Reply-To=%3C804e5c70810240632j6cdf0c06yf9847f48a7e838b2%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000173.html">
+   <LINK REL="Next"  HREF="000175.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] cache status error</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20cache%20status%20error&In-Reply-To=%3C804e5c70810240632j6cdf0c06yf9847f48a7e838b2%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] cache status error">szybalski at gmail.com
+       </A><BR>
+    <I>Fri Oct 24 15:32:48 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000173.html">[HarvestMan-devel] cache status error
+</A></li>
+        <LI>Next message: <A HREF="000175.html">[HarvestMan-devel] cache status error
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#174">[ date ]</a>
+              <a href="thread.html#174">[ thread ]</a>
+              <a href="subject.html#174">[ subject ]</a>
+              <a href="author.html#174">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, Oct 24, 2008 at 6:51 AM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> Dear Lukasz,
+</I>&gt;<i>
+</I>&gt;<i>            This thing confounded me to no end. The problem is simple.
+</I>&gt;<i> You are making a mistake passing the config file option. The config
+</I>&gt;<i> file option has to be passed using &quot;-C&quot; (capital C), not &quot;-c&quot; (small c).
+</I>&gt;<i> The latter is used to pass the cache status value.
+</I>&gt;<i>
+</I>&gt;<i>             There is nothing wrong with the config file or the code.
+</I>&gt;<i> I can reproduce the same error with the config-template.xml file here.
+</I>&gt;<i>
+</I>&gt;<i> [<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at localhost</A> apps]$ harvestman -c config-sample.xml
+</I>&gt;<i> Loading system configuration...
+</I>&gt;<i> Loading user configuration...
+</I>&gt;<i> Error assigning option &quot;cache_status&quot; =&gt; Error: invalid literal for
+</I>&gt;<i> int() with base 10: 'config-sample.xml'
+</I>&gt;<i> Pass option -h for command line usage.
+</I>&gt;<i> Printing error traceback for debugging...
+</I>&gt;<i>  File &quot;/usr/lib/python2.5/site-packages/HarvestMan-2.0.3dev_r157-py2.5.egg/harvestman/lib/config.py&quot;,
+</I>&gt;<i> line 730, in set_option_xml
+</I>&gt;<i>    self.assign_option(option_val, value)
+</I>&gt;<i>  File &quot;/usr/lib/python2.5/site-packages/HarvestMan-2.0.3dev_r157-py2.5.egg/harvestman/lib/config.py&quot;,
+</I>&gt;<i> line 623, in assign_option
+</I>&gt;<i>    raise HarvestManConfigError, &quot;Error: &quot; + str(e)
+</I>&gt;<i>
+</I>&gt;<i> Whereas,
+</I>&gt;<i> [<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at localhost</A> apps]$ harvestman -C lucas.xml
+</I>&gt;<i> Loading system configuration...
+</I>&gt;<i> Loading user configuration...
+</I>&gt;<i> Using configuration file lucas.xml...
+</I>&gt;<i> []
+</I>&gt;<i> Starting HarvestMan 2.0 alpha 1...
+</I>&gt;<i> Copyright (C) 2004, Anand B Pillai
+</I>&gt;<i>
+</I>&gt;<i> [17:26:19] *** Log Started ***
+</I>&gt;<i>
+</I>&gt;<i> [17:26:19] Starting project foo ...
+</I>&gt;<i> [17:26:19] Writing Project Files...
+</I>&gt;<i> [17:26:19] Starting download of url <A HREF="http://lucasmanual.com/">http://lucasmanual.com/</A> ...
+</I>&gt;<i> [17:26:19] Reading Project Cache...
+</I>&gt;<i> [17:26:19] Downloading file for url <A HREF="http://lucasmanual.com/">http://lucasmanual.com/</A>
+</I>&gt;<i>
+</I>&gt;<i> All fine...
+</I>&gt;<i>
+</I>
+
+ok. sorry. I was under impression that -c worked.
+
+what about this one?
+
+
+ harvestman -C lucas.xml
+Loading system configuration...
+Using configuration file lucas.xml...
+Traceback (most recent call last):
+  File &quot;/home/lucas/tmp/harvenv/bin/harvestman&quot;, line 7, in ?
+    sys.exit(
+  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py&quot;,
+line 687, in main
+    spider.initialize()
+  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py&quot;,
+line 434, in initialize
+    self.init_config()
+  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py&quot;,
+line 421, in init_config
+    self.process_plugins()
+  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/appbase.py&quot;,
+line 48, in process_plugins
+    from harvestman.lib import hooks
+  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/lib/hooks.py&quot;,
+line 205, in ?
+    HarvestManHooks.add_all_plugins()
+  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/lib/hooks.py&quot;,
+line 64, in add_all_plugins
+    M = __import__(module,fromlist=[from_module])
+TypeError: __import__() takes no keyword arguments
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000173.html">[HarvestMan-devel] cache status error
+</A></li>
+	<LI>Next message: <A HREF="000175.html">[HarvestMan-devel] cache status error
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#174">[ date ]</a>
+              <a href="thread.html#174">[ thread ]</a>
+              <a href="subject.html#174">[ subject ]</a>
+              <a href="author.html#174">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,15 @@
+From szybalski at gmail.com  Wed May 28 07:23:00 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Wed, 28 May 2008 00:23:00 -0500
+Subject: [HarvestMan-devel] harvestman schedule crawl at x speed per y time?
+Message-ID: <804e5c70805272223n18855411g1277b48addcf3ab6@mail.gmail.com>
+
+Hello,
+What would be the command line option to schedule harvestman to crawl
+at specific download speed 5kb/s max, each page download every
+1,minute and download only from 11pm to 7am?
+
+Thanks,
+Lucas
+
+

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman and confix.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20and%20confix.xml&In-Reply-To=%3C8548c5f30807022048j74f2181cu38c3d33d44589bd7%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000088.html">
+   <LINK REL="Next"  HREF="000091.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman and confix.xml</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20and%20confix.xml&In-Reply-To=%3C8548c5f30807022048j74f2181cu38c3d33d44589bd7%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman and confix.xml">abpillai at gmail.com
+       </A><BR>
+    <I>Thu Jul  3 05:48:38 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000088.html">[HarvestMan-devel] harvestman and confix.xml
+</A></li>
+        <LI>Next message: <A HREF="000091.html">[HarvestMan-devel] harvestman and confix.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#90">[ date ]</a>
+              <a href="thread.html#90">[ thread ]</a>
+              <a href="subject.html#90">[ subject ]</a>
+              <a href="author.html#90">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi
+
+On Thu, Jul 3, 2008 at 6:42 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> Is there a setting for:
+</I>&gt;<i>
+</I>&gt;<i> - download based on time stamp? aka. If time stamp is newer of what
+</I>&gt;<i> was previously downloaded, get the new pages?
+</I>
+HarvestMan creates its own cache of a crawled project using downloaded
+time-stamps for every URL. Next time when you recrawl the same project,
+if cache is present, automatically the &quot;if-modified-since&quot; header is attached
+to requests and a HEAD request is performed. Only if the page is modified,
+do we go and download it. Otherwise the website returns an HTTP 304
+(Not Modified) error which is caught and understood as such and the
+page is not downloaded.
+
+Similarly, any etag headers are also saved to this cache and next time
+automatically compared with the server-side etag using &quot;If-None-Match&quot;.
+Only if i does not match (etag has changed), is the URL downloaded.
+
+&gt;<i> -  Continue getting a partially-downloaded file? aka. If there is new
+</I>&gt;<i> bigger file I only need to download the new remaining part, not the
+</I>&gt;<i> whole file again?
+</I>You mean HTTP resume. It is not there as part of HarvestMan.
+But support for resume is there in connector.py and this is part of the
+other program in the HarvestMan framework, namely &quot;hget&quot;.
+
+For a crawl it does not make sense to me that you will not download
+a file. Crawls are complete only when downloads are complete. However,
+this might be useful if we terminate a crawl in between and still want
+to save the piece of file downloaded so far. The logic is already
+there in connector.py, but it is not part of the harvestman's download
+and control flow. It won't be very difficult to integrate this.
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Lucas
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> HarvestMan-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000088.html">[HarvestMan-devel] harvestman and confix.xml
+</A></li>
+	<LI>Next message: <A HREF="000091.html">[HarvestMan-devel] harvestman and confix.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#90">[ date ]</a>
+              <a href="thread.html#90">[ thread ]</a>
+              <a href="subject.html#90">[ subject ]</a>
+              <a href="author.html#90">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

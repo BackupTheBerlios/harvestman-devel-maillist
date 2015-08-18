@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Throttling/Bandwidth Control
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C8548c5f30806250458v2dbbfd9bkd392673cb856af90%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000056.html">
+   <LINK REL="Next"  HREF="000031.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Throttling/Bandwidth Control</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C8548c5f30806250458v2dbbfd9bkd392673cb856af90%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Throttling/Bandwidth Control">abpillai at gmail.com
+       </A><BR>
+    <I>Wed Jun 25 13:58:05 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000056.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+        <LI>Next message: <A HREF="000031.html">[HarvestMan-devel] svn dump, and trunk reset.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#60">[ date ]</a>
+              <a href="thread.html#60">[ thread ]</a>
+              <a href="subject.html#60">[ subject ]</a>
+              <a href="author.html#60">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+On Tue, Jun 24, 2008 at 10:41 PM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i>
+</I>&gt;<i> That is the whole process for converting xml style to python style. Makes sense.
+</I>&gt;<i> What do you use the: CONFIG_XML_TEMPLATE for?
+</I>
+This is used to create the basic config file entries in the system
+(/etc/harvestman)
+and for the user ~/.harvestman/conf/config.xml . The former happens when
+the program is installed (using setup.py) and latter when the user
+runs the program
+for the first time.
+
+Every time the system and user conf files are loaded in that order. This allows
+to customize the program at a global level (for all users) and specifically for
+the user. So effectively there are many levels of config file customization...
+
+1. system
+2. User
+3. Project(s)
+
+At every level settings, override that of the previous level.
+
+
+&gt;<i> ok. I wonder if we should include tb? I've added it to my code.
+</I>&gt;<i> I'm just thinking who will download 1tb+ of data in single download. I
+</I>&gt;<i> think undo my changes.
+</I>
+Yes. I dont think anyone uses this program or will use it to download
+terabytes of data :)
+
+&gt;<i>
+</I>&gt;<i> I wasn't sure if the _bytes is something that might be used by a
+</I>&gt;<i> thread or in a global setting?
+</I>&gt;<i> When do you call clean up code ?
+</I>
+It is a global setting which is updated by every thread. Since it is an
+integer, no locking is necessary. Clean up is done, right at the
+end in the &quot;finalize()&quot; method of &quot;HarvestMan&quot; class.
+
+
+&gt;&gt;<i> So even if you specify your limit as X bytes, the actual bytes saved would
+</I>&gt;&gt;<i> be X+dx, where dx is mostly a random factor, depending on the number of
+</I>&gt;&gt;<i> max connections, thread state etc. This is not a problem with large limits,
+</I>&gt;&gt;<i> since it will be exceeded only by a few KBs, but for a smaller limit,
+</I>&gt;&gt;<i> the difference
+</I>&gt;&gt;<i> can be significant.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> In the config-sample.xml I indicate a max limit of 50 K, but the actual
+</I>&gt;&gt;<i> download comes to 123k due to this.
+</I>&gt;<i>
+</I>&gt;<i> I think this is only because the small size. If average page is 100kb,
+</I>&gt;<i> then 100kb * # of threads will be our +- constant.  That sounds good
+</I>&gt;<i> to me.  I think it would matter if mb or gb are way off.
+</I>
+I added a fix for this, by using a &quot;blockwrite&quot; flag in connector objects.
+In the &quot;endloop&quot; method of the queue class (in urlqueue.py) which
+is called by the controller thread to end crawling, I get all active
+connectors and sets this flag. The connectors check this flag before
+writing the data to disk.
+
+Also, I modified the exit logic so that for controller triggered exits
+(file, bytes or time limits), we don't wait for the threads to complete
+their action.
+
+Again, I modified limit checking on bytes to trigger exit at 90% of
+the max limit.
+
+Further we had a bug in the code. We were printing the actual
+bytes downloaded at the end which need not equal the actual saved
+bytes (to disk) for a controller-triggered exit on maxbytes. Hence I
+added a 'savedbytes' counter to the data manager class and a
+function to update it. This is updated by the connector objects only
+after a successful write to disk. We also check this counter in the
+controller thread, not &quot;bytes&quot;. Finally, this is printed on the console
+separately.
+
+All these 4 changes makes sure we exit with saved bytes very
+close to the required limit.
+
+My tests show saved bytes average of 54 kb for a 50 kb limit,
+102 kb for a 100 kb limit etc, after this change, which is pretty
+good and much better than before.
+
+&gt;<i> I think if the thread finishes downloading and stops that will be
+</I>&gt;<i> fine. If we tell it to don't save the data, then we have to make sure
+</I>&gt;<i> we do it in index, history, etc....I think that would be to much.
+</I>&gt;<i> Unless there would be another reason for it, which I don't see
+</I>&gt;<i> currently.
+</I>
+This is not required, because we are setting the flag (state) on
+the connectors, and not messing up the threads.
+
+&gt;<i>
+</I>&gt;&gt;<i> The code will have to be changed in connector.py, datamgr.py and perhaps
+</I>&gt;&gt;<i> in crawler.py, urlthread.py and urlqueue.py, otherwise I will implement this
+</I>&gt;&gt;<i> and close the bug.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Anyway, I have checked in these changes I made, so you can test it
+</I>&gt;&gt;<i> at your end.
+</I>
+You can close the bug now after testing it by running the crawler on
+config-sample.xml .
+&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Lucas
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> HarvestMan-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000056.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+	<LI>Next message: <A HREF="000031.html">[HarvestMan-devel] svn dump, and trunk reset.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#60">[ date ]</a>
+              <a href="thread.html#60">[ thread ]</a>
+              <a href="subject.html#60">[ subject ]</a>
+              <a href="author.html#60">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

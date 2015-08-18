@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] genconfig
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20genconfig&In-Reply-To=%3C804e5c70810112313k41503015h3dd2530d5bd252b0%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000162.html">
+   <LINK REL="Next"  HREF="000164.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] genconfig</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20genconfig&In-Reply-To=%3C804e5c70810112313k41503015h3dd2530d5bd252b0%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] genconfig">szybalski at gmail.com
+       </A><BR>
+    <I>Sun Oct 12 08:13:39 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000162.html">[HarvestMan-devel] genconfig
+</A></li>
+        <LI>Next message: <A HREF="000164.html">[HarvestMan-devel] Recently committed changes
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>I've added the maxbandwidth to the genconfig option.
+
+
+Also there seem to be a bug somewhere...
+
+
+There has to be a change that is causing this error.
+ File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/apps/appbase.py&quot;,
+line 81, in get_options
+    objects.config.get_program_options()
+  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+line 1477, in get_program_options
+    res = self.parse_arguments()
+  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+line 1034, in parse_arguments
+    if SUCCESS(self.check_value(option,value)):
+self.set_option_xml('cache_status', self.process_value(value))
+  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+line 721, in set_option_xml
+    self.assign_option(option_val, value)
+  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+line 590, in assign_option
+    fval = (eval(typ))(value)
+ValueError: invalid literal for int() with base 10: 'lucas.xml'
+
+Any idea where its at?
+Lucas
+
+On Sun, Oct 12, 2008 at 12:32 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> Hello,
+</I>&gt;<i> I was wondering if its possible to change the default base crawling
+</I>&gt;<i> folder from ~websites to ~crawls or some other name.
+</I>&gt;<i>
+</I>&gt;<i> I use websites folder for my websites I have designed.
+</I>&gt;<i>
+</I>&gt;<i> Let me know,
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Lucas
+</I>&gt;<i>
+</I>
+
+
+-- 
+Python and OpenOffice documents and templates
+<A HREF="http://lucasmanual.com/mywiki/OpenOffice">http://lucasmanual.com/mywiki/OpenOffice</A>
+Fast and Easy Backup solution with Bacula
+<A HREF="http://lucasmanual.com/mywiki/Bacula">http://lucasmanual.com/mywiki/Bacula</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000162.html">[HarvestMan-devel] genconfig
+</A></li>
+	<LI>Next message: <A HREF="000164.html">[HarvestMan-devel] Recently committed changes
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#163">[ date ]</a>
+              <a href="thread.html#163">[ thread ]</a>
+              <a href="subject.html#163">[ subject ]</a>
+              <a href="author.html#163">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman and confix.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20and%20confix.xml&In-Reply-To=%3C8548c5f30807020742g2a84d929r50f248e39ef995f0%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000086.html">
+   <LINK REL="Next"  HREF="000088.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman and confix.xml</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20and%20confix.xml&In-Reply-To=%3C8548c5f30807020742g2a84d929r50f248e39ef995f0%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman and confix.xml">abpillai at gmail.com
+       </A><BR>
+    <I>Wed Jul  2 16:42:57 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000086.html">[HarvestMan-devel] harvestman and confix.xml
+</A></li>
+        <LI>Next message: <A HREF="000088.html">[HarvestMan-devel] harvestman and confix.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#87">[ date ]</a>
+              <a href="thread.html#87">[ thread ]</a>
+              <a href="subject.html#87">[ subject ]</a>
+              <a href="author.html#87">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Yes, verbosity is the level of logging. It ranges from 0-5.
+
+0 =&gt; Almost no logging at all, except a few lines of starting messages.
+
+Example,
+-----------------------------------------------------------------------------------
+Loading system configuration...
+Loading user configuration...
+Using configuration file config-sample.xml...
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+-----------------------------------------------------------------------------
+1=&gt; Basic informational logging, you won't see any logs for every URL
+downloaded,
+but only a &quot;Start&quot; and &quot;End message&quot;.
+
+For example, here is the sample log for level==1 for a crawl.
+
+--------------------------------------------------------------------------------------------
+[<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at localhost</A> apps]$ python harvestman.py -C config-sample.xml
+Loading system configuration...
+Loading user configuration...
+Using configuration file config-sample.xml...
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[19:39:36] *** Log Started ***
+
+[19:39:36] Starting project pytut ...
+[19:39:36] Starting download of url
+<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A> ...
+[19:40:06]
+[19:40:06] HarvestMan mirror pytut completed in 29.27 seconds.
+[19:40:06] 113 links scanned in 1 server .
+[19:40:06] 29 files written.
+[19:40:06] 461947  bytes received at the rate of 15.41 KB/sec .
+[19:40:06] 461947  bytes were written to disk.
+
+[19:40:06] *** Log Completed ***
+
+------------------------------------------------------------------------------
+2 =&gt; Logs for every URL crawled, downloaded and saved, with saved file
+information.
+
+Example,
+--------------------------------------------------------------------------------------
+[<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at localhost</A> apps]$ python harvestman.py -C config-sample.xml
+Loading system configuration...
+Loading user configuration...
+Using configuration file config-sample.xml...
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[19:41:47] *** Log Started ***
+
+[19:41:47] Starting project pytut ...
+[19:41:47] Writing Project Files...
+[19:41:47] Done.
+[19:41:47] Starting download of url
+<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A> ...
+[19:41:47] Reading Project Cache...
+[19:41:47] Project cache not found
+[19:41:47] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A>
+[19:41:51] Saved to
+/media/FLASH4GB/oss/HarvestMan/harvestman/apps/pytut/www.python.org/doc/current/tut/tut.html
+[19:41:51] Fetching links for url <A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A>
+[19:41:52] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/about.html">http://www.python.org/doc/current/tut/about.html</A>
+[19:41:52] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/node2.html">http://www.python.org/doc/current/tut/node2.html</A>
+[19:41:52] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/node3.html">http://www.python.org/doc/current/tut/node3.html</A>
+[19:41:52] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/node4.html">http://www.python.org/doc/current/tut/node4.html</A>
+[19:41:52] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/node5.html">http://www.python.org/doc/current/tut/node5.html</A>
+[19:41:52] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/node17.html">http://www.python.org/doc/current/tut/node17.html</A>
+[19:41:53] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/node15.html">http://www.python.org/doc/current/tut/node15.html</A>
+[19:41:54] Saved to
+/media/FLASH4GB/oss/HarvestMan/harvestman/apps/pytut/www.python.org/doc/current/tut/about.html
+------------------------------------------------
+3 =&gt; On top of 2, prints information on every URL filtered, also why it
+was filtered, URL parsing steps,  File writing steps, Logs for URLs which
+finished downloads, directory creation steps etc.  Also most error messages
+which should be informed to user.
+
+4 =&gt; On top of 3, produce debug information.
+5 =&gt; On top of 4, produce more debug information. But I will phase out this
+level, and limit this from 0-4.
+
+These are labeled as
+
+0 =&gt; DISABLE
+1 =&gt; INFO
+2 =&gt; MOREINFO
+3 =&gt; EXTRAINFO
+4 =&gt; DEBUG
+
+Let me know your comments.
+
+Thanks
+
+--Anand
+
+On Tue, Jul 1, 2008 at 6:33 PM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> Hello,
+</I>&gt;<i> Could you explain the:
+</I>&gt;<i>
+</I>&gt;<i> verbosity: config setting.
+</I>&gt;<i>
+</I>&gt;<i> I found the fetchlevel description on you old site but couldn't find
+</I>&gt;<i> anything about verbosity. Is that a verbosity of how much information
+</I>&gt;<i> you show or....?
+</I>&gt;<i>
+</I>&gt;<i> Lucas
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> HarvestMan-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000086.html">[HarvestMan-devel] harvestman and confix.xml
+</A></li>
+	<LI>Next message: <A HREF="000088.html">[HarvestMan-devel] harvestman and confix.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#87">[ date ]</a>
+              <a href="thread.html#87">[ thread ]</a>
+              <a href="subject.html#87">[ subject ]</a>
+              <a href="author.html#87">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

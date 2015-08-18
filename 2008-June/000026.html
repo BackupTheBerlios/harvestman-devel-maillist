@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Dev plan for next week....
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Dev%20plan%20for%20next%20week....&In-Reply-To=%3C804e5c70806170709j440e922fq3adecc2068e39683%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000025.html">
+   <LINK REL="Next"  HREF="000015.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Dev plan for next week....</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Dev%20plan%20for%20next%20week....&In-Reply-To=%3C804e5c70806170709j440e922fq3adecc2068e39683%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Dev plan for next week....">szybalski at gmail.com
+       </A><BR>
+    <I>Tue Jun 17 16:09:53 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000025.html">[HarvestMan-devel] Dev plan for next week....
+</A></li>
+        <LI>Next message: <A HREF="000015.html">[HarvestMan-devel] Companion website+ other
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#26">[ date ]</a>
+              <a href="thread.html#26">[ thread ]</a>
+              <a href="subject.html#26">[ subject ]</a>
+              <a href="author.html#26">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> It is
+</I> a custom setup.py written by me without using any particular
+&gt;<i> template. I don't think it will work with virtualenv, though I am yet
+</I>&gt;<i> to try it. Can you file a bug on this and attach any traceback and
+</I>&gt;<i> assign it to me ?
+</I>
+filled.
+I don't know how hard would it be to convert you setup to paster.
+<A HREF="http://www.groovie.org/2005/10/04/python-paste-power">http://www.groovie.org/2005/10/04/python-paste-power</A>
+
+
+&gt;<i> Hmmm... Clearly the folder /usr/local/lib/python2.4/site-packages/harvestman
+</I>&gt;<i> is missing. So where did it get installed ? I think perhaps my function which
+</I>&gt;<i> calculates site-packages folder is wrong ? Can you take a look at it in
+</I>&gt;<i> setup.py ?
+</I>
+I'll try.
+
+&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 3 . In genconf.py . I  would put a little note under &quot;verbosity 1 is
+</I>&gt;&gt;<i> abc, 2 is bcd, 3 is dfs....&quot; and the same thing under fetch level,
+</I>&gt;&gt;<i> since I don't know of hand what options they represent. Everything
+</I>&gt;&gt;<i> else seems straight forward.
+</I>&gt;<i>
+</I>&gt;<i> Good suggestions, will add them.
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> 4.  I would add a command &quot;harvestman genconf&quot; or &quot;harvestman
+</I>&gt;&gt;<i> --genconf&quot; to list of available options, so I can call the program
+</I>&gt;&gt;<i> from a command line.
+</I>&gt;<i>
+</I>
+--genconf -&gt; should launch the tool ?
+ --listall  should try and list *all* the possible XML conf options ?
+(that would be nice as well.)
+
+
+
+&gt;&gt;<i>
+</I>&gt;&gt;<i> 5. I got my config file but:
+</I>&gt;&gt;<i>  harvestman -c config2.xml Loading system configuration...
+</I>&gt;&gt;<i> Error assigning option &quot; cache_status &quot;
+</I>&gt;&gt;<i> Error traceback...
+</I>&gt;&gt;<i>  File &quot;/usr/lib/python2.4/site-packages/harvestman/lib/config.py&quot;,
+</I>&gt;&gt;<i> line 691, in set_option_xml
+</I>&gt;&gt;<i>    self.assign_option(option_val, value)
+</I>&gt;&gt;<i>  File &quot;/usr/lib/python2.4/site-packages/harvestman/lib/config.py&quot;,
+</I>&gt;&gt;<i> line 564, in assign_option
+</I>&gt;&gt;<i>    fval = (eval(typ))(value)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'm attaching the config file.
+</I>&gt;<i>
+</I>&gt;<i> Ah, there is nothing wrong with the conf file. You need to pass &quot;-C&quot;,
+</I>
+-C worked.
+
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000025.html">[HarvestMan-devel] Dev plan for next week....
+</A></li>
+	<LI>Next message: <A HREF="000015.html">[HarvestMan-devel] Companion website+ other
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#26">[ date ]</a>
+              <a href="thread.html#26">[ thread ]</a>
+              <a href="subject.html#26">[ subject ]</a>
+              <a href="author.html#26">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

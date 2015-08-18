@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Recently committed changes
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Recently%20committed%20changes&In-Reply-To=%3C804e5c70810120900m7a0c7903p9a4f13f5d89d1570%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000164.html">
+   <LINK REL="Next"  HREF="000167.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Recently committed changes</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Recently%20committed%20changes&In-Reply-To=%3C804e5c70810120900m7a0c7903p9a4f13f5d89d1570%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Recently committed changes">szybalski at gmail.com
+       </A><BR>
+    <I>Sun Oct 12 18:00:55 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000164.html">[HarvestMan-devel] Recently committed changes
+</A></li>
+        <LI>Next message: <A HREF="000167.html">[HarvestMan-devel] Recently committed changes
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#166">[ date ]</a>
+              <a href="thread.html#166">[ thread ]</a>
+              <a href="subject.html#166">[ subject ]</a>
+              <a href="author.html#166">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Sun, Oct 12, 2008 at 5:32 AM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> Hi,
+</I>&gt;<i>
+</I>&gt;<i>    I have checked in a set of files (revs: 152, 153, 154)
+</I>&gt;<i> for the following.
+</I>&gt;<i>
+</I>&gt;<i>  - Fix for issue #23 (urlparser.py, netinfo.py, config.py,
+</I>&gt;<i>   crawler.py, gui.py, urltypes.py, test_urltypes.py, config-sample.xml,
+</I>&gt;<i>   HarvestMan.xsd)
+</I>&gt;<i>
+</I>&gt;<i>  - Removing obsolete control variables for rules namely
+</I>&gt;<i>   maxextservers, maxextdirs, eserverlinks, epagelinks from
+</I>&gt;<i>   rules.py &amp; config.py as well as from the config-sample.xml,
+</I>&gt;<i>   the genconfig form and the HarvestMan schema. These variables
+</I>&gt;<i>   are quite legacy and not required since fetchlevel overrides
+</I>&gt;<i>   them anyway (rules.py, config-sample.xml, config.py, gui.py)
+</I>
+Sounds good.
+
+&gt;<i>
+</I>&gt;<i> -  A bug fix in urlparser.py for raising error for invalid URLs which
+</I>&gt;<i>   contain only the protocol part (<A HREF="http://">http://</A> etc) and test cases in
+</I>&gt;<i>   test_urlparser.py for testing the same. (urlparser.py, test_urlparser.py)
+</I>&gt;<i>
+</I>&gt;<i> I have also removed config-template.xml since it is obsolete
+</I>&gt;<i> and I think it is confusing to have two config XMLs. Only config-sample.xml
+</I>&gt;<i> is required.
+</I>&gt;<i>
+</I>&gt;<i> Please sync svn and let me know of any issues.
+</I>
+
+Following from the error from yesterday. cache_status is the last
+variable so some who the name of the config file gets put it. I
+removed all .pyc files but that didn't fix it. This error looks
+differently from yesterday before you committed a lot of good things
+so I assume it has to be somewhere...
+
+
+:<i>~/projects/harvestman-crawler/trunk/HarvestMan/harvestman/apps$
+</I>harvestman -c config-sample.xml
+Loading system configuration...
+Loading user configuration...
+Error assigning option &quot;cache_status&quot; =&gt; Error: invalid literal for
+int() with base 10: 'config-sample.xml'
+Pass option -h for command line usage.
+Printing error traceback for debugging...
+  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+line 730, in set_option_xml
+    self.assign_option(option_val, value)
+  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+line 623, in assign_option
+    raise HarvestManConfigError, &quot;Error: &quot; + str(e)
+
+
+Thanks,
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000164.html">[HarvestMan-devel] Recently committed changes
+</A></li>
+	<LI>Next message: <A HREF="000167.html">[HarvestMan-devel] Recently committed changes
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#166">[ date ]</a>
+              <a href="thread.html#166">[ thread ]</a>
+              <a href="subject.html#166">[ subject ]</a>
+              <a href="author.html#166">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

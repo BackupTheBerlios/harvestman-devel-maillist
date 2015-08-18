@@ -1,0 +1,162 @@
+From abpillai at gmail.com  Mon Jan 11 05:50:34 2010
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 11 Jan 2010 10:20:34 +0530
+Subject: [HarvestMan-devel] Harvestman issues
+In-Reply-To: <3b00ad0b1001080447w12c2859ai3cf8260d30d85ae5@mail.gmail.com>
+References: <3b00ad0b1001080447w12c2859ai3cf8260d30d85ae5@mail.gmail.com>
+Message-ID: <8548c5f31001102050x5ded1118hd24cf04997a164ab@mail.gmail.com>
+
+Hi Feisal,
+
+This can be done by writing a custom crawler and subscribing
+to HarvestMan events. Since the <td> tag is normally skipped
+in the default harvestman execution flow, a custom crawler
+is required.
+
+But it is easy to write one. Sample code is already available
+which demos custom crawler writing in harvestman/apps/samples folder. In
+fact I wrote a specific crawler for this purpose and
+added it today to subversion.
+
+Do the following.
+
+1. Checkout latest code from harvestman trunk - check out from
+"HarvestMan-lite" branch at
+http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-lite .
+
+i.e
+
+svn co http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-liteharvestman
+
+2. Read up on harvestman events at doc/events.HOWTO.
+3. Check out sample crawlers using events at harvestman/apps/samples folder.
+Specifically check out html_table_crawler.py written by me yesterday.
+
+4. Modify the callback function "parse_tag_data" as required by your app.
+
+Let me know in case of any doubts.
+
+Regards
+
+--Anand
+
+
+
+
+
+
+
+On Fri, Jan 8, 2010 at 6:17 PM, Feisal Adur <feisal.adur at gmail.com> wrote:
+
+> Hej
+>
+> I really like harvestman, and i would like to use it for a small task.
+> Is it possible to crawl a site and only get specific html tags like <td>
+> elements ?
+> I've read through the documentation but cant seem to figure this out.
+>
+> The task at hand:
+> follow this url from a-z
+> http://en.wikipedia.org/wiki/List_of_airports_by_IATA_code:_A
+> get the table contents only.
+>
+> How would one go about this using harvestman? Any help you can give is
+> highly appriciated.
+> Thanks.
+>
+> /feisal
+>
+>
+>
+>
+
+
+
+-- 
+--Anand
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20100111/15459517/attachment.html>
+
+From abpillai at gmail.com  Tue Jan 12 21:41:16 2010
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 13 Jan 2010 02:11:16 +0530
+Subject: [HarvestMan-devel] Harvestman issues
+In-Reply-To: <2a38846f1001111449p5cb19e4cuc16b4ef380076410@mail.gmail.com>
+References: <3b00ad0b1001080447w12c2859ai3cf8260d30d85ae5@mail.gmail.com>
+	<8548c5f31001102050x5ded1118hd24cf04997a164ab@mail.gmail.com>
+	<2a38846f1001111449p5cb19e4cuc16b4ef380076410@mail.gmail.com>
+Message-ID: <8548c5f31001121241le519ea5se052fb13837bcf0e@mail.gmail.com>
+
+Hi Feisal,
+
+On Tue, Jan 12, 2010 at 4:19 AM, Feisal Adur <feisal at feisal.net> wrote:
+
+> Hi Anand
+>
+> Thanks for your reply, infact your example is pretty awsome pretty much
+> exactly what i wanted to do. A small question though i don't understand why
+> i only get the first data in a given <td>.
+> if the table has a <td><a...> it get's escaped ? why is that?
+> how would go on about getting both of these?
+>
+>
+Yeah. I wrote html_table_crawler.py generally to demo
+specific tag processing and specifically as an example to solve
+your problem...
+
+Well, I analyzed your table structure and found that there are
+4 columns in total, the first two containing CDATA and the next two
+containing <a href="..."> i.e link data. Since you need all the
+data, over-riding only the "before_tag_data" event is not enough,
+you also need to override the "before_tag_parse" event.
+
+"before_tag_parse" event is raised before parsing an HTML
+tag, i.e in effect it is raised for every HTML tag. Since "before_tag_data"
+event is raised for the CDATA, this
+is always raised after "before_tag_parse", since CDATA
+is processed once the tag is opened.
+
+Using this and by maintaining some state in the crawler across the
+two calls, it is possible to extract the data exactly the way you
+want. In this case, I did it by adding two additional state
+variables, one a list for storing the CDATA of the two <td>
+tags, and another a counter for resetting this list  after
+end of parsing the 2 link (<a...>) tags.
+
+I have checked in the code to the same place. The event
+API is slightly modified too, by replacing the keyword
+argument with positional ones, that makes it easy to see
+what is happening. Also I added an alias for "bind_event"
+as "register", which feels more easy to understand :)
+
+Now you can use "html_table_crawler.py" with minor modifications
+to process the required data.
+
+The event API is new and I haven't yet written much
+documentation on it, so I understand it might feel a bit difficult.
+In fact, you will be one of the very first people to use it,
+so feel free to ask any questions that may arise. I will
+be adding a couple of wiki pages in the coming days
+to explain this API on the google project page.
+
+
+Again thank you very much for your explation.
+>
+>
+You are welcome. Please sync your code with subversion
+ to get the changes.
+
+
+> --
+> Feisal Adur
+> +45 20408340
+>
+>
+>
+>
+--Anand
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20100113/ea957681/attachment.html>
+

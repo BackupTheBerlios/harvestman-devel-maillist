@@ -1,0 +1,21 @@
+From vijayr at wisdomtap.com  Mon Jul 27 14:55:18 2009
+From: vijayr at wisdomtap.com (Vijay Ramachandran)
+Date: Mon, 27 Jul 2009 18:25:18 +0530
+Subject: [HarvestMan-devel] site hacked?
+Message-ID: <ac3072180907270555u25c050a4h1ae78630b01a7862@mail.gmail.com>
+
+Hi. Is the companion site - http://harvestman.everythingability.com/ -
+hacked? The landing page shows some links to cialis, viagra, etc.
+
+If this page is no longer maintained, maybe it should be taken down?
+
+regards,
+Vijay
+
+-- 
+http://www.wisdomtap.com/
+http://services.wisdomtap.com/
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090727/924cca4a/attachment.html>
+

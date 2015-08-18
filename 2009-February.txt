@@ -1,0 +1,565 @@
+From adakkak at eng.utoledo.edu  Wed Feb  4 22:12:04 2009
+From: adakkak at eng.utoledo.edu (Abdulmajed Dakkak)
+Date: Wed, 4 Feb 2009 15:12:04 -0600
+Subject: [HarvestMan-devel] Extending imagecrawler.py to check file type
+Message-ID: <b10f17190902041312k129bb521m11365c70a771e1cc@mail.gmail.com>
+
+Hi, I am going through harvest man and had a few questions. In
+`imagecrawler.py`, you have the following:
+
+class ImageCrawler(HarvestMan):
+    def write_this_url(self, event, *args, **kwargs):
+        pass #code omitted
+
+    def include_links(self, event, *args, **kwargs):
+        pass #code omitted
+
+what is the difference between write_this_url and include_lins? also, in
+either of these functions there is
+
+ url = event.url
+ if url.is_image() or url.starturl:
+   pass
+
+suppose you want to crawl a different sort of file, say pdf. How do you do
+that? I was url.get_url().endswith(".pdf")but that ignore sites that have
+something like http://example.com/index.php?file=342 pointing to a pdf file.
+Is there something analogus to Unix file command. Along the same lines, is
+there a way to save the files with a different name from the url (for
+example something.pdf rather than index.php?file=342).
+
+Finally, harvest man cannot scale across processors --- right?
+
+Thanks for the great work,
+
+Abdul
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090204/d9fb65e6/attachment.html>
+
+From abpillai at gmail.com  Fri Feb  6 15:49:39 2009
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 6 Feb 2009 20:19:39 +0530
+Subject: [HarvestMan-devel] Extending imagecrawler.py to check file type
+In-Reply-To: <b10f17190902041312k129bb521m11365c70a771e1cc@mail.gmail.com>
+References: <b10f17190902041312k129bb521m11365c70a771e1cc@mail.gmail.com>
+Message-ID: <8548c5f30902060649k5ab5b04fg94bc41123e3e5478@mail.gmail.com>
+
+Hi Abdul,
+
+On Thu, Feb 5, 2009 at 2:42 AM, Abdulmajed Dakkak
+<adakkak at eng.utoledo.edu> wrote:
+> Hi, I am going through harvest man and had a few questions. In
+> `imagecrawler.py`, you have the following:
+>
+> class ImageCrawler(HarvestMan):
+>     def write_this_url(self, event, *args, **kwargs):
+>         pass #code omitted
+>
+>     def include_links(self, event, *args, **kwargs):
+>         pass #code omitted
+>
+> what is the difference between write_this_url and include_lins? also, in
+> either of these functions there is
+
+write_this_url can be called to decide on whether to write the contents
+of the URL to the disk or not. For example, you can decide to save
+a file to disk depending on its type or content.
+
+include_links can be used to decide whether to crawl (crawl means
+download & parse if it is HTML) a URL. For example, the image_crawler
+uses this to download only images. Everything else is filtered.
+
+In this particular case, I think only overloading one (write_this_url)
+would suffice, since images can't be parsed for new links anyway :).
+However, the example overrides both just for illiustration.
+
+>
+>  url = event.url
+>  if url.is_image() or url.starturl:
+>    pass
+>
+> suppose you want to crawl a different sort of file, say pdf. How do you do
+> that? I was url.get_url().endswith(".pdf")but that ignore sites that have
+> something like http://example.com/index.php?file=342 pointing to a pdf file.
+> Is there something analogus to Unix file command. Along the same lines, is
+> there a way to save the files with a different name from the url (for
+> example something.pdf rather than index.php?file=342).
+
+You can better use a regular expression.
+
+pdfre= re.compile(r'\.pdf', re.IGNORECASE)
+if re.search(url.get_full_url()):
+    # Matches - assume PDF
+     return True
+else:
+    return False
+
+Of course, the "file" command works only on full files and
+looks at the signature of the file. In this case you are deciding
+whether to download or not by looking at the URL *before*
+downloading the content. So you cannot use that trick here :)
+
+>
+> Finally, harvest man cannot scale across processors --- right?
+
+Unfortunately, it is kind of true. Though not fully, since HarvestMan
+is not affected much by the GIL  (Global Interpreter Lock) since it is
+mostly I/O bound. However HarvestMan should be able to do a much
+better job of scaling across processors if ported to Python 2.6 or 3.0
+using the new multiprocessing library.
+
+>
+> Thanks for the great work,
+
+You are welcome. Please post any more queries you have.
+I may not be able to answer immediately, but you can be assured
+of an answer by the week-end, if not quickly :)
+
+>
+> Abdul
+>
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+>
+
+
+Regards,
+
+-- 
+-Anand
+
+
+From adakkak at eng.utoledo.edu  Fri Feb  6 16:22:33 2009
+From: adakkak at eng.utoledo.edu (Abdulmajed Dakkak)
+Date: Fri, 6 Feb 2009 09:22:33 -0600
+Subject: [HarvestMan-devel] Extending imagecrawler.py to check file type
+In-Reply-To: <8548c5f30902060649k5ab5b04fg94bc41123e3e5478@mail.gmail.com>
+References: <b10f17190902041312k129bb521m11365c70a771e1cc@mail.gmail.com>
+	<8548c5f30902060649k5ab5b04fg94bc41123e3e5478@mail.gmail.com>
+Message-ID: <b10f17190902060722o31fa3ed4gfec2fec28fc6c8b9@mail.gmail.com>
+
+Thanks for the response. One further questions, however. The `file` command
+looks at the first few bytes of a file. This is called the magic number. Is
+harvest man able to download the first few bytes of all pages it crawls and
+then determine whether to write the url? Also, does harvest man support
+authentication.
+
+
+On Fri, Feb 6, 2009 at 8:49 AM, Anand Balachandran Pillai <
+abpillai at gmail.com> wrote:
+
+> Hi Abdul,
+>
+> On Thu, Feb 5, 2009 at 2:42 AM, Abdulmajed Dakkak
+> <adakkak at eng.utoledo.edu> wrote:
+> > Hi, I am going through harvest man and had a few questions. In
+> > `imagecrawler.py`, you have the following:
+> >
+> > class ImageCrawler(HarvestMan):
+> >     def write_this_url(self, event, *args, **kwargs):
+> >         pass #code omitted
+> >
+> >     def include_links(self, event, *args, **kwargs):
+> >         pass #code omitted
+> >
+> > what is the difference between write_this_url and include_lins? also, in
+> > either of these functions there is
+>
+> write_this_url can be called to decide on whether to write the contents
+> of the URL to the disk or not. For example, you can decide to save
+> a file to disk depending on its type or content.
+>
+> include_links can be used to decide whether to crawl (crawl means
+> download & parse if it is HTML) a URL. For example, the image_crawler
+> uses this to download only images. Everything else is filtered.
+>
+> In this particular case, I think only overloading one (write_this_url)
+> would suffice, since images can't be parsed for new links anyway :).
+> However, the example overrides both just for illiustration.
+>
+> >
+> >  url = event.url
+> >  if url.is_image() or url.starturl:
+> >    pass
+> >
+> > suppose you want to crawl a different sort of file, say pdf. How do you
+> do
+> > that? I was url.get_url().endswith(".pdf")but that ignore sites that have
+> > something like http://example.com/index.php?file=342 pointing to a pdf
+> file.
+> > Is there something analogus to Unix file command. Along the same lines,
+> is
+> > there a way to save the files with a different name from the url (for
+> > example something.pdf rather than index.php?file=342).
+>
+> You can better use a regular expression.
+>
+> pdfre= re.compile(r'\.pdf', re.IGNORECASE)
+> if re.search(url.get_full_url()):
+>    # Matches - assume PDF
+>     return True
+> else:
+>    return False
+>
+> Of course, the "file" command works only on full files and
+> looks at the signature of the file. In this case you are deciding
+> whether to download or not by looking at the URL *before*
+> downloading the content. So you cannot use that trick here :)
+>
+> >
+> > Finally, harvest man cannot scale across processors --- right?
+>
+> Unfortunately, it is kind of true. Though not fully, since HarvestMan
+> is not affected much by the GIL  (Global Interpreter Lock) since it is
+> mostly I/O bound. However HarvestMan should be able to do a much
+> better job of scaling across processors if ported to Python 2.6 or 3.0
+> using the new multiprocessing library.
+>
+> >
+> > Thanks for the great work,
+>
+> You are welcome. Please post any more queries you have.
+> I may not be able to answer immediately, but you can be assured
+> of an answer by the week-end, if not quickly :)
+>
+> >
+> > Abdul
+> >
+> > _______________________________________________
+> > HarvestMan-devel mailing list
+> > HarvestMan-devel at lists.berlios.de
+> > https://lists.berlios.de/mailman/listinfo/harvestman-devel
+> >
+> >
+>
+>
+> Regards,
+>
+> --
+> -Anand
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090206/6748bf58/attachment.html>
+
+From abpillai at gmail.com  Fri Feb  6 16:33:20 2009
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 6 Feb 2009 21:03:20 +0530
+Subject: [HarvestMan-devel] crawl results after a form submit?
+In-Reply-To: <804e5c70901201057p2400613dwcc36c729e2f0b58c@mail.gmail.com>
+References: <804e5c70901201057p2400613dwcc36c729e2f0b58c@mail.gmail.com>
+Message-ID: <8548c5f30902060733v30e81cacg453e3978b6ce1ca@mail.gmail.com>
+
+Hi Lukasz,
+
+On Wed, Jan 21, 2009 at 12:27 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+>
+> Somebody mentioned that they wanted to crawl this website which has a
+> form associated to it. I would like to submit the form with a value
+> and crawl the results.
+>
+> How can this be done?
+> http://bioguide.congress.gov/biosearch/biosearch.asp
+> I want to submit this form with this field:
+>
+> <form method="POST"
+> action="http://bioguide.congress.gov/biosearch/biosearch1.asp">
+>
+> INPUT SIZE=4 NAME="congress" VALUE=""
+>
+> This field is a year: 2009
+>
+
+The easiest way to do this is to use mechanize
+and integrate with it.
+
+Using mechanize on the page is rather straightforward.
+
+from mechanize import Browser
+
+b=Browser()
+f=b.open('http://bioguide.congress.gov/biosearch/biosearch.asp')
+# Get all forms
+forms=[f for f in b.forms()]
+# Select first and only form
+b.form = forms[0]
+# Fill in fields
+b['lastname']='McCain'
+b['firstname']='John'
+b['position']=['Senator']
+b['state']=['AZ']
+b['party']=['Republican']
+b['congress']='2007'
+response = b.submit()
+
+data=response.read()
+
+So, if this has to be done with HarvestMan through mechanize,
+we need to pass the initial URL to mechanize with the data to
+fill in in each of the forms.
+
+This could be made possible by an XML file which will store
+each of the expected form inputs. For any form crawling,
+the XML file has to be associated to the URL somehow so that
+we parse the XML file, auto fill in the form (using mechanize),
+submit the contents and crawl the results once it is done.
+
+
+> Can I do it from a configuration xml file?
+Perhaps one way to do this is by defining a <forms> section
+in the main config file and associating a URL to a form XML file.
+
+Say something like,
+
+<forms>
+      <url value="http://bioguide.congress.gov/biosearch/biosearch.asp">
+           <form>
+               <name></name>
+               <pos>1</pos>
+               <file>mccain.xml</file>
+            </form>
+       </url>
+...
+</forms>
+
+This means when URL "http://bioguide.congress.gov/biosearch/biosearch.asp"
+is encountered, fill in the first form (this form has no name) with data from
+mccain.xml file, submit and parse the query results.
+
+So, if the URL has other data, they also will be crawled apart from the
+form query results.
+
+Perhaps the XML syntax for the "forms" element can be better than
+this. This is just the first one that hit me :)
+
+Some questions remain like, the file name to save the query
+result to etc. If mechanize does not return a URL, then we can
+perhaps save it using the original URL + "<form name>" + "_results.html"
+
+i.e for form named 'spam' from 'http://www.foo.com", save result
+to file named 'foo.com/index.html_<spam>_results.html'.
+
+If mechanize returns a URL, we should save it to that name I think.
+
+The XML config file can be a simple one with all fields for
+the form with the values.
+
+for example, here is mccain.xml.
+
+<lastname>McCain</lastname>
+<firstname>John</firstname>
+<position>Senator</position>
+<state>AZ</state>
+<party>Republican</party>
+<congress>2007</congress>
+
+The parser for this file will extract all element names and use
+their values to submit the form.
+
+
+>
+> Thanks,
+> Lucas
+
+The other option is for HarvestMan to parse the form, find out
+input fields etc and do its own submission. I wouldn't want to
+do this, since mechanize solves the problem in a much better
+fashion.
+
+The only caveat is to integrate with mechanize.  So I think
+we should implement this as a plugin to HarvestMan which
+can be enabled only if the feature is required by the user.
+If he does, so he is supposed to have mechanize installed
+already.
+
+Or optionally, we could make this is an optional feature, i.e
+during setup check for mechanize and if not found, inform
+the user that this feature won't work. Implement the code
+in a separate module which will import mechanize.
+
+Have a flag in the config module, which will try to import
+mechanize everytime the program starts - if it finds it,
+enable the flag which will enable forms parsing etc, otherwise
+disable it.
+
+>
+>
+> --
+> How to create python package?
+> http://lucasmanual.com/mywiki/PythonPaste
+> Bazaar and Launchpad
+> http://lucasmanual.com/mywiki/Bazaar
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+Regards,
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Feb  6 16:41:07 2009
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 6 Feb 2009 21:11:07 +0530
+Subject: [HarvestMan-devel] Extending imagecrawler.py to check file type
+In-Reply-To: <b10f17190902060722o31fa3ed4gfec2fec28fc6c8b9@mail.gmail.com>
+References: <b10f17190902041312k129bb521m11365c70a771e1cc@mail.gmail.com>
+	<8548c5f30902060649k5ab5b04fg94bc41123e3e5478@mail.gmail.com>
+	<b10f17190902060722o31fa3ed4gfec2fec28fc6c8b9@mail.gmail.com>
+Message-ID: <8548c5f30902060741w345f9b90wecded050b82ea0a3@mail.gmail.com>
+
+On Fri, Feb 6, 2009 at 8:52 PM, Abdulmajed Dakkak
+<adakkak at eng.utoledo.edu> wrote:
+> Thanks for the response. One further questions, however. The `file` command
+> looks at the first few bytes of a file. This is called the magic number. Is
+> harvest man able to download the first few bytes of all pages it crawls and
+> then determine whether to write the url?
+
+No, this is not present. We do use the http 'HEAD' command
+to inspect a URL for metadata during a subsequent crawl of the same
+URL, but file piece fetching is not implemented for finding out its type.
+
+Also, does harvest man support
+> authentication.
+
+Yes. Plain HTTP basic authentication, using HTTP headers.
+
+This is kind of not exposed in the cmd line or XML file :)
+For using it in XML file, create an element named "username"
+and one named "passwd" anywhere in the XML file.
+
+i.e
+
+<username>bob</username>
+<passwd>alice</passwd>
+
+Auth over SSL is not supported. HTTP digest auth is not
+implemented, though it can be done rather quickly :)
+
+
+>
+>
+> On Fri, Feb 6, 2009 at 8:49 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>>
+>> Hi Abdul,
+>>
+>> On Thu, Feb 5, 2009 at 2:42 AM, Abdulmajed Dakkak
+>> <adakkak at eng.utoledo.edu> wrote:
+>> > Hi, I am going through harvest man and had a few questions. In
+>> > `imagecrawler.py`, you have the following:
+>> >
+>> > class ImageCrawler(HarvestMan):
+>> >     def write_this_url(self, event, *args, **kwargs):
+>> >         pass #code omitted
+>> >
+>> >     def include_links(self, event, *args, **kwargs):
+>> >         pass #code omitted
+>> >
+>> > what is the difference between write_this_url and include_lins? also, in
+>> > either of these functions there is
+>>
+>> write_this_url can be called to decide on whether to write the contents
+>> of the URL to the disk or not. For example, you can decide to save
+>> a file to disk depending on its type or content.
+>>
+>> include_links can be used to decide whether to crawl (crawl means
+>> download & parse if it is HTML) a URL. For example, the image_crawler
+>> uses this to download only images. Everything else is filtered.
+>>
+>> In this particular case, I think only overloading one (write_this_url)
+>> would suffice, since images can't be parsed for new links anyway :).
+>> However, the example overrides both just for illiustration.
+>>
+>> >
+>> >  url = event.url
+>> >  if url.is_image() or url.starturl:
+>> >    pass
+>> >
+>> > suppose you want to crawl a different sort of file, say pdf. How do you
+>> > do
+>> > that? I was url.get_url().endswith(".pdf")but that ignore sites that
+>> > have
+>> > something like http://example.com/index.php?file=342 pointing to a pdf
+>> > file.
+>> > Is there something analogus to Unix file command. Along the same lines,
+>> > is
+>> > there a way to save the files with a different name from the url (for
+>> > example something.pdf rather than index.php?file=342).
+>>
+>> You can better use a regular expression.
+>>
+>> pdfre= re.compile(r'\.pdf', re.IGNORECASE)
+>> if re.search(url.get_full_url()):
+>>    # Matches - assume PDF
+>>     return True
+>> else:
+>>    return False
+>>
+>> Of course, the "file" command works only on full files and
+>> looks at the signature of the file. In this case you are deciding
+>> whether to download or not by looking at the URL *before*
+>> downloading the content. So you cannot use that trick here :)
+>>
+>> >
+>> > Finally, harvest man cannot scale across processors --- right?
+>>
+>> Unfortunately, it is kind of true. Though not fully, since HarvestMan
+>> is not affected much by the GIL  (Global Interpreter Lock) since it is
+>> mostly I/O bound. However HarvestMan should be able to do a much
+>> better job of scaling across processors if ported to Python 2.6 or 3.0
+>> using the new multiprocessing library.
+>>
+>> >
+>> > Thanks for the great work,
+>>
+>> You are welcome. Please post any more queries you have.
+>> I may not be able to answer immediately, but you can be assured
+>> of an answer by the week-end, if not quickly :)
+>>
+>> >
+>> > Abdul
+>> >
+>> > _______________________________________________
+>> > HarvestMan-devel mailing list
+>> > HarvestMan-devel at lists.berlios.de
+>> > https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>> >
+>> >
+>>
+>>
+>> Regards,
+>>
+>> --
+>> -Anand
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+>
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+>
+
+
+
+-- 
+-Anand
+
+

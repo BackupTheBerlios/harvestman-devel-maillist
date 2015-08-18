@@ -1,0 +1,3746 @@
+From szybalski at gmail.com  Wed Oct  1 03:24:49 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 30 Sep 2008 20:24:49 -0500
+Subject: [HarvestMan-devel] harvestman to use paste setup.py
+In-Reply-To: <804e5c70809290652n55ecd46di86c5033f1875a88f@mail.gmail.com>
+References: <804e5c70809290652n55ecd46di86c5033f1875a88f@mail.gmail.com>
+Message-ID: <804e5c70809301824i75640386v6db249f8c9e69f46@mail.gmail.com>
+
+Should we merge the harvestman-topaste branch into trunk?
+
+With the new setup.py and folder structure we are able to upload the
+harvestman into PyPI which would allow for installation like:
+
+easy_install harvestman
+
+This on the other hand will install all the necessary packages that
+you currently supply with the project.
+
+Let me know. If there is no objection I would like to merge it back to
+trunk, and take it from there.
+
+Thanks,
+Lucas
+
+
+On Mon, Sep 29, 2008 at 8:52 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Can you check the tests again? 2 to go... Is there a way to enable it
+> to display more information as to where it failed?
+>
+> Thanks,
+> Lucas
+>
+>
+>  harvestman --selftest
+> module_path /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman
+> Loading system configuration...
+> Loading user configuration...
+> Running self-test...
+> Running unit-test for
+> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_pageparser.py...
+> Running unit-test for
+> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_urlparser.py...
+> Running unit-test for
+> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_logger.py...
+> Running unit-test for
+> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_urltypes.py...
+> Running unit-test for
+> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_connector.py...
+> Error in fetching data, skipping tests...
+> Error in fetching data, skipping tests...
+> Connecting to http://www.python.org...
+> Length: 17179 (16K) Type: text/html
+> Content Encoding: plain
+>
+> 119.51K/s (1) eta: 0:00:00      [======================================>][100%]
+>
+> Saved to index.html
+> 17179 bytes downloaded in 0:00:04 hours at an average of 3.90 kb/s.
+> Running unit-test for
+> /home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/test/test_urlcollections.py...
+> <unittest.TestResult run=18 errors=3 failures=2>
+> self-test failed. Please check your installation!
+>
+
+
+
+-- 
+Python and OpenOffice documents and templates
+http://lucasmanual.com/mywiki/OpenOffice
+Fast and Easy Backup solution with Bacula
+http://lucasmanual.com/mywiki/Bacula
+
+
+From szybalski at gmail.com  Wed Oct  1 03:28:41 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 30 Sep 2008 20:28:41 -0500
+Subject: [HarvestMan-devel] harvestman and data storage?
+Message-ID: <804e5c70809301828h1157c453v75636a753704bb31@mail.gmail.com>
+
+Hello,
+As I understand lucene is a search engine storage platform? Is that
+correct? How is harvestman connected to it, or related?
+If its not related how is harvestman currently storing the data?
+
+I'm looking for some kind of index, last updated, list of files statistics.
+
+Lucas
+
+
+From ersinesen at gmail.com  Thu Oct  2 15:44:33 2008
+From: ersinesen at gmail.com (Ersin Esen)
+Date: Thu, 2 Oct 2008 16:44:33 +0300
+Subject: [HarvestMan-devel] Installation Problem and a Parsing Question
+Message-ID: <887d8d30810020644m61c3e92frec6aa0410846607b@mail.gmail.com>
+
+Just a small problem during installation, but it halts the installation:
+
+   - It did not create Python24\Lib\site-packages\harvestman path, and stop
+   the installation. Manually creating the path resolved the problem. (I use
+   Python2.4 and Win XP Home)
+
+And my aim regarding parsing a webpage with a pattern is as follows:
+
+   - The url pattern is www.foo.com/[yyyy]/[mm]/[dd]/*.html
+   - I could not figure out how to achieve this via filters and could not
+   find a proper sample. Any help or a sample link will be appreciated.
+
+-ee
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20081002/a1e2ab01/attachment.html>
+
+From abpillai at gmail.com  Sun Oct  5 21:35:04 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 6 Oct 2008 01:05:04 +0530
+Subject: [HarvestMan-devel] Installation Problem and a Parsing Question
+In-Reply-To: <887d8d30810020644m61c3e92frec6aa0410846607b@mail.gmail.com>
+References: <887d8d30810020644m61c3e92frec6aa0410846607b@mail.gmail.com>
+Message-ID: <8548c5f30810051235y4f13c447pd1372a00969cba9d@mail.gmail.com>
+
+Hi Ersin,
+
+I assume you are trying to install from the 2.0 trunk.
+
+On Thu, Oct 2, 2008 at 7:14 PM, Ersin Esen <ersinesen at gmail.com> wrote:
+>
+> Just a small problem during installation, but it halts the installation:
+>
+> It did not create Python24\Lib\site-packages\harvestman path, and stop the
+> installation. Manually creating the path resolved the problem. (I use
+> Python2.4 and Win XP Home)
+The installation still has problems on Windows. It is not sufficiently
+tested. I am working on fixing this as well as adjusting the installation
+and relative path imports so that I can create a working HarvestMan
+executable for 2.0 under Windows using py2exe. I hope to
+finish this off this week.
+
+>
+> And my aim regarding parsing a webpage with a pattern is as follows:
+>
+> The url pattern is www.foo.com/[yyyy]/[mm]/[dd]/*.html
+> I could not figure out how to achieve this via filters and could not find a
+> proper sample. Any help or a sample link will be appreciated.
+>
+
+Again, this is a work in progress. I am working on a generic URL
+filter which will allow you to do this. For the time being, you
+can overload events which allow you to filter links. Look at
+harvestman/apps/samples for some sample crawlers which
+perform similar work - examples are searchingcrawler.py etc.
+
+
+> -ee
+>
+>
+>
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Sun Oct  5 21:45:58 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 6 Oct 2008 01:15:58 +0530
+Subject: [HarvestMan-devel] HarvestMan module paths
+Message-ID: <8548c5f30810051245y7724d183j3add70bd4f3c25de@mail.gmail.com>
+
+Hi,
+
+   I have modified all the paths in modules which do cross
+folder imports in code to import relative to top-level
+"harvestman" folder.
+
+ For example, earlier harvestman/apps/appbase.py contained
+this line.
+
+"from lib import config"
+
+This is now changed to
+
+"from harvestman.lib import config"
+
+The reason is simple - relative path import which was there before
+is bad. It is better to import everything from the top-level when
+we are importing across folders at the same level.
+
+However, for same/sub-folders, there is no need for changing. So
+under lib/, evey import remains the same, since the modules
+are either importing from the current folder or the sub-folder
+"common".
+
+Because this scheme causes problems with the apps/harvestman.py
+module, I renamed apps/harvestman.py to apps/spider.py . Because
+of this change, we no longer need apps/harvestmanimp.py, so this
+is removed.
+
+So, if you are having code which imports HarvestMan class as following,
+
+"from harvestman.apps.harvestmanimp import HarvestMan",
+
+please change it to,
+
+"from harvestman.apps.spider import HarvestMan"
+
+(Tom, you will need to do this for your sample crawler code from
+here on.)
+
+I was having major problems trying to create a Windows executable
+(with py2exe) using the current relative path import scheme. I had
+a feeling it was broken earlier, but did not realize how bad till I
+tried to get the executable working. It just will not work with the
+relative path imports across folders. With this scheme, things work
+fine and I guess this is the best solution going forward.
+
+Also there was this confusion between harvestman folder and
+harvestman.py module. Renaming it to spider.py fixes that problem.
+I did not want do do away with harvestman.py, but looks like
+it will cause many problems, if it remains there.
+
+If there is some documentation in the wiki which references these paths,
+please update them, both at the google site and at
+harvestman.everythingability.com.
+
+Lukasz, I think these changes will break your branch for virtualenv,
+so we need to merge the changes and test how it works. I have a feeling
+that your virtualenv will work much better with this change.
+
+Please note that I have checekd in changes to trunk but 2.0-dev
+branch retains the old style. It may not matter as changes are
+still happening in trunk with nothing much going on in 2.0-dev :)
+Anyway, I will just create this branch fresh from trunk since it
+has not seen much changes after branching off...
+
+Thanks!
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Oct  6 13:17:04 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 6 Oct 2008 16:47:04 +0530
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809101518r4e7b2f54oa58a8f6d1c03151d@mail.gmail.com>
+	<8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+	<8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+	<804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+	<8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+	<804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+	<804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+Message-ID: <8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+
+Hi Lukasz,
+
+         I integrated your paste branch's code to the trunk. Happy
+to report that the self-test passes and harvestman is able to
+crawl in the virtualenv!
+
+        The problem was that your library code was out of date
+w.r.t the test code. Once I copied the setuptools stuff to trunk
+and tested it, things worked!
+
+       I tested that even the --ui option works.
+
+Thanks for the good work.
+
+Btw, the setup.py for virtual env differs a lot from the system setup.py.
+For example in virtualenv setup.py we cannot create a system-wide
+configuration file (/etc/harvestman/config.xml), since there won't
+be the requisite permissions. So, for the time being I have retained
+the virtualenv setup.py as setup_paste.py in the trunk without
+overwriting the original setup.py.
+
+Btw, I did not understand README.paste. It does not seem like a README
+to me, instead consists of the tree of HarvestMan folder. Can you add
+a proper README to trunk which explains the virtualenv setup ?
+
+Also, I dont understand the connection between virtualenv and Python paste
+frankly :)
+
+I have checked in all code to trunk. Please test that this works in
+the trunk at your end
+and then remove the paste branch.
+
+Regards
+
+--Anand
+
+
+
+
+On Sat, Sep 27, 2008 at 10:17 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Thu, Sep 25, 2008 at 10:19 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> ok try now:
+>>
+>> cd
+>> cd tmp
+>>
+>> virtualenv --no-site-packages harvENV
+>> source harvENV/bin/activate
+>>
+>> cd /path..to/HarvestMan-topaste/HarvestMan
+>> svn update
+>>
+>> python setup.py develop
+>
+>
+> I've checked in a fix for hooks.py, pritty much just replaced with
+> harvestman.lib.xxxx
+>
+> I can download files now;
+> harvestman -C /pathto/config-sample.xml
+>
+> Give that a try...
+> The test still fails do...
+>
+> make sure you do
+>
+> svn update first.
+>
+> Thanks,
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Oct  6 16:00:22 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 6 Oct 2008 09:00:22 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30809120036o76d62aadtf6b22ceea383a07c@mail.gmail.com>
+	<8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+	<804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+	<8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+	<804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+	<804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+Message-ID: <804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+
+On Mon, Oct 6, 2008 at 6:17 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+>         I integrated your paste branch's code to the trunk. Happy
+> to report that the self-test passes and harvestman is able to
+> crawl in the virtualenv!
+>
+>        The problem was that your library code was out of date
+> w.r.t the test code. Once I copied the setuptools stuff to trunk
+> and tested it, things worked!
+
+You usually don't copy files over.. you can use svn merge which will
+merge the changes from one branch to another and move over the
+revision history as well. I didn't use it yet but I'm learning, so I
+think if you use svn merge all the comments and checkins are copied
+over.
+
+http://www.technoids.org/svnmerge.html
+
+
+>
+>       I tested that even the --ui option works.
+>
+> Thanks for the good work.
+>
+> Btw, the setup.py for virtual env differs a lot from the system setup.py.
+> For example in virtualenv setup.py we cannot create a system-wide
+> configuration file (/etc/harvestman/config.xml), since there won't
+> be the requisite permissions.
+
+It should. The code that you looked at with sys.prefix checks if the
+folder is in virtualenv style (/home/lucas/) if the sys.prefix is '/'
+that means you are installing as root on system wide setup and it
+should install it in /etc/harvestman/config.xml.
+
+You are able to install it there only as root(/etc/ is owned by root).
+If you don't have root permissions you have to either use virtualenv
+or prefix to point to some folder in your home dir.
+
+
+So, for the time being I have retained
+> the virtualenv setup.py as setup_paste.py in the trunk without
+> overwriting the original setup.py.
+
+I would like to use the new setup.py because we can do few things with it.
+
+1. python setup.py bdist_egg
+ This will build the egg for the harvestman which you can distribute
+and install with easy_install
+easy_install -i someegg.egg
+2. We can register the package in pypi. python setup.py register
+3. When it is in PYPI you can go to any computer that has setuptools
+and install havervestman like this:
+easy_install harvestman which will get all you need from
+python.org/PyPI . Or easy_install harvestman=2.0 or easy_install
+harvestman=dev which will install from our trunk. (you don't have to
+download anything)
+4. The new setup.py has test code taken out because if you create a
+new crawling project you can add harvestman as requirement in setup.py
+that says 'require harvestman'. So when I install my project I need
+harvestman to just install and if you want to test it you can do
+harvestman --selftest. So I took out the self testing code in there.
+
+
+
+
+> Btw, I did not understand README.paste. It does not seem like a README
+> to me, instead consists of the tree of HarvestMan folder. Can you add
+> a proper README to trunk which explains the virtualenv setup ?
+
+I'll modify it, and add proper comments.
+
+>
+> Also, I dont understand the connection between virtualenv and Python paste
+> frankly :)
+
+What paste did was to create skeloton of the python package.  I did
+"paster create myapp" which creates default setup.py ...and all
+folders that are required to create an egg package. From there you can
+do what you did before or you can use pastescript to give you more
+control on what is installing where or if you need to do some parsing
+of command lines. It can for example parse  harvestman --goodbye , not
+sure if you wrote the code to do that or not. Another advantage is
+that it allows you to use "from harvestman import xyz" vs before you
+were using "import xyz", this allows you control the imports better.
+If somebody else writes a different project they can use the same
+imports "from harvestman.lib import common" etc...  You don't have to
+manipulate the global variables to get you from one folder to another
+as it will figure out what is where.
+http://lucasmanual.com/mywiki/PythonPaste
+So paste only provided skeleton, and we currently don't use it for
+anything else. I would like to convert the part that pareses your
+command line input to use paste but maybe later.
+
+
+>
+> I have checked in all code to trunk. Please test that this works in
+> the trunk at your end
+> and then remove the paste branch.
+
+I'll check if all the files got moved over correctly. I'll keep in for
+now and when we merged everything I'll delete it.
+
+Thanks,
+Lucas
+
+
+
+>
+> Regards
+>
+> --Anand
+>
+>
+>
+>
+> On Sat, Sep 27, 2008 at 10:17 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Thu, Sep 25, 2008 at 10:19 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> ok try now:
+>>>
+>>> cd
+>>> cd tmp
+>>>
+>>> virtualenv --no-site-packages harvENV
+>>> source harvENV/bin/activate
+>>>
+>>> cd /path..to/HarvestMan-topaste/HarvestMan
+>>> svn update
+>>>
+>>> python setup.py develop
+>>
+>>
+>> I've checked in a fix for hooks.py, pritty much just replaced with
+>> harvestman.lib.xxxx
+>>
+>> I can download files now;
+>> harvestman -C /pathto/config-sample.xml
+>>
+>> Give that a try...
+>> The test still fails do...
+>>
+>> make sure you do
+>>
+>> svn update first.
+>>
+>> Thanks,
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+Python and OpenOffice documents and templates
+http://lucasmanual.com/mywiki/OpenOffice
+Fast and Easy Backup solution with Bacula
+http://lucasmanual.com/mywiki/Bacula
+
+
+From abpillai at gmail.com  Mon Oct  6 19:13:25 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 6 Oct 2008 22:43:25 +0530
+Subject: [HarvestMan-devel] Fwd: World's simplest crawler
+In-Reply-To: <804e5c70810061001k47ac4920k14dc805cea134b50@mail.gmail.com>
+References: <8548c5f30810060509r2eb14d07t7cbbf6ae59185765@mail.gmail.com>
+	<804e5c70810061001k47ac4920k14dc805cea134b50@mail.gmail.com>
+Message-ID: <8548c5f30810061013u6e23d3ddg62a6c1bcb027ef55@mail.gmail.com>
+
+Forwarding to list.
+
+
+---------- Forwarded message ----------
+From: Lukasz Szybalski <szybalski at gmail.com>
+Date: Mon, Oct 6, 2008 at 10:31 PM
+Subject: Re: World's simplest crawler
+To: Anand Balachandran Pillai <abpillai at gmail.com>
+
+
+should we forward it to the list...
+
+
+
+On Mon, Oct 6, 2008 at 7:09 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Tom,
+>
+>           I have added a tutorial on command line crawling with HarvestMan
+> using the most recent trunk code.
+>
+> http://code.google.com/p/harvestman-crawler/wiki/WorldsSimplestCrawler
+>
+> This is in lines of your earlier suggestions. Even the title is courtesy to one
+> of your emails.
+>
+> Please read the tutorial and let me know what you think. Feel free to edit
+> it if you think it can be improved.
+>
+> Lukasz, feel free to edit this page.
+>
+> Thanks
+>
+> --
+> -Anand
+>
+
+
+
+--
+Python and OpenOffice documents and templates
+http://lucasmanual.com/mywiki/OpenOffice
+Fast and Easy Backup solution with Bacula
+http://lucasmanual.com/mywiki/Bacula
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Oct  6 20:35:31 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 7 Oct 2008 00:05:31 +0530
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30809120038m69a1e387v53dd2951c4b7b174@mail.gmail.com>
+	<804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+	<8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+	<804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+	<804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+Message-ID: <8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+
+Hi Lukasz,
+
+On Mon, Oct 6, 2008 at 7:30 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Mon, Oct 6, 2008 at 6:17 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lukasz,
+>>
+>>         I integrated your paste branch's code to the trunk. Happy
+>> to report that the self-test passes and harvestman is able to
+>> crawl in the virtualenv!
+>>
+>>        The problem was that your library code was out of date
+>> w.r.t the test code. Once I copied the setuptools stuff to trunk
+>> and tested it, things worked!
+>
+> You usually don't copy files over.. you can use svn merge which will
+> merge the changes from one branch to another and move over the
+> revision history as well. I didn't use it yet but I'm learning, so I
+> think if you use svn merge all the comments and checkins are copied
+> over.
+>
+> http://www.technoids.org/svnmerge.html
+>
+
+Well, I am not very sure we want to do this for merging such small
+changes over. It is more useful when copying files from a tree
+which had a long development history, like we tried to do for the
+HarvestMan code earlier when I had imported it into google code.
+
+For the time being, I am just adding stuff to trunk instead of merging.
+I am not very good with the merges anyway !
+
+>
+>>
+>>       I tested that even the --ui option works.
+>>
+>> Thanks for the good work.
+>>
+>> Btw, the setup.py for virtual env differs a lot from the system setup.py.
+>> For example in virtualenv setup.py we cannot create a system-wide
+>> configuration file (/etc/harvestman/config.xml), since there won't
+>> be the requisite permissions.
+>
+> It should. The code that you looked at with sys.prefix checks if the
+> folder is in virtualenv style (/home/lucas/) if the sys.prefix is '/'
+> that means you are installing as root on system wide setup and it
+> should install it in /etc/harvestman/config.xml.
+
+I figured why this did not happen for me. You had modified
+"set_sys_params" in config.py to adjust self.etcdir in your branch.
+Once I added this it works.
+
+However, your way of doing it is not generic, in that if you try to
+use this code outside virtualenv, in regular setup, it still creates
+a local "etc" folder instead of installing to system /etc. I have
+changed the logic to use sys.prefix instead of figuring out the
+path from __main__. Please use the same logic for it to work
+in both virtualenv and regular shell install.
+
+
+>
+> You are able to install it there only as root(/etc/ is owned by root).
+> If you don't have root permissions you have to either use virtualenv
+> or prefix to point to some folder in your home dir.
+>
+>
+> So, for the time being I have retained
+>> the virtualenv setup.py as setup_paste.py in the trunk without
+>> overwriting the original setup.py.
+>
+> I would like to use the new setup.py because we can do few things with it.
+>
+> 1. python setup.py bdist_egg
+>  This will build the egg for the harvestman which you can distribute
+> and install with easy_install
+> easy_install -i someegg.egg
+> 2. We can register the package in pypi. python setup.py register
+> 3. When it is in PYPI you can go to any computer that has setuptools
+> and install havervestman like this:
+> easy_install harvestman which will get all you need from
+> python.org/PyPI . Or easy_install harvestman=2.0 or easy_install
+> harvestman=dev which will install from our trunk. (you don't have to
+> download anything)
+> 4. The new setup.py has test code taken out because if you create a
+> new crawling project you can add harvestman as requirement in setup.py
+> that says 'require harvestman'. So when I install my project I need
+> harvestman to just install and if you want to test it you can do
+> harvestman --selftest. So I took out the self testing code in there.
+
+This is fine, but make sure that you are not doing any regressions
+when you replace the setup.py with yours. For the time being, please
+retain the old setup.py as setup.py.orig in the trunk when you merge
+the code to the trunk.
+
+>
+>
+>
+>
+>> Btw, I did not understand README.paste. It does not seem like a README
+>> to me, instead consists of the tree of HarvestMan folder. Can you add
+>> a proper README to trunk which explains the virtualenv setup ?
+>
+> I'll modify it, and add proper comments.
+>
+>>
+>> Also, I dont understand the connection between virtualenv and Python paste
+>> frankly :)
+>
+> What paste did was to create skeloton of the python package.  I did
+> "paster create myapp" which creates default setup.py ...and all
+> folders that are required to create an egg package. From there you can
+> do what you did before or you can use pastescript to give you more
+> control on what is installing where or if you need to do some parsing
+> of command lines. It can for example parse  harvestman --goodbye , not
+> sure if you wrote the code to do that or not. Another advantage is
+> that it allows you to use "from harvestman import xyz" vs before you
+> were using "import xyz", this allows you control the imports better.
+> If somebody else writes a different project they can use the same
+> imports "from harvestman.lib import common" etc...  You don't have to
+> manipulate the global variables to get you from one folder to another
+> as it will figure out what is where.
+> http://lucasmanual.com/mywiki/PythonPaste
+> So paste only provided skeleton, and we currently don't use it for
+> anything else. I would like to convert the part that pareses your
+> command line input to use paste but maybe later.
+>
+>
+>>
+>> I have checked in all code to trunk. Please test that this works in
+>> the trunk at your end
+>> and then remove the paste branch.
+>
+> I'll check if all the files got moved over correctly. I'll keep in for
+> now and when we merged everything I'll delete it.
+
+I had missed setup.cfg. I added it now.
+
+>
+
+Thanks,
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Oct  6 21:00:34 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 6 Oct 2008 14:00:34 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809120712ydc00b67h6b593ad21b430a2d@mail.gmail.com>
+	<8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+	<804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+	<804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+Message-ID: <804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+
+> Well, I am not very sure we want to do this for merging such small
+> changes over. It is more useful when copying files from a tree
+> which had a long development history, like we tried to do for the
+> HarvestMan code earlier when I had imported it into google code.
+
+1. One advantage is that when I was developing this I have changed a
+lot of files that had import xyz to from harvestman import xyz, so
+when you merge these back you also get them.
+
+2. I think after you merge you can look at the history of the file and
+it will have all version, so if you think previous version had
+something you needed you could look at the revision history, but if
+you copy a file you have no way of knowing.
+
+I am not an expert in merging, so its a new thing to both of us.
+
+
+
+>
+> For the time being, I am just adding stuff to trunk instead of merging.
+> I am not very good with the merges anyway !
+>
+>>
+>>>
+>>>       I tested that even the --ui option works.
+>>>
+>>> Thanks for the good work.
+>>>
+>>> Btw, the setup.py for virtual env differs a lot from the system setup.py.
+>>> For example in virtualenv setup.py we cannot create a system-wide
+>>> configuration file (/etc/harvestman/config.xml), since there won't
+>>> be the requisite permissions.
+>>
+>> It should. The code that you looked at with sys.prefix checks if the
+>> folder is in virtualenv style (/home/lucas/) if the sys.prefix is '/'
+>> that means you are installing as root on system wide setup and it
+>> should install it in /etc/harvestman/config.xml.
+>
+> I figured why this did not happen for me. You had modified
+> "set_sys_params" in config.py to adjust self.etcdir in your branch.
+> Once I added this it works.
+>
+> However, your way of doing it is not generic, in that if you try to
+> use this code outside virtualenv, in regular setup, it still creates
+> a local "etc" folder instead of installing to system /etc. I have
+> changed the logic to use sys.prefix instead of figuring out the
+> path from __main__. Please use the same logic for it to work
+> in both virtualenv and regular shell install.
+>
+>
+>>
+>> You are able to install it there only as root(/etc/ is owned by root).
+>> If you don't have root permissions you have to either use virtualenv
+>> or prefix to point to some folder in your home dir.
+>>
+>>
+>> So, for the time being I have retained
+>>> the virtualenv setup.py as setup_paste.py in the trunk without
+>>> overwriting the original setup.py.
+>>
+>> I would like to use the new setup.py because we can do few things with it.
+>>
+>> 1. python setup.py bdist_egg
+>>  This will build the egg for the harvestman which you can distribute
+>> and install with easy_install
+>> easy_install -i someegg.egg
+>> 2. We can register the package in pypi. python setup.py register
+>> 3. When it is in PYPI you can go to any computer that has setuptools
+>> and install havervestman like this:
+>> easy_install harvestman which will get all you need from
+>> python.org/PyPI . Or easy_install harvestman=2.0 or easy_install
+>> harvestman=dev which will install from our trunk. (you don't have to
+>> download anything)
+>> 4. The new setup.py has test code taken out because if you create a
+>> new crawling project you can add harvestman as requirement in setup.py
+>> that says 'require harvestman'. So when I install my project I need
+>> harvestman to just install and if you want to test it you can do
+>> harvestman --selftest. So I took out the self testing code in there.
+>
+> This is fine, but make sure that you are not doing any regressions
+> when you replace the setup.py with yours. For the time being, please
+> retain the old setup.py as setup.py.orig in the trunk when you merge
+> the code to the trunk.
+>
+>>
+>>
+>>
+>>
+>>> Btw, I did not understand README.paste. It does not seem like a README
+>>> to me, instead consists of the tree of HarvestMan folder. Can you add
+>>> a proper README to trunk which explains the virtualenv setup ?
+>>
+>> I'll modify it, and add proper comments.
+>>
+>>>
+>>> Also, I dont understand the connection between virtualenv and Python paste
+>>> frankly :)
+>>
+>> What paste did was to create skeloton of the python package.  I did
+>> "paster create myapp" which creates default setup.py ...and all
+>> folders that are required to create an egg package. From there you can
+>> do what you did before or you can use pastescript to give you more
+>> control on what is installing where or if you need to do some parsing
+>> of command lines. It can for example parse  harvestman --goodbye , not
+>> sure if you wrote the code to do that or not. Another advantage is
+>> that it allows you to use "from harvestman import xyz" vs before you
+>> were using "import xyz", this allows you control the imports better.
+>> If somebody else writes a different project they can use the same
+>> imports "from harvestman.lib import common" etc...  You don't have to
+>> manipulate the global variables to get you from one folder to another
+>> as it will figure out what is where.
+>> http://lucasmanual.com/mywiki/PythonPaste
+>> So paste only provided skeleton, and we currently don't use it for
+>> anything else. I would like to convert the part that pareses your
+>> command line input to use paste but maybe later.
+>>
+>>
+>>>
+>>> I have checked in all code to trunk. Please test that this works in
+>>> the trunk at your end
+>>> and then remove the paste branch.
+>>
+>> I'll check if all the files got moved over correctly. I'll keep in for
+>> now and when we merged everything I'll delete it.
+>
+> I had missed setup.cfg. I added it now.
+
+I'll merge the changes then, from trunk to past and then paste to trunk.
+
+Also, I think we should use the from harvestman.lib import xyz" in all
+files, and subfolders. It makes it easier to follow your code. When
+you say from common import *, it is hard for a new person to figure
+out if common is a python package or is it part of harvesman ?
+So having from harvestman.lib import common makes it really clear that
+this is harvestman library.
+
+Thanks,
+Lucas
+
+
+From abpillai at gmail.com  Mon Oct  6 21:07:51 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 7 Oct 2008 00:37:51 +0530
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30809160203j400be53ao4cc868a6b131814a@mail.gmail.com>
+	<804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+	<804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+Message-ID: <8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+
+Hi Lukasz,
+
+On Tue, Oct 7, 2008 at 12:30 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+
+>
+> Also, I think we should use the from harvestman.lib import xyz" in all
+> files, and subfolders. It makes it easier to follow your code. When
+> you say from common import *, it is hard for a new person to figure
+> out if common is a python package or is it part of harvesman ?
+> So having from harvestman.lib import common makes it really clear that
+> this is harvestman library.
+
+I thought about this. This would be of course nice, but considering
+the amount of work to be done in all modules in "lib" I thought
+it was more important to get cross folder imports (app->lib)
+(ext->lib), (test->lib) in order. Inside lib,  there is a sub-folder
+named common, so it is really not very difficult to figure out
+that the common refers to the local folder. Anyway in Python
+it always tries the local module before trying to import anything
+from outside, so if there is package named "common" locally,
+it will import from it.
+
+Still this would be nice, but not quite urgent in the "lib" package.
+
+>
+> Thanks,
+> Lucas
+>
+
+
+Thanks
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Oct  6 22:04:21 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 7 Oct 2008 01:34:21 +0530
+Subject: [HarvestMan-devel] Question about HarvestMan
+In-Reply-To: <48E1DD92.6060901@iti.gr>
+References: <48E0B11A.4070606@iti.gr>
+	<8548c5f30809290408q35b7f888kec9d4a992ec94ad4@mail.gmail.com>
+	<48E0BB88.1000807@iti.gr>
+	<8548c5f30809290501h1104de5cr8116e79699a7f71@mail.gmail.com>
+	<8548c5f30809290503p2fae3df6x7cc7b3a48585fe6c@mail.gmail.com>
+	<48E0C744.7040908@iti.gr>
+	<8548c5f30809290527w48573f11y7dea0e9f59c2e164@mail.gmail.com>
+	<48E0CE34.6030202@iti.gr>
+	<8548c5f30809292157t12328ad5vf526a7ee6f23227@mail.gmail.com>
+	<48E1DD92.6060901@iti.gr>
+Message-ID: <8548c5f30810061304h4df9f3fdi821a9d9d29d1c387@mail.gmail.com>
+
+Hi Nick,
+
+         I managed to create 2.0 windows binaries after some
+long tinkering with py2exe.
+
+         You can download the binary from
+the folder http://harvestmanontheweb.com/packages/2.0/win32/ .
+
+        This is a zip file which zips up the files created by py2exe.
+Unzip the file and run harvestman.exe .
+
+         Let me know how it goes. I tested it before uploading
+and it was able to crawl the sites in config-sample.xml (packaged
+with the zip file).
+
+Regards
+
+--Anand
+
+On Tue, Sep 30, 2008 at 1:34 PM, Nick Kaklanis <nkak at iti.gr> wrote:
+> Anand Balachandran Pillai wrote:
+>>
+>> Hi Nick,
+>>
+>> On Mon, Sep 29, 2008 at 6:16 PM, Nick Kaklanis <nkak at iti.gr> wrote:
+>>
+>>>
+>>> This is great!
+>>> I'll wait for these new binaries because they'll solve my problems!
+>>>
+>>
+>> I could not spend time on this yesterday. I spent half an hour in the
+>> morning today to create a binary out of HarvestMan-2.0. I could
+>> create one, but since the new HarvestMan uses a totally different
+>> layout for modules, the exe was not able to find the path to the
+>> harvestman library modules.
+>>
+>> I need to spend more time on this to do it the right way. Rest of the
+>> week are holidays for me, so I plan to spend some time fixing
+>> this and uploading the 2.0 binaries.
+>>
+>> Btw, I did not work on fixing the 1.4.6 binary since I think you
+>> will be much better off with 2.0, than spending time with 1.4.6.
+>>
+>>
+>>>
+>>> Thank you once again for your valuable help and congratulations for your
+>>> effort on HarvestMan. It is a very useful tool!
+>>>
+>>
+>> Thanks a lot. If you have any comments or would like to otherwise
+>> help development of the project, consider joining the mailing list.
+>>
+>>
+>>>
+>>> Best regards
+>>>
+>>> Nick
+>>>
+>>>
+>>>
+>>
+>>
+>> Thanks
+>>
+>
+> Hi Anand
+>
+> I'll wait for the 2.0 binaries. The development of the HarvestMan really
+> concerns me so I'll join the mailing list and in the future if I have the
+> time I'll take a look at the source code.
+>
+> Thanks.
+>
+> Nick
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Oct  6 22:07:02 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 7 Oct 2008 01:37:02 +0530
+Subject: [HarvestMan-devel] HarvestMan-2.0 Windows Executable
+Message-ID: <8548c5f30810061307p55c151a2jc1ef0eb0d2179609@mail.gmail.com>
+
+Hi,
+
+ I have created a Windows binary package for HarvestMan-2.0
+using py2exe. The same can be downloaded from,
+
+http://harvestmanontheweb.com/packages/2.0/win32/HarvestMan-2.0alpha07102008_win32.zip
+
+This is a zip file containing the binary files created by py2exe.
+Unzip it and run harvestman.exe. A sample config file is also provided.
+
+Here is the environment in which this was created.
+
+Windows XP SP2 running Python 2.5.2, py2exe 0.6.8
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Oct  6 22:51:30 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 6 Oct 2008 15:51:30 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809220641r4f80997avf50686a44404f244@mail.gmail.com>
+	<804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+Message-ID: <804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+
+On Mon, Oct 6, 2008 at 2:07 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+> On Tue, Oct 7, 2008 at 12:30 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>
+>>
+>> Also, I think we should use the from harvestman.lib import xyz" in all
+>> files, and subfolders. It makes it easier to follow your code. When
+>> you say from common import *, it is hard for a new person to figure
+>> out if common is a python package or is it part of harvesman ?
+>> So having from harvestman.lib import common makes it really clear that
+>> this is harvestman library.
+>
+> I thought about this. This would be of course nice, but considering
+> the amount of work to be done in all modules in "lib" I thought
+> it was more important to get cross folder imports (app->lib)
+> (ext->lib), (test->lib) in order. Inside lib,  there is a sub-folder
+> named common, so it is really not very difficult to figure out
+> that the common refers to the local folder. Anyway in Python
+> it always tries the local module before trying to import anything
+> from outside, so if there is package named "common" locally,
+> it will import from it.
+>
+> Still this would be nice, but not quite urgent in the "lib" package.
+
+In that case lets say if we are modifying/adding some code we will use
+from harvestman.lib import xyz instead of import xyz...?
+
+Sounds like a plan?
+'
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Mon Oct  6 23:16:14 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 6 Oct 2008 16:16:14 -0500
+Subject: [HarvestMan-devel] HarvestMan-2.0 Windows Executable
+In-Reply-To: <8548c5f30810061307p55c151a2jc1ef0eb0d2179609@mail.gmail.com>
+References: <8548c5f30810061307p55c151a2jc1ef0eb0d2179609@mail.gmail.com>
+Message-ID: <804e5c70810061416ybb12cafrf422f7f3aa47b8ce@mail.gmail.com>
+
+On Mon, Oct 6, 2008 at 3:07 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi,
+>
+>  I have created a Windows binary package for HarvestMan-2.0
+> using py2exe. The same can be downloaded from,
+>
+> http://harvestmanontheweb.com/packages/2.0/win32/HarvestMan-2.0alpha07102008_win32.zip
+>
+> This is a zip file containing the binary files created by py2exe.
+> Unzip it and run harvestman.exe. A sample config file is also provided.
+>
+> Here is the environment in which this was created.
+>
+> Windows XP SP2 running Python 2.5.2, py2exe 0.6.8
+>
+
+
+Could you upload the instructions on how to do the executable for windows in :
+http://code.google.com/p/harvestman-crawler/wiki/NewDevelopersNotes
+
+I've never done it before...
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Wed Oct  8 03:53:36 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 7 Oct 2008 20:53:36 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809231548h2f65507eqea6e82f292b495d0@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+Message-ID: <804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+
+1. I've merged the changes from trunk to branch, fixed issues, and
+then from branch to trunk.
+
+I used the following instructions.
+http://kenkinder.com/svnmerge/
+I was ok. I think I need to read up more on it, and on svn 1.5 which
+suppose to be better with merges.
+
+The new setup.py file is just installing the requirements using
+easy_install/setuptools which means setuptools is required. (python
+style ! yeaaay...)
+I'll update the installation instructions, and I will upload the trunk
+version of the egg to PyPI.
+http://pypi.python.org/pypi/
+
+I also want to move the code that puts the config.xml somewhere where
+it will only be run on python setup.py install(or develop) and not on
+python setup.py  bdist_egg
+
+I wonder if this config.xml is required in /etc/ folder or can we have
+it with the rest of the py files in /apps/config.xml ??
+
+2. the config.py was putting the file in
+/home/lucas/tmp/etc/harvestman instead of
+/home/lucas/tmp/myvirtualENV/etc/harvestman so I fixed that in a code.
+
+3. Tests are passing so I think all went well.
+
+
+I'll let you know when I finish uploading to PYPI, and fix the egg
+creation, and I will close issue 2 then.
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Wed Oct  8 04:00:31 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 7 Oct 2008 21:00:31 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+Message-ID: <804e5c70810071900j9e7de44jf3032b27da59c4b3@mail.gmail.com>
+
+On Tue, Oct 7, 2008 at 8:53 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> 1. I've merged the changes from trunk to branch, fixed issues, and
+> then from branch to trunk.
+>
+> I used the following instructions.
+> http://kenkinder.com/svnmerge/
+> I was ok. I think I need to read up more on it, and on svn 1.5 which
+> suppose to be better with merges.
+>
+> The new setup.py file is just installing the requirements using
+> easy_install/setuptools which means setuptools is required. (python
+> style ! yeaaay...)
+> I'll update the installation instructions, and I will upload the trunk
+> version of the egg to PyPI.
+> http://pypi.python.org/pypi/
+>
+> I also want to move the code that puts the config.xml somewhere where
+> it will only be run on python setup.py install(or develop) and not on
+> python setup.py  bdist_egg
+>
+> I wonder if this config.xml is required in /etc/ folder or can we have
+> it with the rest of the py files in /apps/config.xml ??
+>
+> 2. the config.py was putting the file in
+> /home/lucas/tmp/etc/harvestman instead of
+> /home/lucas/tmp/myvirtualENV/etc/harvestman so I fixed that in a code.
+>
+> 3. Tests are passing so I think all went well.
+>
+>
+> I'll let you know when I finish uploading to PYPI, and fix the egg
+> creation, and I will close issue 2 then.
+>
+
+Also if you don't mind I'll update the version from 2.0.2 to 2.0.3 so
+we don't have any confusion of what has happen.
+
+make sure you do
+svn update
+
+Thanks,
+Lucas
+
+
+From abpillai at gmail.com  Thu Oct  9 12:00:48 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 9 Oct 2008 15:30:48 +0530
+Subject: [HarvestMan-devel] HarvestMan-2.0 Windows Executable
+In-Reply-To: <804e5c70810061416ybb12cafrf422f7f3aa47b8ce@mail.gmail.com>
+References: <8548c5f30810061307p55c151a2jc1ef0eb0d2179609@mail.gmail.com>
+	<804e5c70810061416ybb12cafrf422f7f3aa47b8ce@mail.gmail.com>
+Message-ID: <8548c5f30810090300x7707972aj6e5ebef56ddcdea2@mail.gmail.com>
+
+Hi Lukasz,
+
+On Tue, Oct 7, 2008 at 2:46 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Mon, Oct 6, 2008 at 3:07 PM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi,
+>>
+>>  I have created a Windows binary package for HarvestMan-2.0
+>> using py2exe. The same can be downloaded from,
+>>
+>> http://harvestmanontheweb.com/packages/2.0/win32/HarvestMan-2.0alpha07102008_win32.zip
+>>
+>> This is a zip file containing the binary files created by py2exe.
+>> Unzip it and run harvestman.exe. A sample config file is also provided.
+>>
+>> Here is the environment in which this was created.
+>>
+>> Windows XP SP2 running Python 2.5.2, py2exe 0.6.8
+>>
+>
+>
+> Could you upload the instructions on how to do the executable for windows in :
+> http://code.google.com/p/harvestman-crawler/wiki/NewDevelopersNotes
+>
+> I've never done it before...
+
+As of now, I am doing it with a special setup.py script which needs to
+sit in harvestman/apps folder. I am trying to see whether it is possible
+to put this at the top-level folder, along with setup.py but for the time
+being issues with py2exe figuring out the library (harvestman.lib)
+modules prevent this.
+
+The best option would be to somehow merge this to our main setup.py
+and be able to invoke this automatically when someone calls
+"python setup.py bdist" on Windows. I will see if I can do this today.
+
+
+>
+> Thanks,
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+Regards
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Thu Oct  9 15:17:00 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 9 Oct 2008 08:17:00 -0500
+Subject: [HarvestMan-devel] HarvestMan-2.0 Windows Executable
+In-Reply-To: <8548c5f30810090300x7707972aj6e5ebef56ddcdea2@mail.gmail.com>
+References: <8548c5f30810061307p55c151a2jc1ef0eb0d2179609@mail.gmail.com>
+	<804e5c70810061416ybb12cafrf422f7f3aa47b8ce@mail.gmail.com>
+	<8548c5f30810090300x7707972aj6e5ebef56ddcdea2@mail.gmail.com>
+Message-ID: <804e5c70810090617n15c3b613p67dbe1615e5c3f3e@mail.gmail.com>
+
+On Thu, Oct 9, 2008 at 5:00 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+> On Tue, Oct 7, 2008 at 2:46 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Mon, Oct 6, 2008 at 3:07 PM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> Hi,
+>>>
+>>>  I have created a Windows binary package for HarvestMan-2.0
+>>> using py2exe. The same can be downloaded from,
+>>>
+>>> http://harvestmanontheweb.com/packages/2.0/win32/HarvestMan-2.0alpha07102008_win32.zip
+>>>
+>>> This is a zip file containing the binary files created by py2exe.
+>>> Unzip it and run harvestman.exe. A sample config file is also provided.
+>>>
+>>> Here is the environment in which this was created.
+>>>
+>>> Windows XP SP2 running Python 2.5.2, py2exe 0.6.8
+>>>
+>>
+>>
+>> Could you upload the instructions on how to do the executable for windows in :
+>> http://code.google.com/p/harvestman-crawler/wiki/NewDevelopersNotes
+>>
+>> I've never done it before...
+>
+> As of now, I am doing it with a special setup.py script which needs to
+> sit in harvestman/apps folder. I am trying to see whether it is possible
+> to put this at the top-level folder, along with setup.py but for the time
+> being issues with py2exe figuring out the library (harvestman.lib)
+> modules prevent this.
+>
+> The best option would be to somehow merge this to our main setup.py
+> and be able to invoke this automatically when someone calls
+> "python setup.py bdist" on Windows. I will see if I can do this today.
+>
+
+That would be interesting to do.. from python setup.py bdist to
+harvestman.exe...
+
+I don't know if you seen my comment in config.py
+
+"#We might have to use find_packager() if somebody will use py2app py2exe"
+
+The path harvestman.lib could be probobly fixed by that function. If
+you Google it you should find the code for that function.
+
+Thanks,
+Lucas
+
+
+From abpillai at gmail.com  Sat Oct 11 08:40:26 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sat, 11 Oct 2008 12:10:26 +0530
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809252019o31844e2cu923dc0f43414d772@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+Message-ID: <8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+
+Hi Lukasz,
+
+On Wed, Oct 8, 2008 at 7:23 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> 1. I've merged the changes from trunk to branch, fixed issues, and
+> then from branch to trunk.
+>
+> I used the following instructions.
+> http://kenkinder.com/svnmerge/
+> I was ok. I think I need to read up more on it, and on svn 1.5 which
+> suppose to be better with merges.
+>
+> The new setup.py file is just installing the requirements using
+> easy_install/setuptools which means setuptools is required. (python
+> style ! yeaaay...)
+Isn't this a problem ? I mean do you expect setuptools to be
+installed in every machine that wants to download HarvestMan ?
+
+Is it possible to make this work by just using distutils ? I really
+dont like the idea of the setup itself being dependent on a third
+party package. We need to re-evaluate this approach, however
+good it might be otherwise.
+
+> I'll update the installation instructions, and I will upload the trunk
+> version of the egg to PyPI.
+> http://pypi.python.org/pypi/
+>
+> I also want to move the code that puts the config.xml somewhere where
+> it will only be run on python setup.py install(or develop) and not on
+> python setup.py  bdist_egg
+>
+> I wonder if this config.xml is required in /etc/ folder or can we have
+> it with the rest of the py files in /apps/config.xml ??
+>
+> 2. the config.py was putting the file in
+> /home/lucas/tmp/etc/harvestman instead of
+> /home/lucas/tmp/myvirtualENV/etc/harvestman so I fixed that in a code.
+>
+> 3. Tests are passing so I think all went well.
+>
+>
+> I'll let you know when I finish uploading to PYPI, and fix the egg
+> creation, and I will close issue 2 then.
+>
+> Thanks,
+> Lucas
+>
+
+
+Regards
+
+-Anand
+
+
+From abpillai at gmail.com  Sat Oct 11 08:58:55 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sat, 11 Oct 2008 12:28:55 +0530
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70809262147i7603b365k9272070bb2c42cef@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+	<8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+Message-ID: <8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+
+Hi Lukasz,
+
+Btw, please don't comment out the lines in harvestman/apps/__init__.py.
+This is not needed for the setuptools setup to work, but is required if
+you want to run the code directly from the source folder, without
+requiring an installation, which is quite useful.
+
+I tried your setuptools setup and it seems to work fine, but
+you haven't updated the install steps in Readme.txt. Could
+you update it ?
+
+Btw, do you think it is a good idea for the setup.py to download
+setuptools automatically if it is not found ? Or is it better to require
+that setuptools is already installed before running setup.py ?
+
+Thanks
+
+--Anand
+
+On Sat, Oct 11, 2008 at 12:10 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+> On Wed, Oct 8, 2008 at 7:23 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> 1. I've merged the changes from trunk to branch, fixed issues, and
+>> then from branch to trunk.
+>>
+>> I used the following instructions.
+>> http://kenkinder.com/svnmerge/
+>> I was ok. I think I need to read up more on it, and on svn 1.5 which
+>> suppose to be better with merges.
+>>
+>> The new setup.py file is just installing the requirements using
+>> easy_install/setuptools which means setuptools is required. (python
+>> style ! yeaaay...)
+> Isn't this a problem ? I mean do you expect setuptools to be
+> installed in every machine that wants to download HarvestMan ?
+>
+> Is it possible to make this work by just using distutils ? I really
+> dont like the idea of the setup itself being dependent on a third
+> party package. We need to re-evaluate this approach, however
+> good it might be otherwise.
+>
+>> I'll update the installation instructions, and I will upload the trunk
+>> version of the egg to PyPI.
+>> http://pypi.python.org/pypi/
+>>
+>> I also want to move the code that puts the config.xml somewhere where
+>> it will only be run on python setup.py install(or develop) and not on
+>> python setup.py  bdist_egg
+>>
+>> I wonder if this config.xml is required in /etc/ folder or can we have
+>> it with the rest of the py files in /apps/config.xml ??
+>>
+>> 2. the config.py was putting the file in
+>> /home/lucas/tmp/etc/harvestman instead of
+>> /home/lucas/tmp/myvirtualENV/etc/harvestman so I fixed that in a code.
+>>
+>> 3. Tests are passing so I think all went well.
+>>
+>>
+>> I'll let you know when I finish uploading to PYPI, and fix the egg
+>> creation, and I will close issue 2 then.
+>>
+>> Thanks,
+>> Lucas
+>>
+>
+>
+> Regards
+>
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Sat Oct 11 09:10:57 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sat, 11 Oct 2008 12:40:57 +0530
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30810060417r6c0c7c5fp715c660bdf021d55@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+	<8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+	<8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+Message-ID: <8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+
+Hi Lukasz,
+
+     From http://peak.telecommunity.com/DevCenter/setuptools#installing-setuptools,
+it seems that if we just import ez_setup.py, it will automatically
+install setuptools if not already installed, by just importing it. I
+tried it and it is working. So do you think it is a good idea if we
+copy ez_setup.py to the HarvestMan folder and let it install
+setuptools, if not already installed ?
+
+--Anand
+
+
+On Sat, Oct 11, 2008 at 12:28 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+> Btw, please don't comment out the lines in harvestman/apps/__init__.py.
+> This is not needed for the setuptools setup to work, but is required if
+> you want to run the code directly from the source folder, without
+> requiring an installation, which is quite useful.
+>
+> I tried your setuptools setup and it seems to work fine, but
+> you haven't updated the install steps in Readme.txt. Could
+> you update it ?
+>
+> Btw, do you think it is a good idea for the setup.py to download
+> setuptools automatically if it is not found ? Or is it better to require
+> that setuptools is already installed before running setup.py ?
+>
+> Thanks
+>
+> --Anand
+>
+> On Sat, Oct 11, 2008 at 12:10 PM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lukasz,
+>>
+>> On Wed, Oct 8, 2008 at 7:23 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> 1. I've merged the changes from trunk to branch, fixed issues, and
+>>> then from branch to trunk.
+>>>
+>>> I used the following instructions.
+>>> http://kenkinder.com/svnmerge/
+>>> I was ok. I think I need to read up more on it, and on svn 1.5 which
+>>> suppose to be better with merges.
+>>>
+>>> The new setup.py file is just installing the requirements using
+>>> easy_install/setuptools which means setuptools is required. (python
+>>> style ! yeaaay...)
+>> Isn't this a problem ? I mean do you expect setuptools to be
+>> installed in every machine that wants to download HarvestMan ?
+>>
+>> Is it possible to make this work by just using distutils ? I really
+>> dont like the idea of the setup itself being dependent on a third
+>> party package. We need to re-evaluate this approach, however
+>> good it might be otherwise.
+>>
+>>> I'll update the installation instructions, and I will upload the trunk
+>>> version of the egg to PyPI.
+>>> http://pypi.python.org/pypi/
+>>>
+>>> I also want to move the code that puts the config.xml somewhere where
+>>> it will only be run on python setup.py install(or develop) and not on
+>>> python setup.py  bdist_egg
+>>>
+>>> I wonder if this config.xml is required in /etc/ folder or can we have
+>>> it with the rest of the py files in /apps/config.xml ??
+>>>
+>>> 2. the config.py was putting the file in
+>>> /home/lucas/tmp/etc/harvestman instead of
+>>> /home/lucas/tmp/myvirtualENV/etc/harvestman so I fixed that in a code.
+>>>
+>>> 3. Tests are passing so I think all went well.
+>>>
+>>>
+>>> I'll let you know when I finish uploading to PYPI, and fix the egg
+>>> creation, and I will close issue 2 then.
+>>>
+>>> Thanks,
+>>> Lucas
+>>>
+>>
+>>
+>> Regards
+>>
+>> -Anand
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Sat Oct 11 09:24:17 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sat, 11 Oct 2008 12:54:17 +0530
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70810060700t50427162u84284ba129fe9f0f@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+	<8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+	<8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+	<8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+Message-ID: <8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+
+I was a bit wrong here. In fact just importing won't work. But
+this works.
+
+import ez_setup
+ez_setup.main(['setuptools==dev'])
+
+I think this might be a good solution - i.e if we don't detect
+setuptools we can invoke this logic. Let me know what you think.
+
+
+On Sat, Oct 11, 2008 at 12:40 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+>     From http://peak.telecommunity.com/DevCenter/setuptools#installing-setuptools,
+> it seems that if we just import ez_setup.py, it will automatically
+> install setuptools if not already installed, by just importing it. I
+> tried it and it is working. So do you think it is a good idea if we
+> copy ez_setup.py to the HarvestMan folder and let it install
+> setuptools, if not already installed ?
+>
+> --Anand
+>
+>
+> On Sat, Oct 11, 2008 at 12:28 PM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lukasz,
+>>
+>> Btw, please don't comment out the lines in harvestman/apps/__init__.py.
+>> This is not needed for the setuptools setup to work, but is required if
+>> you want to run the code directly from the source folder, without
+>> requiring an installation, which is quite useful.
+>>
+>> I tried your setuptools setup and it seems to work fine, but
+>> you haven't updated the install steps in Readme.txt. Could
+>> you update it ?
+>>
+>> Btw, do you think it is a good idea for the setup.py to download
+>> setuptools automatically if it is not found ? Or is it better to require
+>> that setuptools is already installed before running setup.py ?
+>>
+>> Thanks
+>>
+>> --Anand
+>>
+>> On Sat, Oct 11, 2008 at 12:10 PM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> Hi Lukasz,
+>>>
+>>> On Wed, Oct 8, 2008 at 7:23 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>>> 1. I've merged the changes from trunk to branch, fixed issues, and
+>>>> then from branch to trunk.
+>>>>
+>>>> I used the following instructions.
+>>>> http://kenkinder.com/svnmerge/
+>>>> I was ok. I think I need to read up more on it, and on svn 1.5 which
+>>>> suppose to be better with merges.
+>>>>
+>>>> The new setup.py file is just installing the requirements using
+>>>> easy_install/setuptools which means setuptools is required. (python
+>>>> style ! yeaaay...)
+>>> Isn't this a problem ? I mean do you expect setuptools to be
+>>> installed in every machine that wants to download HarvestMan ?
+>>>
+>>> Is it possible to make this work by just using distutils ? I really
+>>> dont like the idea of the setup itself being dependent on a third
+>>> party package. We need to re-evaluate this approach, however
+>>> good it might be otherwise.
+>>>
+>>>> I'll update the installation instructions, and I will upload the trunk
+>>>> version of the egg to PyPI.
+>>>> http://pypi.python.org/pypi/
+>>>>
+>>>> I also want to move the code that puts the config.xml somewhere where
+>>>> it will only be run on python setup.py install(or develop) and not on
+>>>> python setup.py  bdist_egg
+>>>>
+>>>> I wonder if this config.xml is required in /etc/ folder or can we have
+>>>> it with the rest of the py files in /apps/config.xml ??
+>>>>
+>>>> 2. the config.py was putting the file in
+>>>> /home/lucas/tmp/etc/harvestman instead of
+>>>> /home/lucas/tmp/myvirtualENV/etc/harvestman so I fixed that in a code.
+>>>>
+>>>> 3. Tests are passing so I think all went well.
+>>>>
+>>>>
+>>>> I'll let you know when I finish uploading to PYPI, and fix the egg
+>>>> creation, and I will close issue 2 then.
+>>>>
+>>>> Thanks,
+>>>> Lucas
+>>>>
+>>>
+>>>
+>>> Regards
+>>>
+>>> -Anand
+>>>
+>>
+>>
+>>
+>> --
+>> -Anand
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Sat Oct 11 18:17:34 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sat, 11 Oct 2008 11:17:34 -0500
+Subject: [HarvestMan-devel] harvestman new option --genconfig
+Message-ID: <804e5c70810110917w3e17d501tb9621f482ea3164d@mail.gmail.com>
+
+Hello,
+I just added your tool genconfig to the options menu.
+
+svn update
+
+harvestman --genconfig
+
+Loading system configuration...
+Loading user configuration...
+Starting web.py at port 5940...
+Waiting for page to load in browser...
+http://0.0.0.0:5940/
+Opening page...
+127.0.0.1:35205 - - [11/Oct/2008 11:08:25] "HTTP/1.1 GET /" - 200 OK
+
+
+It works. This is a great tools as it will let new user create the
+config.xml via webinterface without actually looking for genconfig.py
+file and just running it as an option of harvestman. I kept the name
+the way you had it, unless you have a better name.
+
+Thanks,
+Lucas
+
+
+
+-- 
+Python and OpenOffice documents and templates
+http://lucasmanual.com/mywiki/OpenOffice
+Fast and Easy Backup solution with Bacula
+http://lucasmanual.com/mywiki/Bacula
+
+
+From szybalski at gmail.com  Sat Oct 11 18:32:52 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sat, 11 Oct 2008 11:32:52 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30810061135m687317ax51e703dcb0dc9c41@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+	<8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+	<8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+	<8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+	<8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+Message-ID: <804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+
+On Sat, Oct 11, 2008 at 2:24 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> I was a bit wrong here. In fact just importing won't work. But
+> this works.
+>
+> import ez_setup
+> ez_setup.main(['setuptools==dev'])
+>
+> I think this might be a good solution - i.e if we don't detect
+> setuptools we can invoke this logic. Let me know what you think.
+
+
+I'll look into it. Yes setup tools is required. I am working with
+turbogears and that is what they use. (turbogears depends on at least
+30-40 other packages so the way we have it setup will be very easy to
+install.)
+
+Let me play around with the
+ez_setup.main(['setuptools==dev']) I think this installs the most
+recent version. I'll try to remove setuptools from my virtualenv and
+then see what happens.
+
+
+ virtualenv --no-site-packages harv1testenv
+New python executable in harv1testenv/bin/python
+Installing setuptools............done.
+
+source harv1testenv/bin/activate
+
+easy_install -m setuptools
+Searching for setuptools
+Best match: setuptools 0.6c8
+Processing setuptools-0.6c8-py2.5.egg
+Removing setuptools 0.6c8 from easy-install.pth file
+Installing easy_install script to /home/lucas/tmp/harv1testenv/bin
+Installing easy_install-2.5 script to /home/lucas/tmp/harv1testenv/bin
+
+Using /home/lucas/tmp/harv1testenv/lib/python2.5/site-packages/setuptools-0.6c8-py2.5.egg
+
+Because this distribution was installed --multi-version, before you can
+import modules from this package in an application, you will need to
+'import pkg_resources' and then use a 'require()' call similar to one of
+these examples, in order to select the desired version:
+
+    pkg_resources.require("setuptools")  # latest installed version
+    pkg_resources.require("setuptools==0.6c8")  # this exact version
+    pkg_resources.require("setuptools>=0.6c8")  # this version or higher
+
+Processing dependencies for setuptools
+Finished processing dependencies for setuptools
+
+
+I tried import the ez_setup
+>>> import ez_setup
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ImportError: No module named ez_setup
+
+
+Solution 1:
+
+I also tried:
+import pkg_resources
+pkg_resources.require("setuptools")
+
+which installs the setuptools, but I it gets it from somewhere in my system.
+I guess we would have to try this on windows, as it will probably be
+the only system that might not have setuptools.
+
+Solution 2:
+Include this file, and then run your command:
+http://peak.telecommunity.com/dist/ez_setup.py
+import ez_setup
+ez_setup.main(['setuptools'])
+
+
+So if solution 1 doesn't work we can go with solution2.
+
+
+Thanks for bringing that out. Its a good point.
+Lucas
+
+
+From abpillai at gmail.com  Sat Oct 11 21:29:09 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sun, 12 Oct 2008 00:59:09 +0530
+Subject: [HarvestMan-devel] Checkin revision 144
+Message-ID: <8548c5f30810111229n1a6e8744kf5426b63e02b149d@mail.gmail.com>
+
+Hi Lukasz,
+
+       I just checked in a number of files in harvestman/lib
+and harvestman/test to trunk. The major changes are
+
+1. Modified all imports in harvestman/lib to use the style
+"from harvestman.lib import ..."
+2. Somehow a checkin had regressed test_urlparser.py
+to old code, so fixed it.
+3. Changes to test_base.py to prevent creation of the
+.bidx... folders when running unit tests.
+
+Btw, I see you had commented out code in apps/__init__.py
+and also the line calling "setUpPaths" in test_base.py.
+I have re-enabled them. Let this remain. This makes
+it possible to run the application and the tests directly
+from the checked out code or a source package without
+requiring an install, which is a useful feature.
+
+Btw, we need to specify Python >=2.4 in setup.py along with
+the other change (for setuptools). I had done some changes
+for this, but I did not check it in, since I think you are the
+best person to fix this. So please go ahead and check it in.
+After that I will merge in my changes for Windows executable
+creation. We need to close the setup.py issues soon and
+focus on the rest of the work in the application/framework
+code.
+
+Thanks & Regards,
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Sat Oct 11 22:38:50 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sun, 12 Oct 2008 02:08:50 +0530
+Subject: [HarvestMan-devel] Checkin revision 144
+In-Reply-To: <8548c5f30810111229n1a6e8744kf5426b63e02b149d@mail.gmail.com>
+References: <8548c5f30810111229n1a6e8744kf5426b63e02b149d@mail.gmail.com>
+Message-ID: <8548c5f30810111338p58e02b89p8ed023030c369ef0@mail.gmail.com>
+
+I have made another round of checkins to fix
+issues in hooks.py (module import), config.py
+(global verbosity option when specified on the
+command line) and a regression in simulator.py.
+
+I have seen a few regressions (old code being
+checked in again) in the last few checkins - egs:
+test_urlparser.py, simulator.py . Please make sure
+that we are not getting old code copied over
+from the branches to the trunk.
+
+Thanks
+
+--Anand
+
+
+On Sun, Oct 12, 2008 at 12:59 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+>       I just checked in a number of files in harvestman/lib
+> and harvestman/test to trunk. The major changes are
+>
+> 1. Modified all imports in harvestman/lib to use the style
+> "from harvestman.lib import ..."
+> 2. Somehow a checkin had regressed test_urlparser.py
+> to old code, so fixed it.
+> 3. Changes to test_base.py to prevent creation of the
+> .bidx... folders when running unit tests.
+>
+> Btw, I see you had commented out code in apps/__init__.py
+> and also the line calling "setUpPaths" in test_base.py.
+> I have re-enabled them. Let this remain. This makes
+> it possible to run the application and the tests directly
+> from the checked out code or a source package without
+> requiring an install, which is a useful feature.
+>
+> Btw, we need to specify Python >=2.4 in setup.py along with
+> the other change (for setuptools). I had done some changes
+> for this, but I did not check it in, since I think you are the
+> best person to fix this. So please go ahead and check it in.
+> After that I will merge in my changes for Windows executable
+> creation. We need to close the setup.py issues soon and
+> focus on the rest of the work in the application/framework
+> code.
+>
+> Thanks & Regards,
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Sun Oct 12 06:23:34 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sat, 11 Oct 2008 23:23:34 -0500
+Subject: [HarvestMan-devel] Checkin revision 144
+In-Reply-To: <8548c5f30810111338p58e02b89p8ed023030c369ef0@mail.gmail.com>
+References: <8548c5f30810111229n1a6e8744kf5426b63e02b149d@mail.gmail.com>
+	<8548c5f30810111338p58e02b89p8ed023030c369ef0@mail.gmail.com>
+Message-ID: <804e5c70810112123p191c64d3x747ee1be8aec111@mail.gmail.com>
+
+On Sat, Oct 11, 2008 at 3:38 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> I have made another round of checkins to fix
+> issues in hooks.py (module import), config.py
+> (global verbosity option when specified on the
+> command line) and a regression in simulator.py.
+>
+> I have seen a few regressions (old code being
+> checked in again) in the last few checkins - egs:
+> test_urlparser.py, simulator.py . Please make sure
+> that we are not getting old code copied over
+> from the branches to the trunk.
+>
+> Thanks
+>
+> --Anand
+>
+>
+> On Sun, Oct 12, 2008 at 12:59 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lukasz,
+>>
+>>       I just checked in a number of files in harvestman/lib
+>> and harvestman/test to trunk. The major changes are
+>>
+>> 1. Modified all imports in harvestman/lib to use the style
+>> "from harvestman.lib import ..."
+>> 2. Somehow a checkin had regressed test_urlparser.py
+>> to old code, so fixed it.
+>> 3. Changes to test_base.py to prevent creation of the
+>> .bidx... folders when running unit tests.
+>>
+>> Btw, I see you had commented out code in apps/__init__.py
+>> and also the line calling "setUpPaths" in test_base.py.
+>> I have re-enabled them. Let this remain. This makes
+>> it possible to run the application and the tests directly
+>> from the checked out code or a source package without
+>> requiring an install, which is a useful feature.
+>>
+>> Btw, we need to specify Python >=2.4 in setup.py along with
+>> the other change (for setuptools). I had done some changes
+>> for this, but I did not check it in, since I think you are the
+>> best person to fix this. So please go ahead and check it in.
+>> After that I will merge in my changes for Windows executable
+>> creation. We need to close the setup.py issues soon and
+>> focus on the rest of the work in the application/framework
+>> code.
+>>
+
+
+Sorry about deleted code. When I started working on it I was getting
+errors and I couldn't find a reason why, so I deleted some code in the
+__init__.py and others.
+
+
+BTW. You could use
+python setup.py develop
+
+This just links to harvestman where its at. After you do that it will
+link to the folder you are working with and you will see any change
+you make right away.
+
+I'll add the 2.4 requirement. I am almost done with the
+setup.py/installation stuff.
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Sun Oct 12 07:32:27 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sun, 12 Oct 2008 00:32:27 -0500
+Subject: [HarvestMan-devel] genconfig
+Message-ID: <804e5c70810112232x58c6d851w962cb0ea0d5063bd@mail.gmail.com>
+
+Hello,
+I was wondering if its possible to change the default base crawling
+folder from ~websites to ~crawls or some other name.
+
+I use websites folder for my websites I have designed.
+
+Let me know,
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Sun Oct 12 08:13:39 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sun, 12 Oct 2008 01:13:39 -0500
+Subject: [HarvestMan-devel] genconfig
+In-Reply-To: <804e5c70810112232x58c6d851w962cb0ea0d5063bd@mail.gmail.com>
+References: <804e5c70810112232x58c6d851w962cb0ea0d5063bd@mail.gmail.com>
+Message-ID: <804e5c70810112313k41503015h3dd2530d5bd252b0@mail.gmail.com>
+
+I've added the maxbandwidth to the genconfig option.
+
+
+Also there seem to be a bug somewhere...
+
+
+There has to be a change that is causing this error.
+ File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/apps/appbase.py",
+line 81, in get_options
+    objects.config.get_program_options()
+  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+line 1477, in get_program_options
+    res = self.parse_arguments()
+  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+line 1034, in parse_arguments
+    if SUCCESS(self.check_value(option,value)):
+self.set_option_xml('cache_status', self.process_value(value))
+  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+line 721, in set_option_xml
+    self.assign_option(option_val, value)
+  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+line 590, in assign_option
+    fval = (eval(typ))(value)
+ValueError: invalid literal for int() with base 10: 'lucas.xml'
+
+Any idea where its at?
+Lucas
+
+On Sun, Oct 12, 2008 at 12:32 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+> I was wondering if its possible to change the default base crawling
+> folder from ~websites to ~crawls or some other name.
+>
+> I use websites folder for my websites I have designed.
+>
+> Let me know,
+> Thanks,
+> Lucas
+>
+
+
+
+-- 
+Python and OpenOffice documents and templates
+http://lucasmanual.com/mywiki/OpenOffice
+Fast and Easy Backup solution with Bacula
+http://lucasmanual.com/mywiki/Bacula
+
+
+From abpillai at gmail.com  Sun Oct 12 12:32:40 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sun, 12 Oct 2008 16:02:40 +0530
+Subject: [HarvestMan-devel] Recently committed changes
+Message-ID: <8548c5f30810120332t43759431uedaef71e8efc7715@mail.gmail.com>
+
+Hi,
+
+    I have checked in a set of files (revs: 152, 153, 154)
+for the following.
+
+ - Fix for issue #23 (urlparser.py, netinfo.py, config.py,
+   crawler.py, gui.py, urltypes.py, test_urltypes.py, config-sample.xml,
+   HarvestMan.xsd)
+
+ - Removing obsolete control variables for rules namely
+   maxextservers, maxextdirs, eserverlinks, epagelinks from
+   rules.py & config.py as well as from the config-sample.xml,
+   the genconfig form and the HarvestMan schema. These variables
+   are quite legacy and not required since fetchlevel overrides
+   them anyway (rules.py, config-sample.xml, config.py, gui.py)
+
+-  A bug fix in urlparser.py for raising error for invalid URLs which
+   contain only the protocol part (http:// etc) and test cases in
+   test_urlparser.py for testing the same. (urlparser.py, test_urlparser.py)
+
+I have also removed config-template.xml since it is obsolete
+and I think it is confusing to have two config XMLs. Only config-sample.xml
+is required.
+
+Please sync svn and let me know of any issues.
+
+Thanks
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Sun Oct 12 13:00:33 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sun, 12 Oct 2008 16:30:33 +0530
+Subject: [HarvestMan-devel] New alpha package uploaded
+Message-ID: <8548c5f30810120400j1bcce222m1e23258b0ff73322@mail.gmail.com>
+
+Hi,
+
+  Uploaded 2.0.2 alpha source package to project downloads
+containing most recent trunk code, as of today.
+
+  Download is featured in home page.
+
+Thanks
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Sun Oct 12 18:00:55 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sun, 12 Oct 2008 11:00:55 -0500
+Subject: [HarvestMan-devel] Recently committed changes
+In-Reply-To: <8548c5f30810120332t43759431uedaef71e8efc7715@mail.gmail.com>
+References: <8548c5f30810120332t43759431uedaef71e8efc7715@mail.gmail.com>
+Message-ID: <804e5c70810120900m7a0c7903p9a4f13f5d89d1570@mail.gmail.com>
+
+On Sun, Oct 12, 2008 at 5:32 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi,
+>
+>    I have checked in a set of files (revs: 152, 153, 154)
+> for the following.
+>
+>  - Fix for issue #23 (urlparser.py, netinfo.py, config.py,
+>   crawler.py, gui.py, urltypes.py, test_urltypes.py, config-sample.xml,
+>   HarvestMan.xsd)
+>
+>  - Removing obsolete control variables for rules namely
+>   maxextservers, maxextdirs, eserverlinks, epagelinks from
+>   rules.py & config.py as well as from the config-sample.xml,
+>   the genconfig form and the HarvestMan schema. These variables
+>   are quite legacy and not required since fetchlevel overrides
+>   them anyway (rules.py, config-sample.xml, config.py, gui.py)
+
+Sounds good.
+
+>
+> -  A bug fix in urlparser.py for raising error for invalid URLs which
+>   contain only the protocol part (http:// etc) and test cases in
+>   test_urlparser.py for testing the same. (urlparser.py, test_urlparser.py)
+>
+> I have also removed config-template.xml since it is obsolete
+> and I think it is confusing to have two config XMLs. Only config-sample.xml
+> is required.
+>
+> Please sync svn and let me know of any issues.
+
+
+Following from the error from yesterday. cache_status is the last
+variable so some who the name of the config file gets put it. I
+removed all .pyc files but that didn't fix it. This error looks
+differently from yesterday before you committed a lot of good things
+so I assume it has to be somewhere...
+
+
+:~/projects/harvestman-crawler/trunk/HarvestMan/harvestman/apps$
+harvestman -c config-sample.xml
+Loading system configuration...
+Loading user configuration...
+Error assigning option "cache_status" => Error: invalid literal for
+int() with base 10: 'config-sample.xml'
+Pass option -h for command line usage.
+Printing error traceback for debugging...
+  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+line 730, in set_option_xml
+    self.assign_option(option_val, value)
+  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+line 623, in assign_option
+    raise HarvestManConfigError, "Error: " + str(e)
+
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Sun Oct 12 18:04:25 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sun, 12 Oct 2008 11:04:25 -0500
+Subject: [HarvestMan-devel] Recently committed changes
+In-Reply-To: <804e5c70810120900m7a0c7903p9a4f13f5d89d1570@mail.gmail.com>
+References: <8548c5f30810120332t43759431uedaef71e8efc7715@mail.gmail.com>
+	<804e5c70810120900m7a0c7903p9a4f13f5d89d1570@mail.gmail.com>
+Message-ID: <804e5c70810120904m5111a4dcg2b5035d65102ecfa@mail.gmail.com>
+
+l variables for rules namely
+>>   maxextservers, maxextdirs, eserverlinks, epagelinks from
+>>   rules.py & config.py as well as from the config-sample.xml,
+>>   the genconfig form and the HarvestMan schema. These variables
+>>   are quite legacy and not required since fetchlevel overrides
+>>   them anyway (rules.py, config-sample.xml, config.py, gui.py)
+>
+These are not part of genconfing anymore correct?
+
+Lucas
+
+
+From abpillai at gmail.com  Mon Oct 13 07:21:54 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 13 Oct 2008 10:51:54 +0530
+Subject: [HarvestMan-devel] Recently committed changes
+In-Reply-To: <804e5c70810120904m5111a4dcg2b5035d65102ecfa@mail.gmail.com>
+References: <8548c5f30810120332t43759431uedaef71e8efc7715@mail.gmail.com>
+	<804e5c70810120900m7a0c7903p9a4f13f5d89d1570@mail.gmail.com>
+	<804e5c70810120904m5111a4dcg2b5035d65102ecfa@mail.gmail.com>
+Message-ID: <8548c5f30810122221r4348ca0ej767cc473185aa356@mail.gmail.com>
+
+On Sun, Oct 12, 2008 at 9:34 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> l variables for rules namely
+>>>   maxextservers, maxextdirs, eserverlinks, epagelinks from
+>>>   rules.py & config.py as well as from the config-sample.xml,
+>>>   the genconfig form and the HarvestMan schema. These variables
+>>>   are quite legacy and not required since fetchlevel overrides
+>>>   them anyway (rules.py, config-sample.xml, config.py, gui.py)
+>>
+> These are not part of genconfing anymore correct?
+
+Yes, that is correct. These are obsoleted and removed from everywhere
+including config creation UI.
+
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Oct 13 15:53:33 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 13 Oct 2008 08:53:33 -0500
+Subject: [HarvestMan-devel] Recently committed changes
+In-Reply-To: <804e5c70810120900m7a0c7903p9a4f13f5d89d1570@mail.gmail.com>
+References: <8548c5f30810120332t43759431uedaef71e8efc7715@mail.gmail.com>
+	<804e5c70810120900m7a0c7903p9a4f13f5d89d1570@mail.gmail.com>
+Message-ID: <804e5c70810130653q49a87c2frfe64636131dc8751@mail.gmail.com>
+
+I still get this error:
+Error assigning option "cache_status" => Error: invalid literal for
+int() with base 10: 'config-sample.xml'
+
+Its trying to convert "config-sample.xml" to an integer???
+
+I removed ~/.harvestman and any other installation.
+
+Where else could it be sitting? when is .harvestman generated/created?
+
+Thanks,
+Lucas
+
+
+> :~/projects/harvestman-crawler/trunk/HarvestMan/harvestman/apps$
+> harvestman -c config-sample.xml
+> Loading system configuration...
+> Loading user configuration...
+> Error assigning option "cache_status" => Error: invalid literal for
+> int() with base 10: 'config-sample.xml'
+> Pass option -h for command line usage.
+> Printing error traceback for debugging...
+>  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+> line 730, in set_option_xml
+>    self.assign_option(option_val, value)
+>  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+> line 623, in assign_option
+>    raise HarvestManConfigError, "Error: " + str(e)
+>
+>
+> Thanks,
+> Lucas
+>
+
+
+
+-- 
+Python and OpenOffice documents and templates
+http://lucasmanual.com/mywiki/OpenOffice
+Fast and Easy Backup solution with Bacula
+http://lucasmanual.com/mywiki/Bacula
+
+
+From szybalski at gmail.com  Mon Oct 13 16:26:54 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 13 Oct 2008 09:26:54 -0500
+Subject: [HarvestMan-devel] Recently committed changes
+In-Reply-To: <804e5c70810130653q49a87c2frfe64636131dc8751@mail.gmail.com>
+References: <8548c5f30810120332t43759431uedaef71e8efc7715@mail.gmail.com>
+	<804e5c70810120900m7a0c7903p9a4f13f5d89d1570@mail.gmail.com>
+	<804e5c70810130653q49a87c2frfe64636131dc8751@mail.gmail.com>
+Message-ID: <804e5c70810130726n27768badk7ec62cbf3fcff20f@mail.gmail.com>
+
+I've printed optdict in config.py and this is what I got?
+look at the cache?
+
+Where are these values from?
+
+{'basedir': '', 'projectfile': '', 'connections': '', 'configfile':
+'', 'genconfig': False, 'plugins': '', 'urllist': '', 'maxthreads':
+'', 'workers': '', 'cache': '../apps/config-sample.xml', 'localise':
+'', 'version': False, 'selftest': False, 'subdomain': False,
+'maxfiles': '', 'option': '', 'proxyuser': '', 'robots': '', 'proxy':
+'', 'simulate': False, 'fetchlevel': '', 'retries': '', 'urlfilter':
+'', 'verbosity': '', 'project': '', 'timelimit': '', 'depth': '',
+'ui': False, 'proxypasswd': ''}
+
+Thanks,
+Lucas
+
+
+On Mon, Oct 13, 2008 at 8:53 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> I still get this error:
+> Error assigning option "cache_status" => Error: invalid literal for
+> int() with base 10: 'config-sample.xml'
+>
+> Its trying to convert "config-sample.xml" to an integer???
+>
+> I removed ~/.harvestman and any other installation.
+>
+> Where else could it be sitting? when is .harvestman generated/created?
+>
+> Thanks,
+> Lucas
+>
+>
+>> :~/projects/harvestman-crawler/trunk/HarvestMan/harvestman/apps$
+>> harvestman -c config-sample.xml
+>> Loading system configuration...
+>> Loading user configuration...
+>> Error assigning option "cache_status" => Error: invalid literal for
+>> int() with base 10: 'config-sample.xml'
+>> Pass option -h for command line usage.
+>> Printing error traceback for debugging...
+>>  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+>> line 730, in set_option_xml
+>>    self.assign_option(option_val, value)
+>>  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+>> line 623, in assign_option
+>>    raise HarvestManConfigError, "Error: " + str(e)
+>>
+>>
+>> Thanks,
+>> Lucas
+>>
+>
+>
+>
+> --
+> Python and OpenOffice documents and templates
+> http://lucasmanual.com/mywiki/OpenOffice
+> Fast and Easy Backup solution with Bacula
+> http://lucasmanual.com/mywiki/Bacula
+>
+
+
+
+-- 
+Python and OpenOffice documents and templates
+http://lucasmanual.com/mywiki/OpenOffice
+Fast and Easy Backup solution with Bacula
+http://lucasmanual.com/mywiki/Bacula
+
+
+From szybalski at gmail.com  Fri Oct 17 02:09:27 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 16 Oct 2008 19:09:27 -0500
+Subject: [HarvestMan-devel] Fwd: Thread died due to exception =>
+	'HarvestManUrl' object has no attribute 'get_original_url_directory'
+In-Reply-To: <cdb59b620810161656h23f9bc6ajc240a988a5646ce0@mail.gmail.com>
+References: <cdb59b620810161648tb5bfca4j520abc4d48da95b6@mail.gmail.com>
+	<cdb59b620810161656h23f9bc6ajc240a988a5646ce0@mail.gmail.com>
+Message-ID: <804e5c70810161709l702daf91jfa650dba66265bd0@mail.gmail.com>
+
+We'll look into it right away.
+
+Lucas
+
+
+---------- Forwarded message ----------
+From: mark ! <write2mark1 at gmail.com>
+Date: Thu, Oct 16, 2008 at 6:56 PM
+Subject: Re: Thread died due to exception => 'HarvestManUrl' object
+has no attribute 'get_original_url_directory'
+To: szybalski at gmail.com
+
+
+
+> How to fix this error?
+>
+> spider.main()
+> []
+> Starting HarvestMan 2.0 alpha 1...
+> Copyright (C) 2004, Anand B Pillai
+>
+> [16:47:40] *** Log Started ***
+>
+> [16:47:40] Starting project rotten ...
+> [16:47:40] Writing Project Files...
+> [16:47:40] Starting download of url http://rottentomatoes.com/ ...
+> [16:47:40] Reading Project Cache...
+> [16:47:40] Downloading file for url http://rottentomatoes.com/
+> [16:47:41] Saved to /home/mark/websites/rotten/www.rottentomatoes.com/index.html
+> Thread died due to exception =>  'HarvestManUrl' object has no attribute 'get_original_url_directory'
+> [16:47:47] Ending Project rotten ...
+> [16:47:49]
+> [16:47:49] Localising links of downloaded web pages...
+> [16:47:49] Localised links of 1 web pages.
+> [16:47:49]
+> [16:47:49] HarvestMan mirror rotten completed in 8.29 seconds.
+> [16:47:49] 210 links scanned in 1 server .
+> [16:47:49] 1 file written.
+> [16:47:49] 25078  bytes received at the rate of 2.95 KB/sec .
+> [16:47:49] 174853  bytes were written to disk.
+>
+> [16:47:49] *** Log Completed ***
+>
+> Writing project statistics to crawl database...
+> Done.
+> HarvestMan session finished.
+
+
+
+
+-- 
+Turbogears2 Manual
+http://lucasmanual.com/mywiki/TurboGears2
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/bzr
+
+
+From szybalski at gmail.com  Tue Oct 21 04:06:47 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 20 Oct 2008 21:06:47 -0500
+Subject: [HarvestMan-devel] cache status error
+Message-ID: <804e5c70810201906q548c30d5s7b47f34f3a5a119d@mail.gmail.com>
+
+Hello,
+I still get this error when I generate using --genconf configuration.
+
+harvestman --genconf
+
+save the file and run
+harvestman -c myconfig.xml
+
+ harvestman -c lucas.xml
+Loading system configuration...
+Error assigning option "cache_status" => Error: invalid literal for
+int() with base 10: 'lucas.xml'
+Pass option -h for command line usage.
+Printing error traceback for debugging...
+  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+line 730, in set_option_xml
+    self.assign_option(option_val, value)
+  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+line 623, in assign_option
+    raise HarvestManConfigError, "Error: " + str(e)
+
+
+
+Any idea why is this?
+
+Lucas
+
+-- 
+Turbogears2 Manual
+http://lucasmanual.com/mywiki/TurboGears2
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/bzr
+
+
+From abpillai at gmail.com  Thu Oct 23 09:13:55 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 23 Oct 2008 12:43:55 +0530
+Subject: [HarvestMan-devel] cache status error
+In-Reply-To: <804e5c70810201906q548c30d5s7b47f34f3a5a119d@mail.gmail.com>
+References: <804e5c70810201906q548c30d5s7b47f34f3a5a119d@mail.gmail.com>
+Message-ID: <8548c5f30810230013q42306c63q7af4216ad1d2f39f@mail.gmail.com>
+
+Hi Lukasz,
+
+  Can you send me this config file ?
+
+Thanks
+
+--Anand
+
+On Tue, Oct 21, 2008 at 7:36 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+> I still get this error when I generate using --genconf configuration.
+>
+> harvestman --genconf
+>
+> save the file and run
+> harvestman -c myconfig.xml
+>
+>  harvestman -c lucas.xml
+> Loading system configuration...
+> Error assigning option "cache_status" => Error: invalid literal for
+> int() with base 10: 'lucas.xml'
+> Pass option -h for command line usage.
+> Printing error traceback for debugging...
+>  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+> line 730, in set_option_xml
+>    self.assign_option(option_val, value)
+>  File "/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py",
+> line 623, in assign_option
+>    raise HarvestManConfigError, "Error: " + str(e)
+>
+>
+>
+> Any idea why is this?
+>
+> Lucas
+>
+> --
+> Turbogears2 Manual
+> http://lucasmanual.com/mywiki/TurboGears2
+> Bazaar and Launchpad
+> http://lucasmanual.com/mywiki/bzr
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Fri Oct 24 15:32:48 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 24 Oct 2008 08:32:48 -0500
+Subject: [HarvestMan-devel] cache status error
+In-Reply-To: <8548c5f30810240451s3843e242q58c3ab8ea558399@mail.gmail.com>
+References: <804e5c70810201906q548c30d5s7b47f34f3a5a119d@mail.gmail.com>
+	<8548c5f30810230013q42306c63q7af4216ad1d2f39f@mail.gmail.com>
+	<804e5c70810230619i6e92a79ey76f2ca75925181af@mail.gmail.com>
+	<8548c5f30810240451s3843e242q58c3ab8ea558399@mail.gmail.com>
+Message-ID: <804e5c70810240632j6cdf0c06yf9847f48a7e838b2@mail.gmail.com>
+
+On Fri, Oct 24, 2008 at 6:51 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Dear Lukasz,
+>
+>            This thing confounded me to no end. The problem is simple.
+> You are making a mistake passing the config file option. The config
+> file option has to be passed using "-C" (capital C), not "-c" (small c).
+> The latter is used to pass the cache status value.
+>
+>             There is nothing wrong with the config file or the code.
+> I can reproduce the same error with the config-template.xml file here.
+>
+> [anand at localhost apps]$ harvestman -c config-sample.xml
+> Loading system configuration...
+> Loading user configuration...
+> Error assigning option "cache_status" => Error: invalid literal for
+> int() with base 10: 'config-sample.xml'
+> Pass option -h for command line usage.
+> Printing error traceback for debugging...
+>  File "/usr/lib/python2.5/site-packages/HarvestMan-2.0.3dev_r157-py2.5.egg/harvestman/lib/config.py",
+> line 730, in set_option_xml
+>    self.assign_option(option_val, value)
+>  File "/usr/lib/python2.5/site-packages/HarvestMan-2.0.3dev_r157-py2.5.egg/harvestman/lib/config.py",
+> line 623, in assign_option
+>    raise HarvestManConfigError, "Error: " + str(e)
+>
+> Whereas,
+> [anand at localhost apps]$ harvestman -C lucas.xml
+> Loading system configuration...
+> Loading user configuration...
+> Using configuration file lucas.xml...
+> []
+> Starting HarvestMan 2.0 alpha 1...
+> Copyright (C) 2004, Anand B Pillai
+>
+> [17:26:19] *** Log Started ***
+>
+> [17:26:19] Starting project foo ...
+> [17:26:19] Writing Project Files...
+> [17:26:19] Starting download of url http://lucasmanual.com/ ...
+> [17:26:19] Reading Project Cache...
+> [17:26:19] Downloading file for url http://lucasmanual.com/
+>
+> All fine...
+>
+
+
+ok. sorry. I was under impression that -c worked.
+
+what about this one?
+
+
+ harvestman -C lucas.xml
+Loading system configuration...
+Using configuration file lucas.xml...
+Traceback (most recent call last):
+  File "/home/lucas/tmp/harvenv/bin/harvestman", line 7, in ?
+    sys.exit(
+  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py",
+line 687, in main
+    spider.initialize()
+  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py",
+line 434, in initialize
+    self.init_config()
+  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py",
+line 421, in init_config
+    self.process_plugins()
+  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/appbase.py",
+line 48, in process_plugins
+    from harvestman.lib import hooks
+  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/lib/hooks.py",
+line 205, in ?
+    HarvestManHooks.add_all_plugins()
+  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/lib/hooks.py",
+line 64, in add_all_plugins
+    M = __import__(module,fromlist=[from_module])
+TypeError: __import__() takes no keyword arguments
+
+
+From szybalski at gmail.com  Fri Oct 24 15:56:05 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 24 Oct 2008 08:56:05 -0500
+Subject: [HarvestMan-devel] cache status error
+In-Reply-To: <804e5c70810240632j6cdf0c06yf9847f48a7e838b2@mail.gmail.com>
+References: <804e5c70810201906q548c30d5s7b47f34f3a5a119d@mail.gmail.com>
+	<8548c5f30810230013q42306c63q7af4216ad1d2f39f@mail.gmail.com>
+	<804e5c70810230619i6e92a79ey76f2ca75925181af@mail.gmail.com>
+	<8548c5f30810240451s3843e242q58c3ab8ea558399@mail.gmail.com>
+	<804e5c70810240632j6cdf0c06yf9847f48a7e838b2@mail.gmail.com>
+Message-ID: <804e5c70810240656s7c3cafcdyccfbcdaca6776dce@mail.gmail.com>
+
+ok. I fixed it.
+I commend a line that calls all plugins?
+
+Do we have any plugins?
+
+Is that ok? If we do have plugins we can use existing plugin structure
+from a program like pastescript which allows for very nice plugin
+setups.
+
+Let me know.
+
+Thanks,
+Lucas
+
+On Fri, Oct 24, 2008 at 8:32 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Fri, Oct 24, 2008 at 6:51 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Dear Lukasz,
+>>
+>>            This thing confounded me to no end. The problem is simple.
+>> You are making a mistake passing the config file option. The config
+>> file option has to be passed using "-C" (capital C), not "-c" (small c).
+>> The latter is used to pass the cache status value.
+>>
+>>             There is nothing wrong with the config file or the code.
+>> I can reproduce the same error with the config-template.xml file here.
+>>
+>> [anand at localhost apps]$ harvestman -c config-sample.xml
+>> Loading system configuration...
+>> Loading user configuration...
+>> Error assigning option "cache_status" => Error: invalid literal for
+>> int() with base 10: 'config-sample.xml'
+>> Pass option -h for command line usage.
+>> Printing error traceback for debugging...
+>>  File "/usr/lib/python2.5/site-packages/HarvestMan-2.0.3dev_r157-py2.5.egg/harvestman/lib/config.py",
+>> line 730, in set_option_xml
+>>    self.assign_option(option_val, value)
+>>  File "/usr/lib/python2.5/site-packages/HarvestMan-2.0.3dev_r157-py2.5.egg/harvestman/lib/config.py",
+>> line 623, in assign_option
+>>    raise HarvestManConfigError, "Error: " + str(e)
+>>
+>> Whereas,
+>> [anand at localhost apps]$ harvestman -C lucas.xml
+>> Loading system configuration...
+>> Loading user configuration...
+>> Using configuration file lucas.xml...
+>> []
+>> Starting HarvestMan 2.0 alpha 1...
+>> Copyright (C) 2004, Anand B Pillai
+>>
+>> [17:26:19] *** Log Started ***
+>>
+>> [17:26:19] Starting project foo ...
+>> [17:26:19] Writing Project Files...
+>> [17:26:19] Starting download of url http://lucasmanual.com/ ...
+>> [17:26:19] Reading Project Cache...
+>> [17:26:19] Downloading file for url http://lucasmanual.com/
+>>
+>> All fine...
+>>
+>
+>
+> ok. sorry. I was under impression that -c worked.
+>
+> what about this one?
+>
+>
+>  harvestman -C lucas.xml
+> Loading system configuration...
+> Using configuration file lucas.xml...
+> Traceback (most recent call last):
+>  File "/home/lucas/tmp/harvenv/bin/harvestman", line 7, in ?
+>    sys.exit(
+>  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py",
+> line 687, in main
+>    spider.initialize()
+>  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py",
+> line 434, in initialize
+>    self.init_config()
+>  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py",
+> line 421, in init_config
+>    self.process_plugins()
+>  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/appbase.py",
+> line 48, in process_plugins
+>    from harvestman.lib import hooks
+>  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/lib/hooks.py",
+> line 205, in ?
+>    HarvestManHooks.add_all_plugins()
+>  File "/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/lib/hooks.py",
+> line 64, in add_all_plugins
+>    M = __import__(module,fromlist=[from_module])
+> TypeError: __import__() takes no keyword arguments
+>
+
+
+
+-- 
+Turbogears2 Manual
+http://lucasmanual.com/mywiki/TurboGears2
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/bzr
+
+
+From szybalski at gmail.com  Fri Oct 24 23:58:57 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 24 Oct 2008 16:58:57 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70810061200s9560307oe2103372a3723a88@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+	<8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+	<8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+	<8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+	<8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+	<804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+Message-ID: <804e5c70810241458x77cee2a4x3d5a11587de5bf65@mail.gmail.com>
+
+On Sat, Oct 11, 2008 at 11:32 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Sat, Oct 11, 2008 at 2:24 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> I was a bit wrong here. In fact just importing won't work. But
+>> this works.
+>>
+>> import ez_setup
+>> ez_setup.main(['setuptools==dev'])
+>>
+>> I think this might be a good solution - i.e if we don't detect
+>> setuptools we can invoke this logic. Let me know what you think.
+>
+>
+> I'll look into it. Yes setup tools is required. I am working with
+> turbogears and that is what they use. (turbogears depends on at least
+> 30-40 other packages so the way we have it setup will be very easy to
+> install.)
+>
+> Let me play around with the
+> ez_setup.main(['setuptools==dev']) I think this installs the most
+> recent version. I'll try to remove setuptools from my virtualenv and
+> then see what happens.
+>
+>
+>  virtualenv --no-site-packages harv1testenv
+> New python executable in harv1testenv/bin/python
+> Installing setuptools............done.
+>
+> source harv1testenv/bin/activate
+>
+> easy_install -m setuptools
+> Searching for setuptools
+> Best match: setuptools 0.6c8
+> Processing setuptools-0.6c8-py2.5.egg
+> Removing setuptools 0.6c8 from easy-install.pth file
+> Installing easy_install script to /home/lucas/tmp/harv1testenv/bin
+> Installing easy_install-2.5 script to /home/lucas/tmp/harv1testenv/bin
+>
+> Using /home/lucas/tmp/harv1testenv/lib/python2.5/site-packages/setuptools-0.6c8-py2.5.egg
+>
+> Because this distribution was installed --multi-version, before you can
+> import modules from this package in an application, you will need to
+> 'import pkg_resources' and then use a 'require()' call similar to one of
+> these examples, in order to select the desired version:
+>
+>    pkg_resources.require("setuptools")  # latest installed version
+>    pkg_resources.require("setuptools==0.6c8")  # this exact version
+>    pkg_resources.require("setuptools>=0.6c8")  # this version or higher
+>
+> Processing dependencies for setuptools
+> Finished processing dependencies for setuptools
+>
+>
+> I tried import the ez_setup
+>>>> import ez_setup
+> Traceback (most recent call last):
+>  File "<stdin>", line 1, in <module>
+> ImportError: No module named ez_setup
+>
+>
+> Solution 1:
+>
+> I also tried:
+> import pkg_resources
+> pkg_resources.require("setuptools")
+>
+> which installs the setuptools, but I it gets it from somewhere in my system.
+> I guess we would have to try this on windows, as it will probably be
+> the only system that might not have setuptools.
+>
+> Solution 2:
+> Include this file, and then run your command:
+> http://peak.telecommunity.com/dist/ez_setup.py
+> import ez_setup
+> ez_setup.main(['setuptools'])
+>
+
+ok I have added:
+pkg_resources.require("setuptools")
+to the setup.py
+
+svn update
+
+and give that a try. I don't have a system that doesn't have
+setuptools so could you try it on yours.
+
+Let me know if it worked.
+
+If its not downloading I will replace it with ez_setup.
+
+Thanks.
+Lucas
+
+
+From szybalski at gmail.com  Sat Oct 25 00:30:58 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 24 Oct 2008 17:30:58 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810241458x77cee2a4x3d5a11587de5bf65@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+	<8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+	<8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+	<8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+	<8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+	<804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+	<804e5c70810241458x77cee2a4x3d5a11587de5bf65@mail.gmail.com>
+Message-ID: <804e5c70810241530t5cf871a4l350a24f99463cc4d@mail.gmail.com>
+
+On Fri, Oct 24, 2008 at 4:58 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Sat, Oct 11, 2008 at 11:32 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Sat, Oct 11, 2008 at 2:24 AM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> I was a bit wrong here. In fact just importing won't work. But
+>>> this works.
+>>>
+>>> import ez_setup
+>>> ez_setup.main(['setuptools==dev'])
+>>>
+>>> I think this might be a good solution - i.e if we don't detect
+>>> setuptools we can invoke this logic. Let me know what you think.
+>>
+>>
+>> I'll look into it. Yes setup tools is required. I am working with
+>> turbogears and that is what they use. (turbogears depends on at least
+>> 30-40 other packages so the way we have it setup will be very easy to
+>> install.)
+>>
+>> Let me play around with the
+>> ez_setup.main(['setuptools==dev']) I think this installs the most
+>> recent version. I'll try to remove setuptools from my virtualenv and
+>> then see what happens.
+>>
+>>
+>>  virtualenv --no-site-packages harv1testenv
+>> New python executable in harv1testenv/bin/python
+>> Installing setuptools............done.
+>>
+>> source harv1testenv/bin/activate
+>>
+>> easy_install -m setuptools
+>> Searching for setuptools
+>> Best match: setuptools 0.6c8
+>> Processing setuptools-0.6c8-py2.5.egg
+>> Removing setuptools 0.6c8 from easy-install.pth file
+>> Installing easy_install script to /home/lucas/tmp/harv1testenv/bin
+>> Installing easy_install-2.5 script to /home/lucas/tmp/harv1testenv/bin
+>>
+>> Using /home/lucas/tmp/harv1testenv/lib/python2.5/site-packages/setuptools-0.6c8-py2.5.egg
+>>
+>> Because this distribution was installed --multi-version, before you can
+>> import modules from this package in an application, you will need to
+>> 'import pkg_resources' and then use a 'require()' call similar to one of
+>> these examples, in order to select the desired version:
+>>
+>>    pkg_resources.require("setuptools")  # latest installed version
+>>    pkg_resources.require("setuptools==0.6c8")  # this exact version
+>>    pkg_resources.require("setuptools>=0.6c8")  # this version or higher
+>>
+>> Processing dependencies for setuptools
+>> Finished processing dependencies for setuptools
+>>
+>>
+>> I tried import the ez_setup
+>>>>> import ez_setup
+>> Traceback (most recent call last):
+>>  File "<stdin>", line 1, in <module>
+>> ImportError: No module named ez_setup
+>>
+>>
+>> Solution 1:
+>>
+>> I also tried:
+>> import pkg_resources
+>> pkg_resources.require("setuptools")
+>>
+>> which installs the setuptools, but I it gets it from somewhere in my system.
+>> I guess we would have to try this on windows, as it will probably be
+>> the only system that might not have setuptools.
+>>
+>> Solution 2:
+>> Include this file, and then run your command:
+>> http://peak.telecommunity.com/dist/ez_setup.py
+>> import ez_setup
+>> ez_setup.main(['setuptools'])
+>>
+>
+> ok I have added:
+> pkg_resources.require("setuptools")
+> to the setup.py
+>
+> svn update
+>
+> and give that a try. I don't have a system that doesn't have
+> setuptools so could you try it on yours.
+>
+> Let me know if it worked.
+>
+> If its not downloading I will replace it with ez_setup.
+
+That didn't work so I added ez_setup.py to the folder and added
+ez_setup.main(['setuptools']) which gets the setuptools.
+
+This should work now. Checked in in rev 160
+
+Lucas
+
+
+From szybalski at gmail.com  Mon Oct 27 01:16:32 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sun, 26 Oct 2008 19:16:32 -0500
+Subject: [HarvestMan-devel] harvestman log
+Message-ID: <804e5c70810261716u75478804w71507749c4d7dcc4@mail.gmail.com>
+
+Hello,
+I wanted to make the following changes to the log.
+
+1. Replace [18:55:27]  with standard date and time 2008-10-26 19:07:14.091668
+
+ from datetime import datetime
+>>> datetime.now()
+datetime.datetime(2008, 10, 26, 19, 7, 8, 146209)
+>>> print datetime.now()
+2008-10-26 19:07:14.091668
+
+2. What is the difference between  "Downloading file for url " and
+"Fetching links for url"?
+
+3. I wanted to replace "Fetching links for url" with like "
+
+[19:07:14] Fetching links for url http://www.example.com/index.html
+with
+2008-10-26 19:07:14.091668  GET  http://www.example.com/index.html
+2008-10-26 19:07:14.091668  SAVE  http://www.example.com/index.html
+
+
+Let me know what you think?
+
+Lucas
+
+
+
+30228 lucas     15   0  183m  12m 2828 S 99.7  2.4   0:26.71 harvestman
+
+-- 
+Turbogears2 Manual
+http://lucasmanual.com/mywiki/TurboGears2
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/bzr
+
+
+From szybalski at gmail.com  Mon Oct 27 01:25:05 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sun, 26 Oct 2008 19:25:05 -0500
+Subject: [HarvestMan-devel] performance
+Message-ID: <804e5c70810261725u25ccf8f7v1e2f3eaf6cd4ad94@mail.gmail.com>
+
+Hello,
+Is there a reason why the cpu goes to 100%?
+31237 lucas     15   0  183m  12m 2828 S 98.7  2.4   0:24.42 harvestman
+
+The cpu goes to 98.7%. Is there a way to debug it to find out what its doing?
+
+Thanks,
+Lucas
+
+
+-- 
+Turbogears2 Manual
+http://lucasmanual.com/mywiki/TurboGears2
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/bzr
+
+
+From abpillai at gmail.com  Mon Oct 27 06:34:58 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 27 Oct 2008 11:04:58 +0530
+Subject: [HarvestMan-devel] Harvestman - useragent value
+In-Reply-To: <39991def0810241850g15d09403u65e121c06f556058@mail.gmail.com>
+References: <39991def0810241850g15d09403u65e121c06f556058@mail.gmail.com>
+Message-ID: <8548c5f30810262234m556711e3y6e8ebed0937b0349@mail.gmail.com>
+
+Hi Saiful,
+
+    Thanks for testing HarvestMan.
+
+I assume you tested the code from the project subversion trunk. If so,
+could you add a bug for this issue ? To report a new bug, go to
+
+http://code.google.com/p/harvestman-crawler/issues/entry
+
+Regards
+
+--Anand
+
+On Sat, Oct 25, 2008 at 7:20 AM, saiful bahri <saifulbahri at gmail.com> wrote:
+> Hi,
+>
+> I tested Harvestman with python2.6.
+> I found out that even if i set the config useragent, it still append the
+> default user-agent value 'Python-urllib/2.6'
+>
+> e.g. in config:
+> <useragent value="Mozilla/5.0"/>
+>
+> In the request made by Harvestman, here is what the http server captured:
+> HTTP_USER_AGENT : Python-urllib/2.6, Mozilla/5.0
+>
+> If i test urllib2 directly, after i set the request.add_header(), it does
+> not append the default 'Python-urllib/2.6'.
+> Why is this so? Where in the code that add_header will be called? I only
+> find in connector.py.
+>
+> here is the code i tested urllib2 directly
+>
+> import urllib2
+>
+> request = urllib2.Request("http://localhost/harvest/server/test.php")
+> request.add_header('User-Agent', 'test')
+> f = urllib2.urlopen(request)
+>
+> regards,
+> bahri
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Tue Oct 28 05:15:20 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 27 Oct 2008 23:15:20 -0500
+Subject: [HarvestMan-devel] Harvestman - useragent value
+In-Reply-To: <8548c5f30810262234m556711e3y6e8ebed0937b0349@mail.gmail.com>
+References: <39991def0810241850g15d09403u65e121c06f556058@mail.gmail.com>
+	<8548c5f30810262234m556711e3y6e8ebed0937b0349@mail.gmail.com>
+Message-ID: <804e5c70810272115l7e840055pbbf4c80aca096772@mail.gmail.com>
+
+Fixed.
+I've checked in the new changes that make sure the user agent is what
+you entered.
+
+svn update
+delete ~/.harvestman
+
+python setup.py develop
+...
+your good to go.
+
+Lucas
+
+On Mon, Oct 27, 2008 at 12:34 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Saiful,
+>
+>    Thanks for testing HarvestMan.
+>
+> I assume you tested the code from the project subversion trunk. If so,
+> could you add a bug for this issue ? To report a new bug, go to
+>
+> http://code.google.com/p/harvestman-crawler/issues/entry
+>
+> Regards
+>
+> --Anand
+>
+> On Sat, Oct 25, 2008 at 7:20 AM, saiful bahri <saifulbahri at gmail.com> wrote:
+>> Hi,
+>>
+>> I tested Harvestman with python2.6.
+>> I found out that even if i set the config useragent, it still append the
+>> default user-agent value 'Python-urllib/2.6'
+>>
+>> e.g. in config:
+>> <useragent value="Mozilla/5.0"/>
+>>
+>> In the request made by Harvestman, here is what the http server captured:
+>> HTTP_USER_AGENT : Python-urllib/2.6, Mozilla/5.0
+>>
+>> If i test urllib2 directly, after i set the request.add_header(), it does
+>> not append the default 'Python-urllib/2.6'.
+>> Why is this so? Where in the code that add_header will be called? I only
+>> find in connector.py.
+>>
+>> here is the code i tested urllib2 directly
+>>
+>> import urllib2
+>>
+>> request = urllib2.Request("http://localhost/harvest/server/test.php")
+>> request.add_header('User-Agent', 'test')
+>> f = urllib2.urlopen(request)
+>>
+>> regards,
+>> bahri
+>>
+>
+>
+>
+> --
+> -Anand
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+Turbogears2 Manual
+http://lucasmanual.com/mywiki/TurboGears2
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/bzr
+
+
+From abpillai at gmail.com  Tue Oct 28 06:55:37 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 28 Oct 2008 11:25:37 +0530
+Subject: [HarvestMan-devel] harvestman log
+In-Reply-To: <804e5c70810261716u75478804w71507749c4d7dcc4@mail.gmail.com>
+References: <804e5c70810261716u75478804w71507749c4d7dcc4@mail.gmail.com>
+Message-ID: <8548c5f30810272255m54e1c85ducf3dcd8c7292db3c@mail.gmail.com>
+
+Hi Lukasz,
+
+On Mon, Oct 27, 2008 at 5:46 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+> I wanted to make the following changes to the log.
+>
+> 1. Replace [18:55:27]  with standard date and time 2008-10-26 19:07:14.091668
+>
+>  from datetime import datetime
+>>>> datetime.now()
+> datetime.datetime(2008, 10, 26, 19, 7, 8, 146209)
+>>>> print datetime.now()
+> 2008-10-26 19:07:14.091668
+>
+> 2. What is the difference between  "Downloading file for url " and
+> "Fetching links for url"?
+
+Downloading file for URL means the crawler is actually getting the
+data for the given URL by making an HTTP GET connection.
+
+Fetching links for url means that the crawler has extracted all child links
+for the URL and is now going to queue them for download.
+
+
+>
+> 3. I wanted to replace "Fetching links for url" with like "
+>
+> [19:07:14] Fetching links for url http://www.example.com/index.html
+> with
+> 2008-10-26 19:07:14.091668  GET  http://www.example.com/index.html
+> 2008-10-26 19:07:14.091668  SAVE  http://www.example.com/index.html
+
+No, you should not replace "Fetching links". Instead you can add this after
+"Downloading file for url" in connector.py. Before calling the connect method
+add  the "GET" line and after getting the data, before saving it
+(inside save_url
+method, just before _write_url is called), add the SAVE line.
+
+Please add them at the "debug" level. I don't think anyone wants to see
+this at the normal (info) level.
+
+>
+>
+> Let me know what you think?
+>
+> Lucas
+>
+>
+>
+> 30228 lucas     15   0  183m  12m 2828 S 99.7  2.4   0:26.71 harvestman
+>
+> --
+> Turbogears2 Manual
+> http://lucasmanual.com/mywiki/TurboGears2
+> Bazaar and Launchpad
+> http://lucasmanual.com/mywiki/bzr
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Tue Oct 28 07:00:19 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 28 Oct 2008 11:30:19 +0530
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810241530t5cf871a4l350a24f99463cc4d@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70810061351r1270b975q587821a7500e6da0@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+	<8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+	<8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+	<8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+	<8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+	<804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+	<804e5c70810241458x77cee2a4x3d5a11587de5bf65@mail.gmail.com>
+	<804e5c70810241530t5cf871a4l350a24f99463cc4d@mail.gmail.com>
+Message-ID: <8548c5f30810272300l55e394e8j7330b44db2e4daee@mail.gmail.com>
+
+Hi Lukasz,
+
+        I removed setuptools from my Python (2.5.1) and re-ran
+the installation. The installation exits after setuptools is installed,
+without going through the rest of setup.py.
+
+[anand at localhost HarvestMan]$ sudo python setup.py install
+Downloading http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg
+Searching for setuptools
+Reading http://pypi.python.org/simple/setuptools/
+Best match: setuptools 0.6c9
+Downloading http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg#md5=fe67c3e5a17b12c0e7c541b7ea43a8e6
+Processing setuptools-0.6c9-py2.5.egg
+Moving setuptools-0.6c9-py2.5.egg to /usr/lib/python2.5/site-packages
+Adding setuptools 0.6c9 to easy-install.pth file
+Installing easy_install script to /usr/bin
+Installing easy_install-2.5 script to /usr/bin
+
+Installed /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+Processing dependencies for setuptools
+Finished processing dependencies for setuptools
+Processing setuptools-0.6c9-py2.5.egg
+Removing /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+Copying setuptools-0.6c9-py2.5.egg to /usr/lib/python2.5/site-packages
+setuptools 0.6c9 is already the active version in easy-install.pth
+Installing easy_install script to /usr/bin
+Installing easy_install-2.5 script to /usr/bin
+
+Installed /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+Processing dependencies for setuptools==0.6c9
+Finished processing dependencies for setuptools==0.6c9
+running install
+running bdist_egg
+running egg_info
+writing requirements to HarvestMan.egg-info/requires.txt
+writing HarvestMan.egg-info/PKG-INFO
+writing top-level names to HarvestMan.egg-info/top_level.txt
+writing dependency_links to HarvestMan.egg-info/dependency_links.txt
+writing entry points to HarvestMan.egg-info/entry_points.txt
+error: None
+[anand at localhost HarvestMan]$
+
+After this if I try it again, of course the setup completes.
+
+Any idea what is happening ? My machine is FC-9 x86_64 ,
+Python 2.5.1.
+
+Regards
+
+--Anand
+
+
+On Sat, Oct 25, 2008 at 4:00 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Fri, Oct 24, 2008 at 4:58 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Sat, Oct 11, 2008 at 11:32 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> On Sat, Oct 11, 2008 at 2:24 AM, Anand Balachandran Pillai
+>>> <abpillai at gmail.com> wrote:
+>>>> I was a bit wrong here. In fact just importing won't work. But
+>>>> this works.
+>>>>
+>>>> import ez_setup
+>>>> ez_setup.main(['setuptools==dev'])
+>>>>
+>>>> I think this might be a good solution - i.e if we don't detect
+>>>> setuptools we can invoke this logic. Let me know what you think.
+>>>
+>>>
+>>> I'll look into it. Yes setup tools is required. I am working with
+>>> turbogears and that is what they use. (turbogears depends on at least
+>>> 30-40 other packages so the way we have it setup will be very easy to
+>>> install.)
+>>>
+>>> Let me play around with the
+>>> ez_setup.main(['setuptools==dev']) I think this installs the most
+>>> recent version. I'll try to remove setuptools from my virtualenv and
+>>> then see what happens.
+>>>
+>>>
+>>>  virtualenv --no-site-packages harv1testenv
+>>> New python executable in harv1testenv/bin/python
+>>> Installing setuptools............done.
+>>>
+>>> source harv1testenv/bin/activate
+>>>
+>>> easy_install -m setuptools
+>>> Searching for setuptools
+>>> Best match: setuptools 0.6c8
+>>> Processing setuptools-0.6c8-py2.5.egg
+>>> Removing setuptools 0.6c8 from easy-install.pth file
+>>> Installing easy_install script to /home/lucas/tmp/harv1testenv/bin
+>>> Installing easy_install-2.5 script to /home/lucas/tmp/harv1testenv/bin
+>>>
+>>> Using /home/lucas/tmp/harv1testenv/lib/python2.5/site-packages/setuptools-0.6c8-py2.5.egg
+>>>
+>>> Because this distribution was installed --multi-version, before you can
+>>> import modules from this package in an application, you will need to
+>>> 'import pkg_resources' and then use a 'require()' call similar to one of
+>>> these examples, in order to select the desired version:
+>>>
+>>>    pkg_resources.require("setuptools")  # latest installed version
+>>>    pkg_resources.require("setuptools==0.6c8")  # this exact version
+>>>    pkg_resources.require("setuptools>=0.6c8")  # this version or higher
+>>>
+>>> Processing dependencies for setuptools
+>>> Finished processing dependencies for setuptools
+>>>
+>>>
+>>> I tried import the ez_setup
+>>>>>> import ez_setup
+>>> Traceback (most recent call last):
+>>>  File "<stdin>", line 1, in <module>
+>>> ImportError: No module named ez_setup
+>>>
+>>>
+>>> Solution 1:
+>>>
+>>> I also tried:
+>>> import pkg_resources
+>>> pkg_resources.require("setuptools")
+>>>
+>>> which installs the setuptools, but I it gets it from somewhere in my system.
+>>> I guess we would have to try this on windows, as it will probably be
+>>> the only system that might not have setuptools.
+>>>
+>>> Solution 2:
+>>> Include this file, and then run your command:
+>>> http://peak.telecommunity.com/dist/ez_setup.py
+>>> import ez_setup
+>>> ez_setup.main(['setuptools'])
+>>>
+>>
+>> ok I have added:
+>> pkg_resources.require("setuptools")
+>> to the setup.py
+>>
+>> svn update
+>>
+>> and give that a try. I don't have a system that doesn't have
+>> setuptools so could you try it on yours.
+>>
+>> Let me know if it worked.
+>>
+>> If its not downloading I will replace it with ez_setup.
+>
+> That didn't work so I added ez_setup.py to the folder and added
+> ez_setup.main(['setuptools']) which gets the setuptools.
+>
+> This should work now. Checked in in rev 160
+>
+> Lucas
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Tue Oct 28 15:19:35 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 28 Oct 2008 09:19:35 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <8548c5f30810272300l55e394e8j7330b44db2e4daee@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<804e5c70810071853y6354d1f3ie8bfba3043c31e20@mail.gmail.com>
+	<8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+	<8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+	<8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+	<8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+	<804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+	<804e5c70810241458x77cee2a4x3d5a11587de5bf65@mail.gmail.com>
+	<804e5c70810241530t5cf871a4l350a24f99463cc4d@mail.gmail.com>
+	<8548c5f30810272300l55e394e8j7330b44db2e4daee@mail.gmail.com>
+Message-ID: <804e5c70810280719n7b092a5ald9269d86222e62fe@mail.gmail.com>
+
+On Tue, Oct 28, 2008 at 1:00 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+>        I removed setuptools from my Python (2.5.1) and re-ran
+> the installation. The installation exits after setuptools is installed,
+> without going through the rest of setup.py.
+>
+> [anand at localhost HarvestMan]$ sudo python setup.py install
+> Downloading http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg
+> Searching for setuptools
+> Reading http://pypi.python.org/simple/setuptools/
+> Best match: setuptools 0.6c9
+> Downloading http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg#md5=fe67c3e5a17b12c0e7c541b7ea43a8e6
+> Processing setuptools-0.6c9-py2.5.egg
+> Moving setuptools-0.6c9-py2.5.egg to /usr/lib/python2.5/site-packages
+> Adding setuptools 0.6c9 to easy-install.pth file
+> Installing easy_install script to /usr/bin
+> Installing easy_install-2.5 script to /usr/bin
+>
+> Installed /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+> Processing dependencies for setuptools
+> Finished processing dependencies for setuptools
+> Processing setuptools-0.6c9-py2.5.egg
+> Removing /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+> Copying setuptools-0.6c9-py2.5.egg to /usr/lib/python2.5/site-packages
+> setuptools 0.6c9 is already the active version in easy-install.pth
+> Installing easy_install script to /usr/bin
+> Installing easy_install-2.5 script to /usr/bin
+>
+> Installed /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+> Processing dependencies for setuptools==0.6c9
+> Finished processing dependencies for setuptools==0.6c9
+> running install
+> running bdist_egg
+> running egg_info
+> writing requirements to HarvestMan.egg-info/requires.txt
+> writing HarvestMan.egg-info/PKG-INFO
+> writing top-level names to HarvestMan.egg-info/top_level.txt
+> writing dependency_links to HarvestMan.egg-info/dependency_links.txt
+> writing entry points to HarvestMan.egg-info/entry_points.txt
+> error: None
+> [anand at localhost HarvestMan]$
+>
+> After this if I try it again, of course the setup completes.
+>
+> Any idea what is happening ? My machine is FC-9 x86_64 ,
+> Python 2.5.1.
+>
+
+That is weird...
+I'll try to reproduce the same thing on my machine.
+
+Lucas
+
+
+From szybalski at gmail.com  Tue Oct 28 15:25:32 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 28 Oct 2008 09:25:32 -0500
+Subject: [HarvestMan-devel] harvestman log
+In-Reply-To: <8548c5f30810272255m54e1c85ducf3dcd8c7292db3c@mail.gmail.com>
+References: <804e5c70810261716u75478804w71507749c4d7dcc4@mail.gmail.com>
+	<8548c5f30810272255m54e1c85ducf3dcd8c7292db3c@mail.gmail.com>
+Message-ID: <804e5c70810280725i601884bco12d12fdd5e802674@mail.gmail.com>
+
+On Tue, Oct 28, 2008 at 12:55 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+> On Mon, Oct 27, 2008 at 5:46 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> Hello,
+>> I wanted to make the following changes to the log.
+>>
+>> 1. Replace [18:55:27]  with standard date and time 2008-10-26 19:07:14.091668
+>>
+>>  from datetime import datetime
+>>>>> datetime.now()
+>> datetime.datetime(2008, 10, 26, 19, 7, 8, 146209)
+>>>>> print datetime.now()
+>> 2008-10-26 19:07:14.091668
+>>
+>> 2. What is the difference between  "Downloading file for url " and
+>> "Fetching links for url"?
+>
+> Downloading file for URL means the crawler is actually getting the
+> data for the given URL by making an HTTP GET connection.
+>
+> Fetching links for url means that the crawler has extracted all child links
+> for the URL and is now going to queue them for download.
+>
+>
+>>
+>> 3. I wanted to replace "Fetching links for url" with like "
+>>
+>> [19:07:14] Fetching links for url http://www.example.com/index.html
+>> with
+>> 2008-10-26 19:07:14.091668  GET  http://www.example.com/index.html
+>> 2008-10-26 19:07:14.091668  SAVE  http://www.example.com/index.html
+>
+> No, you should not replace "Fetching links". Instead you can add this after
+> "Downloading file for url" in connector.py. Before calling the connect method
+> add  the "GET" line and after getting the data, before saving it
+> (inside save_url
+> method, just before _write_url is called), add the SAVE line.
+>
+> Please add them at the "debug" level. I don't think anyone wants to see
+> this at the normal (info) level.
+>
+
+I would.  That is why i ask.
+
+The same information is saved to a log. So when I wanted to rerun the
+crawl I checked the log and tried to see when I have downloaded it.
+Because there is only a time there I had to redownload it. If I had
+the date and time this would tell me how old this file is and whether
+I should be downloading it again or not.
+
+The replacing of "downloading file for URL" with "GET" (internet
+stadard) or "Download"(our custom one) would give extra space needed
+for this change. (get or download seem sufficient)
+
+Lucas
+
+

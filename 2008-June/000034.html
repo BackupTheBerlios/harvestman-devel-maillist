@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Throttling/Bandwidth Control
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C8548c5f30806200350u21720df9gd11beb3902fac833%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000033.html">
+   <LINK REL="Next"  HREF="000057.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Throttling/Bandwidth Control</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C8548c5f30806200350u21720df9gd11beb3902fac833%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Throttling/Bandwidth Control">abpillai at gmail.com
+       </A><BR>
+    <I>Fri Jun 20 12:50:23 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000033.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+        <LI>Next message: <A HREF="000057.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#34">[ date ]</a>
+              <a href="thread.html#34">[ thread ]</a>
+              <a href="subject.html#34">[ subject ]</a>
+              <a href="author.html#34">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>The table did not come out right. Here it is...
+
+C      |   MRB   |   AB |
+----------------------------
+5         5          5.4
+5         10        9.4
+5         15        13.0
+10        5         5.2
+10       10         9.3
+10       15        13.0
+--------------------------
+
+C =&gt; Max connections
+MRB =&gt; Max requested bandwidth
+AB  =&gt; Achieved Bandwidth
+
+As you can see, the achieved bandwidth is not related to max connections,
+which is the way it should be.
+
+Regards
+
+--Anand
+On Fri, Jun 20, 2008 at 4:15 PM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> Hi,
+</I>&gt;<i>
+</I>&gt;<i>         This implementation is now completed. I have been able to achieve
+</I>&gt;<i> very close net bandwidth limits to the user specified limit.
+</I>&gt;<i>
+</I>&gt;<i>        Here are results from actual crawls.
+</I>&gt;<i>
+</I>&gt;<i> URL: <A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A>
+</I>&gt;<i> Fetchlevel: 0       (Directory-only  crawl)
+</I>&gt;<i> Files Saved: 29
+</I>&gt;<i>
+</I>&gt;<i> Max Connections  |   Max Requested Bandwidth   |   Achieved Bandwidth  (Avg)|
+</I>&gt;<i> ---------------------------------------------------------------------------------------------------------
+</I>&gt;<i> 5                           |        5 kbps
+</I>&gt;<i>  |       5.4  kbps
+</I>&gt;<i> 5                           |        10 kbps
+</I>&gt;<i>  |       9.4  kbps
+</I>&gt;<i> 5                           |        15 kbps
+</I>&gt;<i>  |       13.0 kbps
+</I>&gt;<i> 10                         |         5 kbps
+</I>&gt;<i>  |       5.2  kbps
+</I>&gt;<i> 10                         |        10 kbps
+</I>&gt;<i> |       9.3 kbps
+</I>&gt;<i> 10                         |         15 kbps
+</I>&gt;<i> |       13.0 kbps
+</I>&gt;<i> ----------------------------------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> The throttling calculates a dynamic bandwidth limit for each connection
+</I>&gt;<i> by dividing the net bandwidth limit by total number of active
+</I>&gt;<i> connections, instead
+</I>&gt;<i> of making this a static factor. This helps to keep the actual bandwidth closer
+</I>&gt;<i> to the required bandwidth.
+</I>&gt;<i>
+</I>&gt;<i> For throttling, I introduced a special file object in connector module which
+</I>&gt;<i> reads data in blocks and using the expected bandwidth and data read so
+</I>&gt;<i> far, calculates a time period for sleeping on the read. This is calculated
+</I>&gt;<i> as follows.
+</I>&gt;<i>
+</I>&gt;<i> tsart = start timestamp of reading from connection
+</I>&gt;<i> tcurrent = current timestamp
+</I>&gt;<i> bw = expected bandwidth for this connection in bytes per sec
+</I>&gt;<i> clength = length of data read so far in bytes
+</I>&gt;<i>
+</I>&gt;<i> So, using this,
+</I>&gt;<i>
+</I>&gt;<i> texpected (Expected time for reading 'clength' data) = clength/bw
+</I>&gt;<i> tactual = tcurrent - tstart
+</I>&gt;<i>
+</I>&gt;<i> If we are &quot;ahead&quot; in reading, i.e overshooting the bandwidth, then actual
+</I>&gt;<i> time, &quot;tactual&quot; will be less than texpected, so we need to sleep
+</I>&gt;<i> (texpected - tactual) secs on this connection.
+</I>&gt;<i>
+</I>&gt;<i> tdiff = texpected - tactual
+</I>&gt;<i> if tdiff&gt;0: sleep(tdiff)
+</I>&gt;<i>
+</I>&gt;<i> However, I found that due to other internal delays in HarvestMan and
+</I>&gt;<i> effects of multithreading this calculation is not correct. This will be correct
+</I>&gt;<i> only for a single-threaded reader.
+</I>&gt;<i>
+</I>&gt;<i> If we actually sleep &quot;tdiff&quot; seconds, the net bandwidth comes out to way
+</I>&gt;<i> lesser than the expected. So, I am doing some internal adjustments
+</I>&gt;<i> on the actual amount of time to sleep on the connection.
+</I>&gt;<i>
+</I>&gt;<i> I am waiting for the svn reset to check-in the code. If google does not
+</I>&gt;<i> reset the trunk within the week-end, I will check in the code as earlier
+</I>&gt;<i> without the history.
+</I>&gt;<i>
+</I>&gt;<i> Please give your comments.
+</I>&gt;<i>
+</I>&gt;<i> --Anand
+</I>&gt;<i>
+</I>&gt;<i> On Thu, Jun 19, 2008 at 7:38 PM, Anand Balachandran Pillai
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> Hi Lucas,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     It is a cumulative bandwidth for the entire program, not per thread.
+</I>&gt;&gt;<i> So, I will rename it as &quot;maxbandwidth&quot;.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> On Thu, Jun 19, 2008 at 7:35 PM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;<i> On Thu, Jun 19, 2008 at 8:54 AM, Anand Balachandran Pillai
+</I>&gt;&gt;&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;&gt;<i> Hi list,
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>  I have an initial implementation ready for throttling. I am about to add
+</I>&gt;&gt;&gt;&gt;<i> the config parameter in the config.xml file. This should go to the &lt;limits&gt;
+</I>&gt;&gt;&gt;&gt;<i> element of the &lt;control&gt; top-level element.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Is the name &quot;throttle&quot; apt for this variable ? Or should it be &quot;bandwidth&quot; ?
+</I>&gt;&gt;&gt;&gt;<i> For the time being I am opting for &quot;bandwidth&quot;. Please give feedback.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> bandwidth sounds better to me.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Is it a bandwidth per thread? or maxbandwidth?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> If max, then I would go with maxbandwidth.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Thanks,
+</I>&gt;&gt;&gt;<i> Lucas
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> Here is a sample XML element including this new param.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> &lt;control&gt;
+</I>&gt;&gt;&gt;&gt;<i> ....
+</I>&gt;&gt;&gt;&gt;<i>    &lt;limits&gt;
+</I>&gt;&gt;&gt;&gt;<i>        &lt;maxextservers value=&quot;0&quot;/&gt;
+</I>&gt;&gt;&gt;&gt;<i>        &lt;maxextdirs value=&quot;0&quot;/&gt;
+</I>&gt;&gt;&gt;&gt;<i>        &lt;maxfiles value=&quot;100&quot;/&gt;
+</I>&gt;&gt;&gt;&gt;<i>        &lt;maxfilesize value=&quot;5242880&quot;/&gt;
+</I>&gt;&gt;&gt;&gt;<i>        &lt;connections value=&quot;5&quot;/&gt;
+</I>&gt;&gt;&gt;&gt;<i>        &lt;bandwidth value=&quot;5.0&quot; /&gt;
+</I>&gt;&gt;&gt;&gt;<i>        &lt;timelimit value=&quot;-1&quot;/&gt;
+</I>&gt;&gt;&gt;&gt;<i>    &lt;/limits&gt;
+</I>&gt;&gt;&gt;&gt;<i> ...
+</I>&gt;&gt;&gt;&gt;<i> &lt;/control&gt;
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> The value needs to be specified in kb/sec , not in bytes/sec .
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> --
+</I>&gt;&gt;&gt;&gt;<i> -Anand
+</I>&gt;&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;&gt;<i> HarvestMan-devel mailing list
+</I>&gt;&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> --
+</I>&gt;&gt;&gt;<i> Where was my car manufactured?
+</I>&gt;&gt;&gt;<i> <A HREF="http://cars.lucasmanual.com/vin">http://cars.lucasmanual.com/vin</A>
+</I>&gt;&gt;&gt;<i> TurboGears Manual-Howto
+</I>&gt;&gt;&gt;<i> <A HREF="http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf">http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf</A>
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> HarvestMan-devel mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> -Anand
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> -Anand
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000033.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+	<LI>Next message: <A HREF="000057.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#34">[ date ]</a>
+              <a href="thread.html#34">[ thread ]</a>
+              <a href="subject.html#34">[ subject ]</a>
+              <a href="author.html#34">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

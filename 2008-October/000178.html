@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman log
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20log&In-Reply-To=%3C804e5c70810261716u75478804w71507749c4d7dcc4%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000175.html">
+   <LINK REL="Next"  HREF="000182.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman log</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20log&In-Reply-To=%3C804e5c70810261716u75478804w71507749c4d7dcc4%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman log">szybalski at gmail.com
+       </A><BR>
+    <I>Mon Oct 27 01:16:32 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000175.html">[HarvestMan-devel] cache status error
+</A></li>
+        <LI>Next message: <A HREF="000182.html">[HarvestMan-devel] harvestman log
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#178">[ date ]</a>
+              <a href="thread.html#178">[ thread ]</a>
+              <a href="subject.html#178">[ subject ]</a>
+              <a href="author.html#178">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello,
+I wanted to make the following changes to the log.
+
+1. Replace [18:55:27]  with standard date and time 2008-10-26 19:07:14.091668
+
+ from datetime import datetime
+&gt;&gt;&gt;<i> datetime.now()
+</I>datetime.datetime(2008, 10, 26, 19, 7, 8, 146209)
+&gt;&gt;&gt;<i> print datetime.now()
+</I>2008-10-26 19:07:14.091668
+
+2. What is the difference between  &quot;Downloading file for url &quot; and
+&quot;Fetching links for url&quot;?
+
+3. I wanted to replace &quot;Fetching links for url&quot; with like &quot;
+
+[19:07:14] Fetching links for url <A HREF="http://www.example.com/index.html">http://www.example.com/index.html</A>
+with
+2008-10-26 19:07:14.091668  GET  <A HREF="http://www.example.com/index.html">http://www.example.com/index.html</A>
+2008-10-26 19:07:14.091668  SAVE  <A HREF="http://www.example.com/index.html">http://www.example.com/index.html</A>
+
+
+Let me know what you think?
+
+Lucas
+
+
+
+30228 lucas     15   0  183m  12m 2828 S 99.7  2.4   0:26.71 harvestman
+
+-- 
+Turbogears2 Manual
+<A HREF="http://lucasmanual.com/mywiki/TurboGears2">http://lucasmanual.com/mywiki/TurboGears2</A>
+Bazaar and Launchpad
+<A HREF="http://lucasmanual.com/mywiki/bzr">http://lucasmanual.com/mywiki/bzr</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000175.html">[HarvestMan-devel] cache status error
+</A></li>
+	<LI>Next message: <A HREF="000182.html">[HarvestMan-devel] harvestman log
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#178">[ date ]</a>
+              <a href="thread.html#178">[ thread ]</a>
+              <a href="subject.html#178">[ subject ]</a>
+              <a href="author.html#178">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

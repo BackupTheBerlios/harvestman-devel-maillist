@@ -1,0 +1,29 @@
+From lan.zhu at nezsoft.com  Tue Mar 30 07:55:26 2010
+From: lan.zhu at nezsoft.com (zhulan)
+Date: Tue, 30 Mar 2010 13:55:26 +0800
+Subject: [HarvestMan-devel] ask for help
+Message-ID: <4bb1925f.1408c00a.2ffe.5a9d@mx.google.com>
+
+Hello ,
+
+I'm a learner of python ,and I have learned the 1.46 version of the
+harveatman 
+
+Now I find the 2.0 alpha version ,and I want to researched it,but I find I
+can not build the project 
+
+In windows platform ,the execute file I build can't run correctly 
+
+So I just want to know  how to build the project into the execute file like
+the win32 zip package "HarvestMan-2.0alpha07102008_win32.zip" 
+
+ 
+
+ Thanks very much !!!
+
+ 
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20100330/478b12fc/attachment.html>
+

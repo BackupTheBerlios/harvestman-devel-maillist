@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestMan UI and python problems
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2009-November/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestMan%20UI%20and%20python%20problems&In-Reply-To=%3C4AF0494F.8030300%40email.it%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestMan UI and python problems</H1>
+    <B>Fabio Tordini</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestMan%20UI%20and%20python%20problems&In-Reply-To=%3C4AF0494F.8030300%40email.it%3E"
+       TITLE="[HarvestMan-devel] harvestMan UI and python problems">fabio.t at email.it
+       </A><BR>
+    <I>Tue Nov  3 16:16:31 CET 2009</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+I finally installed harvestMan 2.0 alpha1, after experiencing some 
+problems that I fixed. But now, when I try to run the UI, I get a python 
+error in gui.py:
+
+<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">fabio at NuFabUntU</A>:~$ harvestman --ui
+/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/crawler.py:53: 
+DeprecationWarning: the sha module is deprecated; use the hashlib module 
+instead
+  import sha
+/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/urlparser.py:48: 
+DeprecationWarning: the md5 module is deprecated; use hashlib instead
+  import md5
+Loading system configuration...
+Traceback (most recent call last):
+  File &quot;/usr/local/bin/harvestman&quot;, line 8, in &lt;module&gt;
+    load_entry_point('HarvestMan==2.0.4betadev', 'console_scripts', 
+'harvestman')()
+  File 
+&quot;/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/apps/spider.py&quot;, 
+line 688, in main
+    spider.initialize()
+  File 
+&quot;/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/apps/spider.py&quot;, 
+line 435, in initialize
+    self.init_config()
+  File 
+&quot;/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/apps/spider.py&quot;, 
+line 421, in init_config
+    self.get_options()
+  File 
+&quot;/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/apps/appbase.py&quot;, 
+line 81, in get_options
+    objects.config.get_program_options()
+  File 
+&quot;/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/config.py&quot;, 
+line 1493, in get_program_options
+    res = self.parse_arguments()
+  File 
+&quot;/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/config.py&quot;, 
+line 1107, in parse_arguments
+    from harvestman.lib import gui
+  File 
+&quot;/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/gui.py&quot;, 
+line 16, in &lt;module&gt;
+    from web import form, net, request
+ImportError: cannot import name request
+
+I had a look at the file and try to modify something after googleing the 
+problem but couldn't solve anything: Still can't run HarvesMan with it's UI.
+Any help?
+
+Thanks,
+-f
+
+
+-- 
+P Prima di stampare questa pagina verifica che sia necessario. 
+Proteggiamo l'Ambiente
+P Before printig this page make sure it is necessary. Save the Environment
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#210">[ date ]</a>
+              <a href="thread.html#210">[ thread ]</a>
+              <a href="subject.html#210">[ subject ]</a>
+              <a href="author.html#210">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

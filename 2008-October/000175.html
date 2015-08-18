@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] cache status error
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20cache%20status%20error&In-Reply-To=%3C804e5c70810240656s7c3cafcdyccfbcdaca6776dce%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000174.html">
+   <LINK REL="Next"  HREF="000178.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] cache status error</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20cache%20status%20error&In-Reply-To=%3C804e5c70810240656s7c3cafcdyccfbcdaca6776dce%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] cache status error">szybalski at gmail.com
+       </A><BR>
+    <I>Fri Oct 24 15:56:05 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000174.html">[HarvestMan-devel] cache status error
+</A></li>
+        <LI>Next message: <A HREF="000178.html">[HarvestMan-devel] harvestman log
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#175">[ date ]</a>
+              <a href="thread.html#175">[ thread ]</a>
+              <a href="subject.html#175">[ subject ]</a>
+              <a href="author.html#175">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ok. I fixed it.
+I commend a line that calls all plugins?
+
+Do we have any plugins?
+
+Is that ok? If we do have plugins we can use existing plugin structure
+from a program like pastescript which allows for very nice plugin
+setups.
+
+Let me know.
+
+Thanks,
+Lucas
+
+On Fri, Oct 24, 2008 at 8:32 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> On Fri, Oct 24, 2008 at 6:51 AM, Anand Balachandran Pillai
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> Dear Lukasz,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>            This thing confounded me to no end. The problem is simple.
+</I>&gt;&gt;<i> You are making a mistake passing the config file option. The config
+</I>&gt;&gt;<i> file option has to be passed using &quot;-C&quot; (capital C), not &quot;-c&quot; (small c).
+</I>&gt;&gt;<i> The latter is used to pass the cache status value.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>             There is nothing wrong with the config file or the code.
+</I>&gt;&gt;<i> I can reproduce the same error with the config-template.xml file here.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> [<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at localhost</A> apps]$ harvestman -c config-sample.xml
+</I>&gt;&gt;<i> Loading system configuration...
+</I>&gt;&gt;<i> Loading user configuration...
+</I>&gt;&gt;<i> Error assigning option &quot;cache_status&quot; =&gt; Error: invalid literal for
+</I>&gt;&gt;<i> int() with base 10: 'config-sample.xml'
+</I>&gt;&gt;<i> Pass option -h for command line usage.
+</I>&gt;&gt;<i> Printing error traceback for debugging...
+</I>&gt;&gt;<i>  File &quot;/usr/lib/python2.5/site-packages/HarvestMan-2.0.3dev_r157-py2.5.egg/harvestman/lib/config.py&quot;,
+</I>&gt;&gt;<i> line 730, in set_option_xml
+</I>&gt;&gt;<i>    self.assign_option(option_val, value)
+</I>&gt;&gt;<i>  File &quot;/usr/lib/python2.5/site-packages/HarvestMan-2.0.3dev_r157-py2.5.egg/harvestman/lib/config.py&quot;,
+</I>&gt;&gt;<i> line 623, in assign_option
+</I>&gt;&gt;<i>    raise HarvestManConfigError, &quot;Error: &quot; + str(e)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Whereas,
+</I>&gt;&gt;<i> [<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at localhost</A> apps]$ harvestman -C lucas.xml
+</I>&gt;&gt;<i> Loading system configuration...
+</I>&gt;&gt;<i> Loading user configuration...
+</I>&gt;&gt;<i> Using configuration file lucas.xml...
+</I>&gt;&gt;<i> []
+</I>&gt;&gt;<i> Starting HarvestMan 2.0 alpha 1...
+</I>&gt;&gt;<i> Copyright (C) 2004, Anand B Pillai
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> [17:26:19] *** Log Started ***
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> [17:26:19] Starting project foo ...
+</I>&gt;&gt;<i> [17:26:19] Writing Project Files...
+</I>&gt;&gt;<i> [17:26:19] Starting download of url <A HREF="http://lucasmanual.com/">http://lucasmanual.com/</A> ...
+</I>&gt;&gt;<i> [17:26:19] Reading Project Cache...
+</I>&gt;&gt;<i> [17:26:19] Downloading file for url <A HREF="http://lucasmanual.com/">http://lucasmanual.com/</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> All fine...
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ok. sorry. I was under impression that -c worked.
+</I>&gt;<i>
+</I>&gt;<i> what about this one?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  harvestman -C lucas.xml
+</I>&gt;<i> Loading system configuration...
+</I>&gt;<i> Using configuration file lucas.xml...
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvenv/bin/harvestman&quot;, line 7, in ?
+</I>&gt;<i>    sys.exit(
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py&quot;,
+</I>&gt;<i> line 687, in main
+</I>&gt;<i>    spider.initialize()
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py&quot;,
+</I>&gt;<i> line 434, in initialize
+</I>&gt;<i>    self.init_config()
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/spider.py&quot;,
+</I>&gt;<i> line 421, in init_config
+</I>&gt;<i>    self.process_plugins()
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/apps/appbase.py&quot;,
+</I>&gt;<i> line 48, in process_plugins
+</I>&gt;<i>    from harvestman.lib import hooks
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/lib/hooks.py&quot;,
+</I>&gt;<i> line 205, in ?
+</I>&gt;<i>    HarvestManHooks.add_all_plugins()
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-crawler/HarvestMan/harvestman/lib/hooks.py&quot;,
+</I>&gt;<i> line 64, in add_all_plugins
+</I>&gt;<i>    M = __import__(module,fromlist=[from_module])
+</I>&gt;<i> TypeError: __import__() takes no keyword arguments
+</I>&gt;<i>
+</I>
+
+
+-- 
+Turbogears2 Manual
+<A HREF="http://lucasmanual.com/mywiki/TurboGears2">http://lucasmanual.com/mywiki/TurboGears2</A>
+Bazaar and Launchpad
+<A HREF="http://lucasmanual.com/mywiki/bzr">http://lucasmanual.com/mywiki/bzr</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000174.html">[HarvestMan-devel] cache status error
+</A></li>
+	<LI>Next message: <A HREF="000178.html">[HarvestMan-devel] harvestman log
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#175">[ date ]</a>
+              <a href="thread.html#175">[ thread ]</a>
+              <a href="subject.html#175">[ subject ]</a>
+              <a href="author.html#175">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

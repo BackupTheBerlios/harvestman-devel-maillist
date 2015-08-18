@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20%5Bdone%5D%20Re%3A%20svn%20dump%2C%20and%20trunk%20reset.&In-Reply-To=%3C804e5c70806230722u10a6aad9x82e344e26d036f15%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000044.html">
+   <LINK REL="Next"  HREF="000061.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] [done] Re: svn dump, and trunk reset.</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20%5Bdone%5D%20Re%3A%20svn%20dump%2C%20and%20trunk%20reset.&In-Reply-To=%3C804e5c70806230722u10a6aad9x82e344e26d036f15%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] [done] Re: svn dump, and trunk reset.">szybalski at gmail.com
+       </A><BR>
+    <I>Mon Jun 23 16:22:39 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000044.html">[HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+</A></li>
+        <LI>Next message: <A HREF="000061.html">[HarvestMan-devel] virtualenv setup bug
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#46">[ date ]</a>
+              <a href="thread.html#46">[ thread ]</a>
+              <a href="subject.html#46">[ subject ]</a>
+              <a href="author.html#46">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, Jun 23, 2008 at 9:05 AM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> Hi Lucas,
+</I>&gt;<i>
+</I>&gt;<i>         I just completed this, but it did not work out well at all.
+</I>&gt;<i> For some reason, the harvestman repository created contained
+</I>&gt;<i> revisions not uptodate with the current code. Even the folder structure
+</I>&gt;<i> was old. Since I renumbered revisions, I am not sure, where and how this
+</I>&gt;<i> happened (there were 16 revisions in the final repository).
+</I>&gt;<i>
+</I>&gt;<i>      Also, since the code is at
+</I>&gt;<i> <A HREF="http://svn.eiao.net/robacc/experimental/HarvestMan-2.0,">http://svn.eiao.net/robacc/experimental/HarvestMan-2.0,</A>
+</I>&gt;<i> there is no way to get rid of the &quot;experimental&quot; prefix in the
+</I>&gt;<i> repository. I tried
+</I>&gt;<i> to include &quot;/HarvestMan-2.0&quot; and &quot;HarvestMan-2.0&quot; in the svndumpfilter, but
+</I>&gt;<i> it never worked. Only &quot;/experimental/HarvestMan-2.0&quot; worked and it
+</I>&gt;<i> means, the prefix &quot;/experimental&quot; will be there in the synced repository.
+</I>
+I see. I guess the experimental part would somehow have to be
+converted to a /trunk.
+
+&gt;<i>
+</I>&gt;<i>      The results are there at
+</I>&gt;<i> <A HREF="http://harvestman-crawler.googlecode.com/svn/experimental/">http://harvestman-crawler.googlecode.com/svn/experimental/</A>
+</I>
+I don't know if you only had 16 checkins, but I guess we have some
+start.... <A HREF="http://code.google.com/p/harvestman-crawler/source/list">http://code.google.com/p/harvestman-crawler/source/list</A>
+
+
+&gt;<i> But since this is not the code we want, I am skipping this whole svn
+</I>&gt;<i> history exercise
+</I>
+Sounds good. It does take some time to do these things. I guess when
+you check in your next code we can svn del experimental. Now that we
+have it in revision history, it will always exist there if anybody
+wants to look at it. Unless there is some code in there that we need
+to move over to trunk?
+
+
+&gt;<i> and adding my current code into the svn repository at
+</I>&gt;<i> <A HREF="http://harvestman-crawler.googlecode.com/svn/trunk/">http://harvestman-crawler.googlecode.com/svn/trunk/</A>  . I don't have the time
+</I>&gt;<i> to go through the svnsync exercise anymore.  Anyway, since the code is
+</I>&gt;<i> well commented, the history won't have much for you.  I never added
+</I>&gt;<i> proper comments
+</I>&gt;<i> in code checkins, so I don't think this whole exercise is worth the time.
+</I>&gt;<i>
+</I>&gt;<i> The uptodate code is at
+</I>&gt;<i> <A HREF="http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan/">http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan/</A>
+</I>
+I'll check out the new version then, and we go from here.
+
+
+including
+&gt;<i> the throttling code (not complete yet). Since I was behind this
+</I>&gt;<i> svnsync thing, I
+</I>&gt;<i> did not do any coding the last two days. I will update regarding the throttling
+</I>&gt;<i> in its own thread.
+</I>
+Thanks,
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000044.html">[HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+</A></li>
+	<LI>Next message: <A HREF="000061.html">[HarvestMan-devel] virtualenv setup bug
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#46">[ date ]</a>
+              <a href="thread.html#46">[ thread ]</a>
+              <a href="subject.html#46">[ subject ]</a>
+              <a href="author.html#46">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

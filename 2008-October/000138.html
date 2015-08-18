@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] HarvestMan module paths
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20HarvestMan%20module%20paths&In-Reply-To=%3C8548c5f30810051245y7724d183j3add70bd4f3c25de%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000137.html">
+   <LINK REL="Next"  HREF="000139.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] HarvestMan module paths</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20HarvestMan%20module%20paths&In-Reply-To=%3C8548c5f30810051245y7724d183j3add70bd4f3c25de%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] HarvestMan module paths">abpillai at gmail.com
+       </A><BR>
+    <I>Sun Oct  5 21:45:58 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000137.html">[HarvestMan-devel] Installation Problem and a Parsing Question
+</A></li>
+        <LI>Next message: <A HREF="000139.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#138">[ date ]</a>
+              <a href="thread.html#138">[ thread ]</a>
+              <a href="subject.html#138">[ subject ]</a>
+              <a href="author.html#138">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+   I have modified all the paths in modules which do cross
+folder imports in code to import relative to top-level
+&quot;harvestman&quot; folder.
+
+ For example, earlier harvestman/apps/appbase.py contained
+this line.
+
+&quot;from lib import config&quot;
+
+This is now changed to
+
+&quot;from harvestman.lib import config&quot;
+
+The reason is simple - relative path import which was there before
+is bad. It is better to import everything from the top-level when
+we are importing across folders at the same level.
+
+However, for same/sub-folders, there is no need for changing. So
+under lib/, evey import remains the same, since the modules
+are either importing from the current folder or the sub-folder
+&quot;common&quot;.
+
+Because this scheme causes problems with the apps/harvestman.py
+module, I renamed apps/harvestman.py to apps/spider.py . Because
+of this change, we no longer need apps/harvestmanimp.py, so this
+is removed.
+
+So, if you are having code which imports HarvestMan class as following,
+
+&quot;from harvestman.apps.harvestmanimp import HarvestMan&quot;,
+
+please change it to,
+
+&quot;from harvestman.apps.spider import HarvestMan&quot;
+
+(Tom, you will need to do this for your sample crawler code from
+here on.)
+
+I was having major problems trying to create a Windows executable
+(with py2exe) using the current relative path import scheme. I had
+a feeling it was broken earlier, but did not realize how bad till I
+tried to get the executable working. It just will not work with the
+relative path imports across folders. With this scheme, things work
+fine and I guess this is the best solution going forward.
+
+Also there was this confusion between harvestman folder and
+harvestman.py module. Renaming it to spider.py fixes that problem.
+I did not want do do away with harvestman.py, but looks like
+it will cause many problems, if it remains there.
+
+If there is some documentation in the wiki which references these paths,
+please update them, both at the google site and at
+harvestman.everythingability.com.
+
+Lukasz, I think these changes will break your branch for virtualenv,
+so we need to merge the changes and test how it works. I have a feeling
+that your virtualenv will work much better with this change.
+
+Please note that I have checekd in changes to trunk but 2.0-dev
+branch retains the old style. It may not matter as changes are
+still happening in trunk with nothing much going on in 2.0-dev :)
+Anyway, I will just create this branch fresh from trunk since it
+has not seen much changes after branching off...
+
+Thanks!
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000137.html">[HarvestMan-devel] Installation Problem and a Parsing Question
+</A></li>
+	<LI>Next message: <A HREF="000139.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#138">[ date ]</a>
+              <a href="thread.html#138">[ thread ]</a>
+              <a href="subject.html#138">[ subject ]</a>
+              <a href="author.html#138">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

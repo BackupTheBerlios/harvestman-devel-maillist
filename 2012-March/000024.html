@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> No subject
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2012-March/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20No%20subject&In-Reply-To=%3Cmailman.0.1331733819.3074.harvestman-devel%40lists.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000190.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>No subject</H1>
+    <B></B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20No%20subject&In-Reply-To=%3Cmailman.0.1331733819.3074.harvestman-devel%40lists.berlios.de%3E"
+       TITLE="No subject">
+       </A><BR>
+    <I>Wed Mar 14 15:03:39 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000190.html">No subject
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>(let me know when you get the svn dump moved over.)
+
+1. Wrong install folder?
+I was using virtualenv to install harvestmen... but it seems as it
+installed itself in python default location.
+my virtual env path was /usr/local/pythonpath/baseline/...
+
+Not sure if you use &quot;<A HREF="http://pythonpaste.org/script/">http://pythonpaste.org/script/</A>&quot; or your custom
+setup.py etc... <A HREF="http://lucasmanual.com/mywiki/Paste">http://lucasmanual.com/mywiki/Paste</A>
+
+error....
+python setup.py install
+........
+Creating basic configuration in /etc/harvestman...
+done.
+Fresh installation, running unit tests...
+Running test_connector...
+test_connect...
+test_connect_etag...
+test_connect_lmt...
+Running test_urlparser...
+Ran 10 tests, 10 passes, 0 failures
+Traceback (most recent call last):
+  File &quot;setup.py&quot;, line 458, in ?
+    main()
+  File &quot;setup.py&quot;, line 441, in main
+    open(test_log, 'w').write('1')
+IOError: [Errno 2] No such file or directory:
+'/usr/local/lib/python2.4/site-packages/harvestman/unittest.log'
+
+
+
+&gt;&gt;<i>
+</I>&gt;&gt;<i> Is there a reason you went with xml config file?
+</I>&gt;&gt;<i> It is really hard to edit xml. I would much prefer python style
+</I>&gt;&gt;<i> configuration.  My first experience was an invalid xml config file
+</I>&gt;&gt;<i> that was one the website as an example.  So I had to use command line
+</I>&gt;&gt;<i> options. But I guess that is something for the future.
+</I>&gt;<i>
+</I>&gt;<i> Do you really think this is a problem ? HarvestMan used to have
+</I>&gt;<i> a Python style (INI style) file format earlier which was easily parseable
+</I>&gt;<i> by ConfigParser . I changed it to an XML format because I thought
+</I>&gt;<i> an XML format would be more universal than the Python style
+</I>&gt;<i> and more flexible and hierarchical.
+</I>&gt;<i>
+</I>&gt;<i> However, there is a tool which will create the XML config file for you
+</I>&gt;<i> from an HTML form in the current svn trunk. Try out tools/genconfig.py
+</I>&gt;<i> and give your feedback.
+</I>
+The genconfig looks good. Its even easier to set it up then editing
+files. It seems to me that xml config style is more similar to lucene
+xml style. It would be easier to create ini file from scratch, but as
+long as there are some tools for making the xml, I think it will be
+ok.
+
+
+2. I would provide 3 sample config files in &quot;exemples&quot; folder.  a.
+(shortest config.xml), b. standard_config.xml (which is recommended
+way you should crawl pages) and advanced_config.xml that has all the
+options.
+
+
+3 . In genconf.py . I  would put a little note under &quot;verbosity 1 is
+abc, 2 is bcd, 3 is dfs....&quot; and the same thing under fetch level,
+since I don't know of hand what options they represent. Everything
+else seems straight forward.
+
+4.  I would add a command &quot;harvestman genconf&quot; or &quot;harvestman
+--genconf&quot; to list of available options, so I can call the program
+from a command line.
+
+5. I got my config file but:
+ harvestman -c config2.xml Loading system configuration...
+Error assigning option &quot; cache_status &quot;
+Error traceback...
+  File &quot;/usr/lib/python2.4/site-packages/harvestman/lib/config.py&quot;,
+line 691, in set_option_xml
+    self.assign_option(option_val, value)
+  File &quot;/usr/lib/python2.4/site-packages/harvestman/lib/config.py&quot;,
+line 564, in assign_option
+    fval = (eval(typ))(value)
+
+I'm attaching the config file.
+
+
+If you could give me access to wiki, I could put some examples out
+there some time this week.
+
+Thanks,
+Lucas
+
+
+&gt;&gt;<i>
+</I>&gt;&gt;<i> What kind of gui skeleton you are talking about? web based? I could
+</I>&gt;&gt;<i> easly create something in turbogears.
+</I>&gt;<i>
+</I>&gt;<i> HarvestMan is already integrated to web.py and I want to use it
+</I>&gt;<i> for doing all browser UI because it is simple and comes with its own
+</I>&gt;<i> templating language which is like Python. Btw, there is already skeleton
+</I>&gt;<i> GUI code available in the trunk. Run &quot;harvestman --ui&quot; and point your
+</I>&gt;<i> browser to <A HREF="http://localhost:5940">http://localhost:5940</A> to see it.
+</I>
+Sounds good. Not sure what you should put there yet? I guess I might
+have more ideas when I start using harvestman.
+
+Thanks,
+Lucas
+
+-- 
+Where was my car manufactured?
+<A HREF="http://cars.lucasmanual.com/vin">http://cars.lucasmanual.com/vin</A>
+TurboGears Manual-Howto
+<A HREF="http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf">http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf</A>
+
+------=_Part_11464_1170404.1213626780353
+Content-Type: text/xml; name=config2.xml
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_fhj5o86x0
+Content-Disposition: attachment; filename=config2.xml
+
+PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KCjxIYXJ2ZXN0TWFuIHhtbG5z
+OnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiCiAgICAgICAg
+ICAgIHhzaTpzY2hlbWFMb2NhdGlvbj0iaHR0cDovL2hhcnZlc3RtYW5vbnRoZXdlYi5jb20vc2No
+ZW1hcy9IYXJ2ZXN0TWFuLnhzZCI+CgogICA8IS0tLSBDb25maWd1cmF0aW9uIGZpbGUgZ2VuZXJh
+dGVkIGJ5IEhhcnZlc3RNYW4gQ29uZmlnIEdlbmVyYXRvciBNb24gSnVuIDE2IDA5OjEzOjMzIDIw
+MDggQ1NUIC0tPgogICA8Y29uZmlnIHZlcnNpb249IjMuMCIgeG1sdmVyc2lvbj0iMS4wIj4KICAg
+ICA8cHJvamVjdHM+CiAgICAgIAogICAgICA8cHJvamVjdCBza2lwPSIwIj4KCiAgICAgICAgPHVy
+bD5odHRwOi8vbHVjYXNtYW51YWwuY29tPC91cmw+CiAgICAgICAgPG5hbWU+bHVjYXNtYW51YWwu
+Y29tPC9uYW1lPgoKICAgICAgICA8YmFzZWRpcj5+L3RtcC9jcmF3bDwvYmFzZWRpcj4KICAgICAg
+ICA8dmVyYm9zaXR5IHZhbHVlPSIyIi8+CiAgICAgIDwvcHJvamVjdD4KICAgICAgCiAgICAgPC9w
+cm9qZWN0cz4KICAgICA8bmV0d29yaz4KICAgICAgPHByb3h5PgogICAgICAgIDxwcm94eXNlcnZl
+cj48L3Byb3h5c2VydmVyPgogICAgICAgIDxwcm94eXVzZXI+PC9wcm94eXVzZXI+CiAgICAgICAg
+PHByb3h5cGFzc3dkPjwvcHJveHlwYXNzd2Q+CiAgICAgICAgPHByb3h5cG9ydCB2YWx1ZT0iODAi
+Lz4KICAgICAgPC9wcm94eT4KICAgIDwvbmV0d29yaz4KICAgIAogICAgPGRvd25sb2FkPgogICAg
+ICA8dHlwZXM+CiAgICAgICAgPGh0bWwgdmFsdWU9IjEiLz4KICAgICAgICA8aW1hZ2VzIHZhbHVl
+PSIwIi8+CiAgICAgICAgPG1vdmllcyB2YWx1ZT0iMCIvPgogICAgICAgIDxzb3VuZHMgdmFsdWU9
+IjAiLz4KICAgICAgICA8ZG9jdW1lbnRzIHZhbHVlPSIwIi8+ICAgICAgICAKICAgICAgICA8amF2
+YXNjcmlwdCB2YWx1ZT0iMSIvPgogICAgICAgIDxqYXZhYXBwbGV0IHZhbHVlPSIxIi8+CiAgICAg
+ICAgPHF1ZXJ5bGlua3MgdmFsdWU9IjEiLz4KICAgICAgPC90eXBlcz4gCiAgICAgIDxjYWNoZSBz
+dGF0dXM9IjEiPgogICAgICAgIDxkYXRhY2FjaGUgdmFsdWU9IjAiLz4KICAgICAgPC9jYWNoZT4K
+ICAgICAgPHByb3RvY29sPgogICAgICAgIDxodHRwIGNvbXByZXNzPSIxIiAvPgogICAgICA8L3By
+b3RvY29sPgogICAgICA8bWlzYz4KICAgICAgICA8cmV0cmllcyB2YWx1ZT0iMSIvPgogICAgICA8
+L21pc2M+CiAgICA8L2Rvd25sb2FkPgogICAgCiAgICA8Y29udHJvbD4KICAgICAgPGxpbmtzPgog
+ICAgICAgIDxpbWFnZWxpbmtzIHZhbHVlPSIxIiAvPgogICAgICAgIDxzdHlsZXNoZWV0bGlua3Mg
+dmFsdWU9IjEiLz4KICAgICAgICA8b2Zmc2V0IHN0YXJ0PSIwIiBlbmQ9Ii0xIiAvPgogICAgICA8
+L2xpbmtzPgogICAgICA8ZXh0ZW50PgogICAgICAgIDxmZXRjaGxldmVsIHZhbHVlPSIwIi8+CiAg
+ICAgICAgPGRlcHRoIHZhbHVlPSIxMCIvPgogICAgICAgIDxleHRkZXB0aCB2YWx1ZT0iMCIvPgog
+ICAgICAgIDxzdWJkb21haW4gdmFsdWU9IjAiLz4KICAgICAgICA8aWdub3JldGxkcyB2YWx1ZT0i
+MCIvPgogICAgICA8L2V4dGVudD4KICAgICAgPGxpbWl0cz4KICAgICAgICA8bWF4ZXh0c2VydmVy
+cyB2YWx1ZT0iMCIvPgogICAgICAgIDxtYXhleHRkaXJzIHZhbHVlPSIwIi8+CiAgICAgICAgPG1h
+eGZpbGVzIHZhbHVlPSI1MDAwIi8+CiAgICAgICAgPG1heGZpbGVzaXplIHZhbHVlPSI1MjQyODgw
+Ii8+CiAgICAgICAgPGNvbm5lY3Rpb25zIHZhbHVlPSI1Ii8+CiAgICAgICAgPHRpbWVsaW1pdCB2
+YWx1ZT0iLTEiLz4KICAgICAgPC9saW1pdHM+CiAgICAgIDxydWxlcz4KICAgICAgICA8cm9ib3Rz
+IHZhbHVlPSIxIi8+CiAgICAgICAgPHVybHByaW9yaXR5PjwvdXJscHJpb3JpdHk+CiAgICAgICAg
+PHNlcnZlcnByaW9yaXR5Pjwvc2VydmVycHJpb3JpdHk+CiAgICAgIDwvcnVsZXM+CiAgICAgIDxm
+aWx0ZXJzPgogICAgICAgIDx1cmxmaWx0ZXI+PC91cmxmaWx0ZXI+CiAgICAgICAgPHNlcnZlcmZp
+bHRlcj48L3NlcnZlcmZpbHRlcj4KICAgICAgICA8d29yZGZpbHRlcj48L3dvcmRmaWx0ZXI+CiAg
+ICAgICAgPGp1bmtmaWx0ZXIgdmFsdWU9IjEiLz4KICAgICAgPC9maWx0ZXJzPgogICAgICAKICAg
+IDwvY29udHJvbD4KCiAgICA8cGFyc2VyPgogICAgICA8ZmVhdHVyZSBuYW1lPSJhIiBlbmFibGU9
+IjEiIC8+CiAgICAgIDxmZWF0dXJlIG5hbWU9ImJhc2UiIGVuYWJsZT0iMSIgLz4KICAgICAgPGZl
+YXR1cmUgbmFtZT0iZnJhbWUiIGVuYWJsZT0iMSIgLz4KICAgICAgPGZlYXR1cmUgbmFtZT0iaW1n
+IiBlbmFibGU9IjEiIC8+CiAgICAgIDxmZWF0dXJlIG5hbWU9ImZvcm0iIGVuYWJsZT0iMSIgLz4K
+ICAgICAgPGZlYXR1cmUgbmFtZT0ibGluayIgZW5hYmxlPSIxIiAvPgogICAgICA8ZmVhdHVyZSBu
+YW1lPSJib2R5IiBlbmFibGU9IjEiIC8+CiAgICAgIDxmZWF0dXJlIG5hbWU9InNjcmlwdCIgZW5h
+YmxlPSIxIiAvPgogICAgICA8ZmVhdHVyZSBuYW1lPSJhcHBsZXQiIGVuYWJsZT0iMSIgLz4KICAg
+ICAgPGZlYXR1cmUgbmFtZT0iYXJlYSIgZW5hYmxlPSIxIiAvPgogICAgICA8ZmVhdHVyZSBuYW1l
+PSJtZXRhIiBlbmFibGU9IjEiIC8+CiAgICAgIDxmZWF0dXJlIG5hbWU9ImVtYmVkIiBlbmFibGU9
+IjEiIC8+CiAgICAgIDxmZWF0dXJlIG5hbWU9Im9iamVjdCIgZW5hYmxlPSIxIiAvPgogICAgICA8
+ZmVhdHVyZSBuYW1lPSJvcHRpb24iIGVuYWJsZT0iMCIgLz4KICAgIDwvcGFyc2VyPgogICAgICAK
+ICAgIDxzeXN0ZW0+CiAgICAgIDx3b3JrZXJzIHN0YXR1cz0iMSIgc2l6ZT0iMTAiIHRpbWVvdXQ9
+IjEyMDAuMCIvPgogICAgICA8dHJhY2tlcnMgdmFsdWU9IjEwIiB0aW1lb3V0PSIyNDAuMCIgLz4K
+ICAgICAgPHRpbWVnYXAgdmFsdWU9IjMuMCIgcmFuZG9tPSIxIiAvPgogICAgPC9zeXN0ZW0+CiAg
+ICAKICAgIDxmaWxlcz4KICAgICAgPHVybHRyZWVmaWxlPjwvdXJsdHJlZWZpbGU+CiAgICAgIDxh
+cmNoaXZlIHN0YXR1cz0iMCIgZm9ybWF0PSJiemlwIi8+CiAgICAgIDx1cmxoZWFkZXJzIHN0YXR1
+cz0iMSIgLz4KICAgICAgPGxvY2FsaXNlIHZhbHVlPSIwIi8+CiAgICA8L2ZpbGVzPgogICAgCiAg
+ICA8ZGlzcGxheT4KICAgICAgPGJyb3dzZXBhZ2UgdmFsdWU9IjEiLz4KICAgIDwvZGlzcGxheT4K
+ICAgIAogIDwvY29uZmlnPgogIAo8L0hhcnZlc3RNYW4+Cgo=
+------=_Part_11464_1170404.1213626780353--
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000190.html">No subject
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Storing page text in mysql
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2009-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Storing%20page%20text%20in%20mysql&In-Reply-To=%3Cac3072180906050434w222d4275pbd46371ffe813b19%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000206.html">
+   <LINK REL="Next"  HREF="000208.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Storing page text in mysql</H1>
+    <B>Vijay Ramachandran</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Storing%20page%20text%20in%20mysql&In-Reply-To=%3Cac3072180906050434w222d4275pbd46371ffe813b19%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Storing page text in mysql">vijayr at wisdomtap.com
+       </A><BR>
+    <I>Fri Jun  5 13:34:11 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000206.html">[HarvestMan-devel] Storing page text in mysql
+</A></li>
+        <LI>Next message: <A HREF="000208.html">[HarvestMan-devel] status of HarvestMan-Lite?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#207">[ date ]</a>
+              <a href="thread.html#207">[ thread ]</a>
+              <a href="subject.html#207">[ subject ]</a>
+              <a href="author.html#207">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Fri, Jun 5, 2009 at 3:34 PM,
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">harvestman-devel-request at lists.berlios.de</A>&gt;wrote:
+
+&gt;<i>
+</I>&gt;<i> From: Aaron Kreider &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">aaron at campusactivism.org</A>&gt;
+</I>&gt;<i> Subject: [HarvestMan-devel] Storing page text in mysql
+</I>&gt;<i> To: <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">harvestman-devel at lists.berlios.de</A>
+</I>&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">4A284F19.9040701 at campusactivism.org</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+</I>&gt;<i>
+</I>&gt;<i> I want to store page text in MySQL (along with the url).  I'm wondering
+</I>&gt;<i> if anyone has already done this or would have suggestions as to how I
+</I>&gt;<i> should do it?
+</I>&gt;<i>
+</I>
+Aaron, its not clear if you want to do this within the context of
+HarvestMan, or in some other context? HM is a web
+crawler,&lt;<A HREF="http://en.wikipedia.org/wiki/Web_crawler">http://en.wikipedia.org/wiki/Web_crawler</A>&gt;providing a
+framework to crawl web sites, and ultimately provides you the
+html from the crawled web pages.
+
+
+&gt;<i> I'm completely new to python, but have been doing php for a long time.
+</I>&gt;<i>
+</I>&gt;<i> Ultimately I want to grab non-html text for each page. Tokenize into
+</I>&gt;<i> words.  Then count how many times each word appers on each page.  But
+</I>&gt;<i> for starters, I need the non-html text.
+</I>&gt;<i>
+</I>
+To parse html, you can use Beautiful Soup or lxml. To access MySQL, you can
+use MySQLdb (be sure to use the pythonic form of the api as specified in the
+PEP &lt;<A HREF="http://www.python.org/dev/peps/pep-0249/">http://www.python.org/dev/peps/pep-0249/</A>&gt;, not the raw &quot;c&quot; style
+functions).
+
+If you need to know how to integrate these into the HM framework - I'm sure
+one of the devs will jump in.
+
+HTH,
+Vijay
+
+-- 
+<A HREF="http://www.wisdomtap.com/">http://www.wisdomtap.com/</A>
+<A HREF="http://services.wisdomtap.com/">http://services.wisdomtap.com/</A>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090605/9d9167f5/attachment.html">https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090605/9d9167f5/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000206.html">[HarvestMan-devel] Storing page text in mysql
+</A></li>
+	<LI>Next message: <A HREF="000208.html">[HarvestMan-devel] status of HarvestMan-Lite?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#207">[ date ]</a>
+              <a href="thread.html#207">[ thread ]</a>
+              <a href="subject.html#207">[ subject ]</a>
+              <a href="author.html#207">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

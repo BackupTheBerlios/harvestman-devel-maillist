@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Throttling/Bandwidth Control
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C804e5c70806241011x65bdc518m5af2f3be22814440%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000055.html">
+   <LINK REL="Next"  HREF="000060.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Throttling/Bandwidth Control</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C804e5c70806241011x65bdc518m5af2f3be22814440%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Throttling/Bandwidth Control">szybalski at gmail.com
+       </A><BR>
+    <I>Tue Jun 24 19:11:54 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000055.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+        <LI>Next message: <A HREF="000060.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#56">[ date ]</a>
+              <a href="thread.html#56">[ thread ]</a>
+              <a href="subject.html#56">[ subject ]</a>
+              <a href="author.html#56">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, Jun 24, 2008 at 1:39 AM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> Hi Lucas,
+</I>&gt;<i>
+</I>&gt;<i> On Tue, Jun 24, 2008 at 8:36 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> On Mon, Jun 23, 2008 at 9:39 AM, Anand Balachandran Pillai
+</I>&gt;&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;<i> Hi Lucas,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>  Could you look into this ? I added it as issue #5.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> <A HREF="http://code.google.com/p/harvestman-crawler/issues/detail?id=5">http://code.google.com/p/harvestman-crawler/issues/detail?id=5</A>
+</I>&gt;&gt;&gt;<i> is assigned to you.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> It is very easy to add a new param and relate it to a config variable
+</I>&gt;&gt;&gt;<i> in harvestman.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I added maxbytes, and self.maxbytes to config.py.
+</I>&gt;<i>
+</I>&gt;<i> Just adding this is not enough. You need to make an entry in
+</I>&gt;<i> the dictionary self.xml_map and associate the XML element/attribute
+</I>&gt;<i> to an action.
+</I>
+I saw them, but wasn't sure what you used it for. Now I know.
+
+&gt;<i>
+</I>&gt;<i> This is done as follows. For elements, you create a key with the
+</I>&gt;<i> element name. For attributes, you suffix &quot;_&lt;attrname&gt;&quot; to the element
+</I>&gt;<i> name and create a key with that.
+</I>&gt;<i>
+</I>&gt;<i> The value is a pair of ('&lt;configparam&gt;', '&lt;action&gt;') where '&lt;configparam&gt;'
+</I>&gt;<i> is the param to which the value is finally assigned in the config object.
+</I>&gt;<i> '&lt;action&gt;' can be either a data type or a function.
+</I>&gt;<i>
+</I>&gt;<i> For example, to set a simple value, say 'connections' in config XML
+</I>&gt;<i> and assign it to 'maxconnections' on the config object. Assume that
+</I>&gt;<i> 'connections' in the XML specifies its value in the &quot;value&quot; attribute.
+</I>&gt;<i>
+</I>&gt;<i> &lt;connections value=&quot;5&quot; /&gt;
+</I>&gt;<i>
+</I>&gt;<i> The entry for this in self.xml_map would be,
+</I>&gt;<i>
+</I>&gt;<i> {'connections_value':  ('maxconnections', 'int'),
+</I>&gt;<i>  ...
+</I>&gt;<i> }
+</I>&gt;<i>
+</I>&gt;<i> This is interpreted as =&gt; The value of &quot;value&quot; attribute of
+</I>&gt;<i> 'connections' element
+</I>&gt;<i> is assigned to 'maxconnections' attribute after converting it to 'int' type.
+</I>
+That is the whole process for converting xml style to python style. Makes sense.
+What do you use the: CONFIG_XML_TEMPLATE for?
+
+
+&gt;<i>
+</I>&gt;<i> However for values which require complex processing, a simple conversion
+</I>&gt;<i> won't work, so you need functions. In this case you do, since you want
+</I>&gt;<i> to support different specifications for the 'maxbytes' param such as '5 kb',
+</I>&gt;<i> '5 mb' etc.
+</I>
+
+&gt;<i>
+</I>&gt;<i> To assign a function to processing of an element/attribute, simply replace
+</I>&gt;<i> the type name above with 'func:&lt;funcname&gt;'. So in this case,
+</I>&gt;<i>
+</I>&gt;<i> {'maxbytes_value' : ('maxbytes', 'func:set_maxbytes'),
+</I>&gt;<i>  ...
+</I>&gt;<i>  }
+</I>&gt;<i>
+</I>&gt;<i> The function template is as follows.
+</I>&gt;<i>
+</I>&gt;<i> def f(self, key, val, dict):
+</I>&gt;<i>      ...
+</I>&gt;<i>
+</I>&gt;<i> where,
+</I>&gt;<i>
+</I>&gt;<i>  key =&gt; name of the XML element
+</I>&gt;<i>  val  =&gt; value of the key in xml map above
+</I>&gt;<i>  dict =&gt; Attribute dictionary of the element
+</I>&gt;<i>
+</I>&gt;<i> So for &lt;maxbytes value=&quot;50 k&quot; /&gt;, these would be
+</I>&gt;<i>
+</I>&gt;<i> key =&gt; 'maxbytes'
+</I>&gt;<i> val =&gt; '50 k'
+</I>&gt;<i> dict =&gt; {u'value': u'50 k'}
+</I>&gt;<i>
+</I>&gt;<i> Then the function needs to process the value and assign it to the
+</I>&gt;<i> config variable.
+</I>&gt;<i>
+</I>&gt;<i> I have already made this change and checked in the code. Look
+</I>&gt;<i> at function 'set_maxbytes' in config.py .
+</I>
+ok. I wonder if we should include tb? I've added it to my code.
+I'm just thinking who will download 1tb+ of data in single download. I
+think undo my changes.
+
+&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Also, to implement maxbytes control is also easy, since
+</I>&gt;&gt;&gt;<i> there is already a controller thread that takes care of enforcing
+</I>&gt;&gt;&gt;<i> max file count and max time limit. We can add this as part of it.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I added
+</I>&gt;&gt;<i> def _manage_maxbytes_limits(self):
+</I>&gt;&gt;<i> which uses:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>  lsaved = self._dmgr.savedbytes
+</I>&gt;&gt;<i>  lmax = self._cfg.maxbytes
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> and incrementing the count in
+</I>&gt;&gt;<i> def update_bytes(self, count):
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Lets hope that's right.
+</I>&gt;<i>
+</I>&gt;<i> _bytes is same as savedbytes, so latter is not needed. I just made _bytes
+</I>&gt;<i> as public to 'bytes'. The controller thread checks 'bytes'.
+</I>
+I wasn't sure if the _bytes is something that might be used by a
+thread or in a global setting?
+When do you call clean up code ?
+
+
+&gt;<i>
+</I>&gt;<i> The function _manage_maxbytes_limits was fine, but you forgot to
+</I>&gt;<i> call it from the thread's run loop :). I fixed that also. Also you need to
+</I>&gt;<i> change the check &quot;if lsaved==lmax&quot; to &quot;if lsaved&gt;=lmax&quot;, since
+</I>&gt;<i> we can never be sure that the limit we gave would be equaled
+</I>&gt;<i> during the run, mostly it will be surpassed, since we save different
+</I>&gt;<i> URLs with non-uniform sizes.
+</I>&gt;<i>
+</I>&gt;&gt;<i> How would I test it now?
+</I>&gt;<i> It is working fine now, except for a minor issue which is basically an effect
+</I>&gt;<i> of multi-threading. Even after the controller kills the threads as
+</I>&gt;<i> limit is reached,
+</I>&gt;<i> still the threads which were downloading data at the time, will complete their
+</I>&gt;<i> writing to disk after that and then only exit - this is required to make sure
+</I>&gt;<i> that threads shutdown cleanly.
+</I>
+Sounds good.
+
+&gt;<i>
+</I>&gt;<i> So even if you specify your limit as X bytes, the actual bytes saved would
+</I>&gt;<i> be X+dx, where dx is mostly a random factor, depending on the number of
+</I>&gt;<i> max connections, thread state etc. This is not a problem with large limits,
+</I>&gt;<i> since it will be exceeded only by a few KBs, but for a smaller limit,
+</I>&gt;<i> the difference
+</I>&gt;<i> can be significant.
+</I>&gt;<i>
+</I>&gt;<i> In the config-sample.xml I indicate a max limit of 50 K, but the actual
+</I>&gt;<i> download comes to 123k due to this.
+</I>
+I think this is only because the small size. If average page is 100kb,
+then 100kb * # of threads will be our +- constant.  That sounds good
+to me.  I think it would matter if mb or gb are way off.
+
+ This can be fixed by use of internal
+&gt;<i> state flags which will indicate to connector objects to not save their data to
+</I>&gt;<i> disk, if the threads are killed - let me know if you want to work on this.
+</I>
+I think if the thread finishes downloading and stops that will be
+fine. If we tell it to don't save the data, then we have to make sure
+we do it in index, history, etc....I think that would be to much.
+Unless there would be another reason for it, which I don't see
+currently.
+
+&gt;<i> The code will have to be changed in connector.py, datamgr.py and perhaps
+</I>&gt;<i> in crawler.py, urlthread.py and urlqueue.py, otherwise I will implement this
+</I>&gt;<i> and close the bug.
+</I>&gt;<i>
+</I>&gt;<i> Anyway, I have checked in these changes I made, so you can test it
+</I>&gt;<i> at your end.
+</I>
+Thanks,
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000055.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+	<LI>Next message: <A HREF="000060.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#56">[ date ]</a>
+              <a href="thread.html#56">[ thread ]</a>
+              <a href="subject.html#56">[ subject ]</a>
+              <a href="author.html#56">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

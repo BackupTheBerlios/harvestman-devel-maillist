@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] HarvestMan Lite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2009-May/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20HarvestMan%20Lite&In-Reply-To=%3C495842C725E7F8459B0460FC3A1060B10B17EABD%40P2PXMB01S1.fccnet.win.fcc.gov%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000204.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] HarvestMan Lite</H1>
+    <B>Jamal Mazrui</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20HarvestMan%20Lite&In-Reply-To=%3C495842C725E7F8459B0460FC3A1060B10B17EABD%40P2PXMB01S1.fccnet.win.fcc.gov%3E"
+       TITLE="[HarvestMan-devel] HarvestMan Lite">Jamal.Mazrui at fcc.gov
+       </A><BR>
+    <I>Thu May  7 17:38:30 CEST 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000204.html">[HarvestMan-devel] HarvestMan Lite
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#205">[ date ]</a>
+              <a href="thread.html#205">[ thread ]</a>
+              <a href="subject.html#205">[ subject ]</a>
+              <a href="author.html#205">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>That would be great, as the code base would become easier to understand
+and incorporate into other Python apps.
+
+Jamal
+ 
+
+
+-----Original Message-----
+From: <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">harvestman-devel-bounces at lists.berlios.de</A>
+[mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">harvestman-devel-bounces at lists.berlios.de</A>] On Behalf Of Anand
+Balachandran Pillai
+Sent: Thursday, May 07, 2009 10:25 AM
+To: Lukasz Szybalski
+Cc: Sam Ockman; <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">harvestman-devel at lists.berlios.de</A>
+Subject: Re: [HarvestMan-devel] HarvestMan Lite
+
+Check here,
+
+<A HREF="http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-lite/">http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-lite/</A>
+
+
+On Thu, May 7, 2009 at 7:54 PM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+
+
+	Hi Lukasz,
+	
+	  I have created a new entry in trunk named &quot;HarvestMan-lite&quot;.
+	The idea is to trim unncessary and old code from HarvestMan
+	code base to create a lightweight ( in terms  of amount of code
+	and also performance) program. 
+	
+	 I have done the first level of work today, removing a number 
+	of irrelevant modules and files from the codebase. Also a number
+	of modules were trimmed. 
+	 
+	Going ahead, the plan would be to refactor the code and remove
+	un-necessary logic (like the &quot;objects&quot; namespace holding each
+object
+	, instead make everything with single instance a singleton) and
+	to take a re-look at the code and remove/collate functions etc.
+	
+	The final phase would be a performance improvement, identifying
+	bottle necks and removing/updating data structures to improve
+	the memory usage of the program. 
+	
+	Once this is done the current HarvestMan source trunk would be
+	archived and HarvestMan-lite would replace it. I would also
+	move the &quot;Hget&quot; downloader to a separate project.
+	
+	The idea is to then use this trimmed codebase to work on 
+	the scalable &quot;super HarvestMan&quot; which would use multiple
+processes
+	(each being a &quot;HarvestMan&quot; application) to scale up crawling.
+	
+	The complete refactoring I guess would take around 1 month
+	plus. 
+	
+	Kindly let me know your thoughts.
+	
+	-- 
+	-Anand
+	
+	
+	
+	
+
+
+
+
+--
+-Anand
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000204.html">[HarvestMan-devel] HarvestMan Lite
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#205">[ date ]</a>
+              <a href="thread.html#205">[ thread ]</a>
+              <a href="subject.html#205">[ subject ]</a>
+              <a href="author.html#205">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

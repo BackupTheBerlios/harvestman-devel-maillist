@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70809231548h2f65507eqea6e82f292b495d0%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000126.html">
+   <LINK REL="Next"  HREF="000128.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70809231548h2f65507eqea6e82f292b495d0%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">szybalski at gmail.com
+       </A><BR>
+    <I>Wed Sep 24 00:48:35 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000126.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000128.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#127">[ date ]</a>
+              <a href="thread.html#127">[ thread ]</a>
+              <a href="subject.html#127">[ subject ]</a>
+              <a href="author.html#127">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello Anand,
+Any news on this? You mentioned that the plugin part doesn't really
+work. If its not used could you remove it then.
+
+We could implement in the future something like this:
+
+<A HREF="http://ianbicking.org/docs/pycon2006/plugins.html">http://ianbicking.org/docs/pycon2006/plugins.html</A>
+
+Let me know as I don't know how to get rid of this error.
+
+Thanks,
+Lucas
+
+On Mon, Sep 22, 2008 at 8:41 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> Checked in fixe for the error you send by changing from lib import xyz
+</I>&gt;<i> to &quot;from harvestman.lib import xyz&quot;  :
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Now I get this error, any idea how to solve it?
+</I>&gt;<i>
+</I>&gt;<i> harvestman -C harvestman/apps/config-sample.xml
+</I>&gt;<i> Loading user configuration...
+</I>&gt;<i> Using configuration file harvestman/apps/config-sample.xml...
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvenv/bin/harvestman&quot;, line 7, in ?
+</I>&gt;<i>    sys.exit(
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/harvestman_run.py&quot;,
+</I>&gt;<i> line 685, in run
+</I>&gt;<i>    spider.initialize()
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/harvestman_run.py&quot;,
+</I>&gt;<i> line 427, in initialize
+</I>&gt;<i>    self.init_config()
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/harvestman_run.py&quot;,
+</I>&gt;<i> line 414, in init_config
+</I>&gt;<i>    self.process_plugins()
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/apps/appbase.py&quot;,
+</I>&gt;<i> line 45, in process_plugins
+</I>&gt;<i>    from harvestman.lib import hooks
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/lib/hooks.py&quot;,
+</I>&gt;<i> line 198, in ?
+</I>&gt;<i>    HarvestManHooks.add_all_plugins()
+</I>&gt;<i>  File &quot;/home/lucas/tmp/harvestman-topaste/HarvestMan/harvestman/lib/hooks.py&quot;,
+</I>&gt;<i> line 57, in add_all_plugins
+</I>&gt;<i>    M = __import__(module)
+</I>&gt;<i> ImportError: No module named crawler
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Lucas
+</I>&gt;<i>
+</I>
+
+
+-- 
+Python and OpenOffice documents and templates
+<A HREF="http://lucasmanual.com/mywiki/OpenOffice">http://lucasmanual.com/mywiki/OpenOffice</A>
+Fast and Easy Backup solution with Bacula
+<A HREF="http://lucasmanual.com/mywiki/Bacula">http://lucasmanual.com/mywiki/Bacula</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000126.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000128.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#127">[ date ]</a>
+              <a href="thread.html#127">[ thread ]</a>
+              <a href="subject.html#127">[ subject ]</a>
+              <a href="author.html#127">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

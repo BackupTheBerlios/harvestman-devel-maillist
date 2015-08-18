@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] crawl results after a form submit?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2009-February/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20crawl%20results%20after%20a%20form%20submit%3F&In-Reply-To=%3C8548c5f30902060733v30e81cacg453e3978b6ce1ca%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000200.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] crawl results after a form submit?</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20crawl%20results%20after%20a%20form%20submit%3F&In-Reply-To=%3C8548c5f30902060733v30e81cacg453e3978b6ce1ca%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] crawl results after a form submit?">abpillai at gmail.com
+       </A><BR>
+    <I>Fri Feb  6 16:33:20 CET 2009</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000200.html">[HarvestMan-devel] Extending imagecrawler.py to check file type
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#199">[ date ]</a>
+              <a href="thread.html#199">[ thread ]</a>
+              <a href="subject.html#199">[ subject ]</a>
+              <a href="author.html#199">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Lukasz,
+
+On Wed, Jan 21, 2009 at 12:27 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> Hello,
+</I>&gt;<i>
+</I>&gt;<i> Somebody mentioned that they wanted to crawl this website which has a
+</I>&gt;<i> form associated to it. I would like to submit the form with a value
+</I>&gt;<i> and crawl the results.
+</I>&gt;<i>
+</I>&gt;<i> How can this be done?
+</I>&gt;<i> <A HREF="http://bioguide.congress.gov/biosearch/biosearch.asp">http://bioguide.congress.gov/biosearch/biosearch.asp</A>
+</I>&gt;<i> I want to submit this form with this field:
+</I>&gt;<i>
+</I>&gt;<i> &lt;form method=&quot;POST&quot;
+</I>&gt;<i> action=&quot;<A HREF="http://bioguide.congress.gov/biosearch/biosearch1.asp">http://bioguide.congress.gov/biosearch/biosearch1.asp</A>&quot;&gt;
+</I>&gt;<i>
+</I>&gt;<i> INPUT SIZE=4 NAME=&quot;congress&quot; VALUE=&quot;&quot;
+</I>&gt;<i>
+</I>&gt;<i> This field is a year: 2009
+</I>&gt;<i>
+</I>
+The easiest way to do this is to use mechanize
+and integrate with it.
+
+Using mechanize on the page is rather straightforward.
+
+from mechanize import Browser
+
+b=Browser()
+f=b.open('<A HREF="http://bioguide.congress.gov/biosearch/biosearch.asp">http://bioguide.congress.gov/biosearch/biosearch.asp</A>')
+# Get all forms
+forms=[f for f in b.forms()]
+# Select first and only form
+b.form = forms[0]
+# Fill in fields
+b['lastname']='McCain'
+b['firstname']='John'
+b['position']=['Senator']
+b['state']=['AZ']
+b['party']=['Republican']
+b['congress']='2007'
+response = b.submit()
+
+data=response.read()
+
+So, if this has to be done with HarvestMan through mechanize,
+we need to pass the initial URL to mechanize with the data to
+fill in in each of the forms.
+
+This could be made possible by an XML file which will store
+each of the expected form inputs. For any form crawling,
+the XML file has to be associated to the URL somehow so that
+we parse the XML file, auto fill in the form (using mechanize),
+submit the contents and crawl the results once it is done.
+
+
+&gt;<i> Can I do it from a configuration xml file?
+</I>Perhaps one way to do this is by defining a &lt;forms&gt; section
+in the main config file and associating a URL to a form XML file.
+
+Say something like,
+
+&lt;forms&gt;
+      &lt;url value=&quot;<A HREF="http://bioguide.congress.gov/biosearch/biosearch.asp">http://bioguide.congress.gov/biosearch/biosearch.asp</A>&quot;&gt;
+           &lt;form&gt;
+               &lt;name&gt;&lt;/name&gt;
+               &lt;pos&gt;1&lt;/pos&gt;
+               &lt;file&gt;mccain.xml&lt;/file&gt;
+            &lt;/form&gt;
+       &lt;/url&gt;
+...
+&lt;/forms&gt;
+
+This means when URL &quot;<A HREF="http://bioguide.congress.gov/biosearch/biosearch.asp">http://bioguide.congress.gov/biosearch/biosearch.asp</A>&quot;
+is encountered, fill in the first form (this form has no name) with data from
+mccain.xml file, submit and parse the query results.
+
+So, if the URL has other data, they also will be crawled apart from the
+form query results.
+
+Perhaps the XML syntax for the &quot;forms&quot; element can be better than
+this. This is just the first one that hit me :)
+
+Some questions remain like, the file name to save the query
+result to etc. If mechanize does not return a URL, then we can
+perhaps save it using the original URL + &quot;&lt;form name&gt;&quot; + &quot;_results.html&quot;
+
+i.e for form named 'spam' from '<A HREF="http://www.foo.com">http://www.foo.com</A>&quot;, save result
+to file named 'foo.com/index.html_&lt;spam&gt;_results.html'.
+
+If mechanize returns a URL, we should save it to that name I think.
+
+The XML config file can be a simple one with all fields for
+the form with the values.
+
+for example, here is mccain.xml.
+
+&lt;lastname&gt;McCain&lt;/lastname&gt;
+&lt;firstname&gt;John&lt;/firstname&gt;
+&lt;position&gt;Senator&lt;/position&gt;
+&lt;state&gt;AZ&lt;/state&gt;
+&lt;party&gt;Republican&lt;/party&gt;
+&lt;congress&gt;2007&lt;/congress&gt;
+
+The parser for this file will extract all element names and use
+their values to submit the form.
+
+
+&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Lucas
+</I>
+The other option is for HarvestMan to parse the form, find out
+input fields etc and do its own submission. I wouldn't want to
+do this, since mechanize solves the problem in a much better
+fashion.
+
+The only caveat is to integrate with mechanize.  So I think
+we should implement this as a plugin to HarvestMan which
+can be enabled only if the feature is required by the user.
+If he does, so he is supposed to have mechanize installed
+already.
+
+Or optionally, we could make this is an optional feature, i.e
+during setup check for mechanize and if not found, inform
+the user that this feature won't work. Implement the code
+in a separate module which will import mechanize.
+
+Have a flag in the config module, which will try to import
+mechanize everytime the program starts - if it finds it,
+enable the flag which will enable forms parsing etc, otherwise
+disable it.
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> How to create python package?
+</I>&gt;<i> <A HREF="http://lucasmanual.com/mywiki/PythonPaste">http://lucasmanual.com/mywiki/PythonPaste</A>
+</I>&gt;<i> Bazaar and Launchpad
+</I>&gt;<i> <A HREF="http://lucasmanual.com/mywiki/Bazaar">http://lucasmanual.com/mywiki/Bazaar</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> HarvestMan-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;<i>
+</I>
+Regards,
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000200.html">[HarvestMan-devel] Extending imagecrawler.py to check file type
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#199">[ date ]</a>
+              <a href="thread.html#199">[ thread ]</a>
+              <a href="subject.html#199">[ subject ]</a>
+              <a href="author.html#199">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

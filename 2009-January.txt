@@ -1,0 +1,36 @@
+From szybalski at gmail.com  Tue Jan 20 19:57:41 2009
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 20 Jan 2009 12:57:41 -0600
+Subject: [HarvestMan-devel] crawl results after a form submit?
+Message-ID: <804e5c70901201057p2400613dwcc36c729e2f0b58c@mail.gmail.com>
+
+Hello,
+
+Somebody mentioned that they wanted to crawl this website which has a
+form associated to it. I would like to submit the form with a value
+and crawl the results.
+
+How can this be done?
+http://bioguide.congress.gov/biosearch/biosearch.asp
+I want to submit this form with this field:
+
+<form method="POST"
+action="http://bioguide.congress.gov/biosearch/biosearch1.asp">
+
+INPUT SIZE=4 NAME="congress" VALUE=""
+
+This field is a year: 2009
+
+Can I do it from a configuration xml file?
+
+Thanks,
+Lucas
+
+
+-- 
+How to create python package?
+http://lucasmanual.com/mywiki/PythonPaste
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/Bazaar
+
+

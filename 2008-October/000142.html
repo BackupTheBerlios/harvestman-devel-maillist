@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C8548c5f30810061135m687317ax51e703dcb0dc9c41%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000140.html">
+   <LINK REL="Next"  HREF="000143.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C8548c5f30810061135m687317ax51e703dcb0dc9c41%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">abpillai at gmail.com
+       </A><BR>
+    <I>Mon Oct  6 20:35:31 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000140.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000143.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#142">[ date ]</a>
+              <a href="thread.html#142">[ thread ]</a>
+              <a href="subject.html#142">[ subject ]</a>
+              <a href="author.html#142">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Lukasz,
+
+On Mon, Oct 6, 2008 at 7:30 PM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> On Mon, Oct 6, 2008 at 6:17 AM, Anand Balachandran Pillai
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> Hi Lukasz,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>         I integrated your paste branch's code to the trunk. Happy
+</I>&gt;&gt;<i> to report that the self-test passes and harvestman is able to
+</I>&gt;&gt;<i> crawl in the virtualenv!
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        The problem was that your library code was out of date
+</I>&gt;&gt;<i> w.r.t the test code. Once I copied the setuptools stuff to trunk
+</I>&gt;&gt;<i> and tested it, things worked!
+</I>&gt;<i>
+</I>&gt;<i> You usually don't copy files over.. you can use svn merge which will
+</I>&gt;<i> merge the changes from one branch to another and move over the
+</I>&gt;<i> revision history as well. I didn't use it yet but I'm learning, so I
+</I>&gt;<i> think if you use svn merge all the comments and checkins are copied
+</I>&gt;<i> over.
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="http://www.technoids.org/svnmerge.html">http://www.technoids.org/svnmerge.html</A>
+</I>&gt;<i>
+</I>
+Well, I am not very sure we want to do this for merging such small
+changes over. It is more useful when copying files from a tree
+which had a long development history, like we tried to do for the
+HarvestMan code earlier when I had imported it into google code.
+
+For the time being, I am just adding stuff to trunk instead of merging.
+I am not very good with the merges anyway !
+
+&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>       I tested that even the --ui option works.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thanks for the good work.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Btw, the setup.py for virtual env differs a lot from the system setup.py.
+</I>&gt;&gt;<i> For example in virtualenv setup.py we cannot create a system-wide
+</I>&gt;&gt;<i> configuration file (/etc/harvestman/config.xml), since there won't
+</I>&gt;&gt;<i> be the requisite permissions.
+</I>&gt;<i>
+</I>&gt;<i> It should. The code that you looked at with sys.prefix checks if the
+</I>&gt;<i> folder is in virtualenv style (/home/lucas/) if the sys.prefix is '/'
+</I>&gt;<i> that means you are installing as root on system wide setup and it
+</I>&gt;<i> should install it in /etc/harvestman/config.xml.
+</I>
+I figured why this did not happen for me. You had modified
+&quot;set_sys_params&quot; in config.py to adjust self.etcdir in your branch.
+Once I added this it works.
+
+However, your way of doing it is not generic, in that if you try to
+use this code outside virtualenv, in regular setup, it still creates
+a local &quot;etc&quot; folder instead of installing to system /etc. I have
+changed the logic to use sys.prefix instead of figuring out the
+path from __main__. Please use the same logic for it to work
+in both virtualenv and regular shell install.
+
+
+&gt;<i>
+</I>&gt;<i> You are able to install it there only as root(/etc/ is owned by root).
+</I>&gt;<i> If you don't have root permissions you have to either use virtualenv
+</I>&gt;<i> or prefix to point to some folder in your home dir.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> So, for the time being I have retained
+</I>&gt;&gt;<i> the virtualenv setup.py as setup_paste.py in the trunk without
+</I>&gt;&gt;<i> overwriting the original setup.py.
+</I>&gt;<i>
+</I>&gt;<i> I would like to use the new setup.py because we can do few things with it.
+</I>&gt;<i>
+</I>&gt;<i> 1. python setup.py bdist_egg
+</I>&gt;<i>  This will build the egg for the harvestman which you can distribute
+</I>&gt;<i> and install with easy_install
+</I>&gt;<i> easy_install -i someegg.egg
+</I>&gt;<i> 2. We can register the package in pypi. python setup.py register
+</I>&gt;<i> 3. When it is in PYPI you can go to any computer that has setuptools
+</I>&gt;<i> and install havervestman like this:
+</I>&gt;<i> easy_install harvestman which will get all you need from
+</I>&gt;<i> python.org/PyPI . Or easy_install harvestman=2.0 or easy_install
+</I>&gt;<i> harvestman=dev which will install from our trunk. (you don't have to
+</I>&gt;<i> download anything)
+</I>&gt;<i> 4. The new setup.py has test code taken out because if you create a
+</I>&gt;<i> new crawling project you can add harvestman as requirement in setup.py
+</I>&gt;<i> that says 'require harvestman'. So when I install my project I need
+</I>&gt;<i> harvestman to just install and if you want to test it you can do
+</I>&gt;<i> harvestman --selftest. So I took out the self testing code in there.
+</I>
+This is fine, but make sure that you are not doing any regressions
+when you replace the setup.py with yours. For the time being, please
+retain the old setup.py as setup.py.orig in the trunk when you merge
+the code to the trunk.
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> Btw, I did not understand README.paste. It does not seem like a README
+</I>&gt;&gt;<i> to me, instead consists of the tree of HarvestMan folder. Can you add
+</I>&gt;&gt;<i> a proper README to trunk which explains the virtualenv setup ?
+</I>&gt;<i>
+</I>&gt;<i> I'll modify it, and add proper comments.
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Also, I dont understand the connection between virtualenv and Python paste
+</I>&gt;&gt;<i> frankly :)
+</I>&gt;<i>
+</I>&gt;<i> What paste did was to create skeloton of the python package.  I did
+</I>&gt;<i> &quot;paster create myapp&quot; which creates default setup.py ...and all
+</I>&gt;<i> folders that are required to create an egg package. From there you can
+</I>&gt;<i> do what you did before or you can use pastescript to give you more
+</I>&gt;<i> control on what is installing where or if you need to do some parsing
+</I>&gt;<i> of command lines. It can for example parse  harvestman --goodbye , not
+</I>&gt;<i> sure if you wrote the code to do that or not. Another advantage is
+</I>&gt;<i> that it allows you to use &quot;from harvestman import xyz&quot; vs before you
+</I>&gt;<i> were using &quot;import xyz&quot;, this allows you control the imports better.
+</I>&gt;<i> If somebody else writes a different project they can use the same
+</I>&gt;<i> imports &quot;from harvestman.lib import common&quot; etc...  You don't have to
+</I>&gt;<i> manipulate the global variables to get you from one folder to another
+</I>&gt;<i> as it will figure out what is where.
+</I>&gt;<i> <A HREF="http://lucasmanual.com/mywiki/PythonPaste">http://lucasmanual.com/mywiki/PythonPaste</A>
+</I>&gt;<i> So paste only provided skeleton, and we currently don't use it for
+</I>&gt;<i> anything else. I would like to convert the part that pareses your
+</I>&gt;<i> command line input to use paste but maybe later.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I have checked in all code to trunk. Please test that this works in
+</I>&gt;&gt;<i> the trunk at your end
+</I>&gt;&gt;<i> and then remove the paste branch.
+</I>&gt;<i>
+</I>&gt;<i> I'll check if all the files got moved over correctly. I'll keep in for
+</I>&gt;<i> now and when we merged everything I'll delete it.
+</I>
+I had missed setup.cfg. I added it now.
+
+&gt;<i>
+</I>
+Thanks,
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000140.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000143.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#142">[ date ]</a>
+              <a href="thread.html#142">[ thread ]</a>
+              <a href="subject.html#142">[ subject ]</a>
+              <a href="author.html#142">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

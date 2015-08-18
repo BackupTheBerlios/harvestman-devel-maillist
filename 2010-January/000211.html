@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Harvestman issues
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2010-January/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Harvestman%20issues&In-Reply-To=%3C8548c5f31001102050x5ded1118hd24cf04997a164ab%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000212.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Harvestman issues</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Harvestman%20issues&In-Reply-To=%3C8548c5f31001102050x5ded1118hd24cf04997a164ab%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Harvestman issues">abpillai at gmail.com
+       </A><BR>
+    <I>Mon Jan 11 05:50:34 CET 2010</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000212.html">[HarvestMan-devel] Harvestman issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#211">[ date ]</a>
+              <a href="thread.html#211">[ thread ]</a>
+              <a href="subject.html#211">[ subject ]</a>
+              <a href="author.html#211">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Feisal,
+
+This can be done by writing a custom crawler and subscribing
+to HarvestMan events. Since the &lt;td&gt; tag is normally skipped
+in the default harvestman execution flow, a custom crawler
+is required.
+
+But it is easy to write one. Sample code is already available
+which demos custom crawler writing in harvestman/apps/samples folder. In
+fact I wrote a specific crawler for this purpose and
+added it today to subversion.
+
+Do the following.
+
+1. Checkout latest code from harvestman trunk - check out from
+&quot;HarvestMan-lite&quot; branch at
+<A HREF="http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-lite">http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-lite</A> .
+
+i.e
+
+svn co <A HREF="http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-liteharvestman">http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-liteharvestman</A>
+
+2. Read up on harvestman events at doc/events.HOWTO.
+3. Check out sample crawlers using events at harvestman/apps/samples folder.
+Specifically check out html_table_crawler.py written by me yesterday.
+
+4. Modify the callback function &quot;parse_tag_data&quot; as required by your app.
+
+Let me know in case of any doubts.
+
+Regards
+
+--Anand
+
+
+
+
+
+
+
+On Fri, Jan 8, 2010 at 6:17 PM, Feisal Adur &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">feisal.adur at gmail.com</A>&gt; wrote:
+
+&gt;<i> Hej
+</I>&gt;<i>
+</I>&gt;<i> I really like harvestman, and i would like to use it for a small task.
+</I>&gt;<i> Is it possible to crawl a site and only get specific html tags like &lt;td&gt;
+</I>&gt;<i> elements ?
+</I>&gt;<i> I've read through the documentation but cant seem to figure this out.
+</I>&gt;<i>
+</I>&gt;<i> The task at hand:
+</I>&gt;<i> follow this url from a-z
+</I>&gt;<i> <A HREF="http://en.wikipedia.org/wiki/List_of_airports_by_IATA_code:_A">http://en.wikipedia.org/wiki/List_of_airports_by_IATA_code:_A</A>
+</I>&gt;<i> get the table contents only.
+</I>&gt;<i>
+</I>&gt;<i> How would one go about this using harvestman? Any help you can give is
+</I>&gt;<i> highly appriciated.
+</I>&gt;<i> Thanks.
+</I>&gt;<i>
+</I>&gt;<i> /feisal
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+
+-- 
+--Anand
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/harvestman-devel/attachments/20100111/15459517/attachment.html">https://lists.berlios.de/pipermail/harvestman-devel/attachments/20100111/15459517/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000212.html">[HarvestMan-devel] Harvestman issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#211">[ date ]</a>
+              <a href="thread.html#211">[ thread ]</a>
+              <a href="subject.html#211">[ subject ]</a>
+              <a href="author.html#211">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

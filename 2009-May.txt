@@ -1,0 +1,194 @@
+From abpillai at gmail.com  Thu May  7 16:24:29 2009
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 7 May 2009 19:54:29 +0530
+Subject: [HarvestMan-devel] HarvestMan Lite
+Message-ID: <8548c5f30905070724k5c007569kb485d425a4f6a79b@mail.gmail.com>
+
+Hi Lukasz,
+
+  I have created a new entry in trunk named "HarvestMan-lite".
+The idea is to trim unncessary and old code from HarvestMan
+code base to create a lightweight ( in terms  of amount of code
+and also performance) program.
+
+ I have done the first level of work today, removing a number
+of irrelevant modules and files from the codebase. Also a number
+of modules were trimmed.
+
+Going ahead, the plan would be to refactor the code and remove
+un-necessary logic (like the "objects" namespace holding each object
+, instead make everything with single instance a singleton) and
+to take a re-look at the code and remove/collate functions etc.
+
+The final phase would be a performance improvement, identifying
+bottle necks and removing/updating data structures to improve
+the memory usage of the program.
+
+Once this is done the current HarvestMan source trunk would be
+archived and HarvestMan-lite would replace it. I would also
+move the "Hget" downloader to a separate project.
+
+The idea is to then use this trimmed codebase to work on
+the scalable "super HarvestMan" which would use multiple processes
+(each being a "HarvestMan" application) to scale up crawling.
+
+The complete refactoring I guess would take around 1 month
+plus.
+
+Kindly let me know your thoughts.
+
+-- 
+-Anand
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090507/e1d12e2f/attachment.html>
+
+From abpillai at gmail.com  Thu May  7 16:25:04 2009
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 7 May 2009 19:55:04 +0530
+Subject: [HarvestMan-devel] HarvestMan Lite
+In-Reply-To: <8548c5f30905070724k5c007569kb485d425a4f6a79b@mail.gmail.com>
+References: <8548c5f30905070724k5c007569kb485d425a4f6a79b@mail.gmail.com>
+Message-ID: <8548c5f30905070725q1049f757g1df3dc79b4ea254c@mail.gmail.com>
+
+Check here,
+
+http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-lite/
+
+On Thu, May 7, 2009 at 7:54 PM, Anand Balachandran Pillai <
+abpillai at gmail.com> wrote:
+
+> Hi Lukasz,
+>
+>   I have created a new entry in trunk named "HarvestMan-lite".
+> The idea is to trim unncessary and old code from HarvestMan
+> code base to create a lightweight ( in terms  of amount of code
+> and also performance) program.
+>
+>  I have done the first level of work today, removing a number
+> of irrelevant modules and files from the codebase. Also a number
+> of modules were trimmed.
+>
+> Going ahead, the plan would be to refactor the code and remove
+> un-necessary logic (like the "objects" namespace holding each object
+> , instead make everything with single instance a singleton) and
+> to take a re-look at the code and remove/collate functions etc.
+>
+> The final phase would be a performance improvement, identifying
+> bottle necks and removing/updating data structures to improve
+> the memory usage of the program.
+>
+> Once this is done the current HarvestMan source trunk would be
+> archived and HarvestMan-lite would replace it. I would also
+> move the "Hget" downloader to a separate project.
+>
+> The idea is to then use this trimmed codebase to work on
+> the scalable "super HarvestMan" which would use multiple processes
+> (each being a "HarvestMan" application) to scale up crawling.
+>
+> The complete refactoring I guess would take around 1 month
+> plus.
+>
+> Kindly let me know your thoughts.
+>
+> --
+> -Anand
+>
+>
+>
+>
+
+
+-- 
+-Anand
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090507/5e3bbbcd/attachment.html>
+
+From Jamal.Mazrui at fcc.gov  Thu May  7 17:38:30 2009
+From: Jamal.Mazrui at fcc.gov (Jamal Mazrui)
+Date: Thu, 7 May 2009 11:38:30 -0400
+Subject: [HarvestMan-devel] HarvestMan Lite
+In-Reply-To: <8548c5f30905070725q1049f757g1df3dc79b4ea254c@mail.gmail.com>
+References: <8548c5f30905070724k5c007569kb485d425a4f6a79b@mail.gmail.com>
+	<8548c5f30905070725q1049f757g1df3dc79b4ea254c@mail.gmail.com>
+Message-ID: <495842C725E7F8459B0460FC3A1060B10B17EABD@P2PXMB01S1.fccnet.win.fcc.gov>
+
+That would be great, as the code base would become easier to understand
+and incorporate into other Python apps.
+
+Jamal
+ 
+
+
+-----Original Message-----
+From: harvestman-devel-bounces at lists.berlios.de
+[mailto:harvestman-devel-bounces at lists.berlios.de] On Behalf Of Anand
+Balachandran Pillai
+Sent: Thursday, May 07, 2009 10:25 AM
+To: Lukasz Szybalski
+Cc: Sam Ockman; harvestman-devel at lists.berlios.de
+Subject: Re: [HarvestMan-devel] HarvestMan Lite
+
+Check here,
+
+http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan-lite/
+
+
+On Thu, May 7, 2009 at 7:54 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+
+
+	Hi Lukasz,
+	
+	  I have created a new entry in trunk named "HarvestMan-lite".
+	The idea is to trim unncessary and old code from HarvestMan
+	code base to create a lightweight ( in terms  of amount of code
+	and also performance) program. 
+	
+	 I have done the first level of work today, removing a number 
+	of irrelevant modules and files from the codebase. Also a number
+	of modules were trimmed. 
+	 
+	Going ahead, the plan would be to refactor the code and remove
+	un-necessary logic (like the "objects" namespace holding each
+object
+	, instead make everything with single instance a singleton) and
+	to take a re-look at the code and remove/collate functions etc.
+	
+	The final phase would be a performance improvement, identifying
+	bottle necks and removing/updating data structures to improve
+	the memory usage of the program. 
+	
+	Once this is done the current HarvestMan source trunk would be
+	archived and HarvestMan-lite would replace it. I would also
+	move the "Hget" downloader to a separate project.
+	
+	The idea is to then use this trimmed codebase to work on 
+	the scalable "super HarvestMan" which would use multiple
+processes
+	(each being a "HarvestMan" application) to scale up crawling.
+	
+	The complete refactoring I guess would take around 1 month
+	plus. 
+	
+	Kindly let me know your thoughts.
+	
+	-- 
+	-Anand
+	
+	
+	
+	
+
+
+
+
+--
+-Anand
+
+
+
+
+
+

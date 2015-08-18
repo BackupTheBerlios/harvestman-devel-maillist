@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Throttling/Bandwidth Control
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C804e5c70806190705q5237b0dejd00e7826d1793f72%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000027.html">
+   <LINK REL="Next"  HREF="000029.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Throttling/Bandwidth Control</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C804e5c70806190705q5237b0dejd00e7826d1793f72%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Throttling/Bandwidth Control">szybalski at gmail.com
+       </A><BR>
+    <I>Thu Jun 19 16:05:03 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000027.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+        <LI>Next message: <A HREF="000029.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#28">[ date ]</a>
+              <a href="thread.html#28">[ thread ]</a>
+              <a href="subject.html#28">[ subject ]</a>
+              <a href="author.html#28">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Thu, Jun 19, 2008 at 8:54 AM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> Hi list,
+</I>&gt;<i>
+</I>&gt;<i>  I have an initial implementation ready for throttling. I am about to add
+</I>&gt;<i> the config parameter in the config.xml file. This should go to the &lt;limits&gt;
+</I>&gt;<i> element of the &lt;control&gt; top-level element.
+</I>&gt;<i>
+</I>&gt;<i> Is the name &quot;throttle&quot; apt for this variable ? Or should it be &quot;bandwidth&quot; ?
+</I>&gt;<i> For the time being I am opting for &quot;bandwidth&quot;. Please give feedback.
+</I>
+bandwidth sounds better to me.
+
+Is it a bandwidth per thread? or maxbandwidth?
+
+If max, then I would go with maxbandwidth.
+
+Thanks,
+Lucas
+
+
+&gt;<i>
+</I>&gt;<i> Here is a sample XML element including this new param.
+</I>&gt;<i>
+</I>&gt;<i> &lt;control&gt;
+</I>&gt;<i> ....
+</I>&gt;<i>    &lt;limits&gt;
+</I>&gt;<i>        &lt;maxextservers value=&quot;0&quot;/&gt;
+</I>&gt;<i>        &lt;maxextdirs value=&quot;0&quot;/&gt;
+</I>&gt;<i>        &lt;maxfiles value=&quot;100&quot;/&gt;
+</I>&gt;<i>        &lt;maxfilesize value=&quot;5242880&quot;/&gt;
+</I>&gt;<i>        &lt;connections value=&quot;5&quot;/&gt;
+</I>&gt;<i>        &lt;bandwidth value=&quot;5.0&quot; /&gt;
+</I>&gt;<i>        &lt;timelimit value=&quot;-1&quot;/&gt;
+</I>&gt;<i>    &lt;/limits&gt;
+</I>&gt;<i> ...
+</I>&gt;<i> &lt;/control&gt;
+</I>&gt;<i>
+</I>&gt;<i> The value needs to be specified in kb/sec , not in bytes/sec .
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> -Anand
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> HarvestMan-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;<i>
+</I>
+
+
+-- 
+Where was my car manufactured?
+<A HREF="http://cars.lucasmanual.com/vin">http://cars.lucasmanual.com/vin</A>
+TurboGears Manual-Howto
+<A HREF="http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf">http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000027.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+	<LI>Next message: <A HREF="000029.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#28">[ date ]</a>
+              <a href="thread.html#28">[ thread ]</a>
+              <a href="subject.html#28">[ subject ]</a>
+              <a href="author.html#28">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

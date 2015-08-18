@@ -1,0 +1,400 @@
+From szybalski at gmail.com  Sat Nov  1 02:56:36 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 31 Oct 2008 20:56:36 -0500
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810280719n7b092a5ald9269d86222e62fe@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30810102340q268989fse4db919b015c3411@mail.gmail.com>
+	<8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+	<8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+	<8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+	<804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+	<804e5c70810241458x77cee2a4x3d5a11587de5bf65@mail.gmail.com>
+	<804e5c70810241530t5cf871a4l350a24f99463cc4d@mail.gmail.com>
+	<8548c5f30810272300l55e394e8j7330b44db2e4daee@mail.gmail.com>
+	<804e5c70810280719n7b092a5ald9269d86222e62fe@mail.gmail.com>
+Message-ID: <804e5c70810311856p1e4d43d9wa8aaa6d0e1de2a52@mail.gmail.com>
+
+It works now...
+
+give that a try
+
+
+svn update
+
+
+Lucas
+
+
+On Tue, Oct 28, 2008 at 9:19 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Tue, Oct 28, 2008 at 1:00 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lukasz,
+>>
+>>        I removed setuptools from my Python (2.5.1) and re-ran
+>> the installation. The installation exits after setuptools is installed,
+>> without going through the rest of setup.py.
+>>
+>> [anand at localhost HarvestMan]$ sudo python setup.py install
+>> Downloading http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg
+>> Searching for setuptools
+>> Reading http://pypi.python.org/simple/setuptools/
+>> Best match: setuptools 0.6c9
+>> Downloading http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg#md5=fe67c3e5a17b12c0e7c541b7ea43a8e6
+>> Processing setuptools-0.6c9-py2.5.egg
+>> Moving setuptools-0.6c9-py2.5.egg to /usr/lib/python2.5/site-packages
+>> Adding setuptools 0.6c9 to easy-install.pth file
+>> Installing easy_install script to /usr/bin
+>> Installing easy_install-2.5 script to /usr/bin
+>>
+>> Installed /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+>> Processing dependencies for setuptools
+>> Finished processing dependencies for setuptools
+>> Processing setuptools-0.6c9-py2.5.egg
+>> Removing /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+>> Copying setuptools-0.6c9-py2.5.egg to /usr/lib/python2.5/site-packages
+>> setuptools 0.6c9 is already the active version in easy-install.pth
+>> Installing easy_install script to /usr/bin
+>> Installing easy_install-2.5 script to /usr/bin
+>>
+>> Installed /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+>> Processing dependencies for setuptools==0.6c9
+>> Finished processing dependencies for setuptools==0.6c9
+>> running install
+>> running bdist_egg
+>> running egg_info
+>> writing requirements to HarvestMan.egg-info/requires.txt
+>> writing HarvestMan.egg-info/PKG-INFO
+>> writing top-level names to HarvestMan.egg-info/top_level.txt
+>> writing dependency_links to HarvestMan.egg-info/dependency_links.txt
+>> writing entry points to HarvestMan.egg-info/entry_points.txt
+>> error: None
+>> [anand at localhost HarvestMan]$
+>>
+>> After this if I try it again, of course the setup completes.
+>>
+>> Any idea what is happening ? My machine is FC-9 x86_64 ,
+>> Python 2.5.1.
+>>
+>
+> That is weird...
+> I'll try to reproduce the same thing on my machine.
+>
+> Lucas
+>
+
+
+
+-- 
+Turbogears2 Manual
+http://lucasmanual.com/mywiki/TurboGears2
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/bzr
+
+
+From szybalski at gmail.com  Mon Nov  3 03:15:45 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sun, 2 Nov 2008 20:15:45 -0600
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70810311856p1e4d43d9wa8aaa6d0e1de2a52@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30810102358o245e786bj6fc1f585e2bb3bf1@mail.gmail.com>
+	<8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+	<8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+	<804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+	<804e5c70810241458x77cee2a4x3d5a11587de5bf65@mail.gmail.com>
+	<804e5c70810241530t5cf871a4l350a24f99463cc4d@mail.gmail.com>
+	<8548c5f30810272300l55e394e8j7330b44db2e4daee@mail.gmail.com>
+	<804e5c70810280719n7b092a5ald9269d86222e62fe@mail.gmail.com>
+	<804e5c70810311856p1e4d43d9wa8aaa6d0e1de2a52@mail.gmail.com>
+Message-ID: <804e5c70811021815h5cd654d8u40089b75406768a7@mail.gmail.com>
+
+Hello,
+
+What do you think about changing the default save folder from
+"~websites" to "~crawl"? "~websites" folder are kind of used by web
+developers so crawl folder would fit better?
+
+Let me know.
+
+Luca
+
+
+From szybalski at gmail.com  Wed Nov  5 04:39:46 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 4 Nov 2008 21:39:46 -0600
+Subject: [HarvestMan-devel] resume controls
+Message-ID: <804e5c70811041939n2ec66520v5db6354abeff0f8f@mail.gmail.com>
+
+Hello,
+Could you tell me which settings in config.xml control "resume" aka
+"continue" options for download.
+
+I have was downloading a website for about 30min, but because of its
+scope I wanted to lower the bandwidth limit to 20kb/s so there is less
+stress on the website web servers. I stopped the crawling with
+"CTRL+C" changed my xml and resume download with "harvestman -C
+myfile.xml". But when it started downloading it started from the
+beginning.
+
+Is there parameter in xml that controls resume (Continue getting new
+not downloaded file.)
+
+Thanks,
+Lucas
+
+
+
+-- 
+Turbogears2 Manual
+http://lucasmanual.com/mywiki/TurboGears2
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/bzr
+
+
+From szybalski at gmail.com  Wed Nov  5 04:46:51 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 4 Nov 2008 21:46:51 -0600
+Subject: [HarvestMan-devel] Thread died due to exception =>
+	'HarvestManUrl' object has no attribute 'get_original_url_directory'
+In-Reply-To: <cdb59b620810161656h23f9bc6ajc240a988a5646ce0@mail.gmail.com>
+References: <cdb59b620810161648tb5bfca4j520abc4d48da95b6@mail.gmail.com>
+	<cdb59b620810161656h23f9bc6ajc240a988a5646ce0@mail.gmail.com>
+Message-ID: <804e5c70811041946g405d1b34if25874eba36db123@mail.gmail.com>
+
+You need to provide first initial page:
+
+From szybalski at gmail.com  Wed Nov  5 04:48:34 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 4 Nov 2008 21:48:34 -0600
+Subject: [HarvestMan-devel] Thread died due to exception =>
+	'HarvestManUrl' object has no attribute 'get_original_url_directory'
+In-Reply-To: <804e5c70811041946g405d1b34if25874eba36db123@mail.gmail.com>
+References: <cdb59b620810161648tb5bfca4j520abc4d48da95b6@mail.gmail.com>
+	<cdb59b620810161656h23f9bc6ajc240a988a5646ce0@mail.gmail.com>
+	<804e5c70811041946g405d1b34if25874eba36db123@mail.gmail.com>
+Message-ID: <804e5c70811041948j188349e5j459aa2af59e010ac@mail.gmail.com>
+
+Hello,
+Is there some programming way to get actual initial page?
+
+http://www.rottentomatoes.com/ server internally points to index.php.
+Can urllib2 get that redirection or?
+
+
+Thanks,
+Lucas
+
+
+
+On Tue, Nov 4, 2008 at 9:46 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> You need to provide first initial page:
+> From the sample you have try using:
+> http://www.rottentomatoes.com/index.php
+> instead of
+> http://www.rottentomatoes.com/
+>
+> That will work.
+> Lucas
+>
+> On Thu, Oct 16, 2008 at 5:56 PM, mark ! <write2mark1 at gmail.com> wrote:
+>>
+>>> How to fix this error?
+>>>
+>>> spider.main()
+>>> []
+>>> Starting HarvestMan 2.0 alpha 1...
+>>> Copyright (C) 2004, Anand B Pillai
+>>>
+>>> [16:47:40] *** Log Started ***
+>>>
+>>> [16:47:40] Starting project rotten ...
+>>> [16:47:40] Writing Project Files...
+>>> [16:47:40] Starting download of url http://rottentomatoes.com/ ...
+>>> [16:47:40] Reading Project Cache...
+>>> [16:47:40] Downloading file for url http://rottentomatoes.com/
+>>> [16:47:41] Saved to
+>>> /home/mark/websites/rotten/www.rottentomatoes.com/index.html
+>>> Thread died due to exception =>  'HarvestManUrl' object has no attribute
+>>> 'get_original_url_directory'
+>>> [16:47:47] Ending Project rotten ...
+>>> [16:47:49]
+>>> [16:47:49] Localising links of downloaded web pages...
+>>> [16:47:49] Localised links of 1 web pages.
+>>> [16:47:49]
+>>> [16:47:49] HarvestMan mirror rotten completed in 8.29 seconds.
+>>> [16:47:49] 210 links scanned in 1 server .
+>>> [16:47:49] 1 file written.
+>>> [16:47:49] 25078  bytes received at the rate of 2.95 KB/sec .
+>>> [16:47:49] 174853  bytes were written to disk.
+>>>
+>>> [16:47:49] *** Log Completed ***
+>>>
+>>> Writing project statistics to crawl database...
+>>> Done.
+>>> HarvestMan session finished.
+>>
+>>
+>
+>
+>
+> --
+> Turbogears2 Manual
+> http://lucasmanual.com/mywiki/TurboGears2
+> Bazaar and Launchpad
+> http://lucasmanual.com/mywiki/bzr
+>
+
+
+
+-- 
+Turbogears2 Manual
+http://lucasmanual.com/mywiki/TurboGears2
+Bazaar and Launchpad
+http://lucasmanual.com/mywiki/bzr
+
+
+From szybalski at gmail.com  Thu Nov  6 01:09:00 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Wed, 5 Nov 2008 18:09:00 -0600
+Subject: [HarvestMan-devel] Harvestman crawler 2.0 beta released !
+Message-ID: <804e5c70811051609i2a5d5c2dn7117c9de420d1495@mail.gmail.com>
+
+How are you crawling and downloading websites, files, images?
+Do you need something better?
+Its time for a change !
+Download the beta version of harvestman crawler today!!!!
+
+HarvestMan is a modular, extensible and flexible web crawler program
+written in pure Python. HarvestMan can be used to download files from
+websites according to a number of customized rules and constraints. It
+can be used to find information from websites matching keywords or
+regular expressions. The latest version of HarvestMan supports as much
+as 60 plus customization options.
+
+Download the files here:
+http://harvestman-crawler.googlecode.com/files/Harvestman-2.0.4beta.tar.gz
+
+Unzip and install:
+tar -xzvf Harvestman-2.0.4beta.tar.gz
+cd Harvestman-2.0.4beta
+python setup.py install
+
+Create config file and run harvestman:
+harvestman --selftest
+harvestman --genconfig    (open easy web gui and add the site you want
+to crawl, and all the details. Save the config xml file)
+
+Run harvestman
+harvestman -C mycrawl.xml
+or use harvestman from a command line
+harvestman -h
+
+Project website:
+http://code.google.com/p/harvestman-crawler/
+
+
+Forward to anybody that might be interested!!!!
+
+Thank you,
+Harvestman Team
+
+
+From szybalski at gmail.com  Wed Nov 12 03:11:05 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 11 Nov 2008 20:11:05 -0600
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70811021815h5cd654d8u40089b75406768a7@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30810110010j7537f7c4ta44cac5c93aed7d8@mail.gmail.com>
+	<8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+	<804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+	<804e5c70810241458x77cee2a4x3d5a11587de5bf65@mail.gmail.com>
+	<804e5c70810241530t5cf871a4l350a24f99463cc4d@mail.gmail.com>
+	<8548c5f30810272300l55e394e8j7330b44db2e4daee@mail.gmail.com>
+	<804e5c70810280719n7b092a5ald9269d86222e62fe@mail.gmail.com>
+	<804e5c70810311856p1e4d43d9wa8aaa6d0e1de2a52@mail.gmail.com>
+	<804e5c70811021815h5cd654d8u40089b75406768a7@mail.gmail.com>
+Message-ID: <804e5c70811111811p2f48a537ybd761f5396d3a0c9@mail.gmail.com>
+
+Hello,
+
+Final change on setup.py.
+I would like to change the install options for harvestman and no
+longer install config.xml anywhere during setup. I would put this
+config file somewhere inside the package. I would leave the search
+path so if you have a config file in /etc/harvestman it would be read,
+but harvestman would not put the file there by default.
+
+I keep running into problems when I'm dealing with setup.py. There are
+a lot of commands on setup.py like build upgrade etc and I cannot use
+these if config.xml is being setup each time.
+
+This change will allow for installing harvestman like this:
+
+
+easy_install harvestman   (done)
+
+Let me know if you any issues with this.
+Thanks,
+Lucas
+
+
+From abpillai at gmail.com  Wed Nov 12 07:20:36 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 12 Nov 2008 11:50:36 +0530
+Subject: [HarvestMan-devel] harvestman installation and config.xml
+In-Reply-To: <804e5c70811111811p2f48a537ybd761f5396d3a0c9@mail.gmail.com>
+References: <804e5c70809091820k6c1df253t9f5620f871c65db@mail.gmail.com>
+	<8548c5f30810110024u1069c58ajad5dd8437f4c2fe0@mail.gmail.com>
+	<804e5c70810110932i2476afc8k87c6ba79e099f35b@mail.gmail.com>
+	<804e5c70810241458x77cee2a4x3d5a11587de5bf65@mail.gmail.com>
+	<804e5c70810241530t5cf871a4l350a24f99463cc4d@mail.gmail.com>
+	<8548c5f30810272300l55e394e8j7330b44db2e4daee@mail.gmail.com>
+	<804e5c70810280719n7b092a5ald9269d86222e62fe@mail.gmail.com>
+	<804e5c70810311856p1e4d43d9wa8aaa6d0e1de2a52@mail.gmail.com>
+	<804e5c70811021815h5cd654d8u40089b75406768a7@mail.gmail.com>
+	<804e5c70811111811p2f48a537ybd761f5396d3a0c9@mail.gmail.com>
+Message-ID: <8548c5f30811112220v456a6c25sca58b62b563633c9@mail.gmail.com>
+
+Hi Lukasz,
+
+On Wed, Nov 12, 2008 at 7:41 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+>
+> Final change on setup.py.
+> I would like to change the install options for harvestman and no
+> longer install config.xml anywhere during setup. I would put this
+> config file somewhere inside the package. I would leave the search
+> path so if you have a config file in /etc/harvestman it would be read,
+> but harvestman would not put the file there by default.
+>
+> I keep running into problems when I'm dealing with setup.py. There are
+> a lot of commands on setup.py like build upgrade etc and I cannot use
+> these if config.xml is being setup each time.
+
+If this is conflicting with what you want to do, go ahead and change it.
+The system config file is not that important and anyway HarvestMan
+generates the user config file upon first run.
+
+However if it is possible, please provide an option in setup.py, that
+will install the system config file, separate from the regular install process.
+
+>
+> This change will allow for installing harvestman like this:
+>
+>
+> easy_install harvestman   (done)
+>
+> Let me know if you any issues with this.
+> Thanks,
+> Lucas
+>
+
+
+Thanks
+
+-- 
+-Anand
+
+

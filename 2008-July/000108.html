@@ -1,0 +1,321 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Enhancement of filters
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Enhancement%20of%20filters&In-Reply-To=%3C804e5c70807281749x7182e30aif894ea1e5da87969%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000106.html">
+   <LINK REL="Next"  HREF="000107.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Enhancement of filters</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Enhancement%20of%20filters&In-Reply-To=%3C804e5c70807281749x7182e30aif894ea1e5da87969%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Enhancement of filters">szybalski at gmail.com
+       </A><BR>
+    <I>Tue Jul 29 02:49:05 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000106.html">[HarvestMan-devel] Enhancement of filters
+</A></li>
+        <LI>Next message: <A HREF="000107.html">[HarvestMan-devel] Trunk is broken
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#108">[ date ]</a>
+              <a href="thread.html#108">[ thread ]</a>
+              <a href="subject.html#108">[ subject ]</a>
+              <a href="author.html#108">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>sorry I somehow missed this email previously.
+
+comments inline.
+
+On Mon, Jul 21, 2008 at 12:13 AM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> Hi,
+</I>&gt;<i>
+</I>&gt;<i>  I have updated issue #7 with the new filter design. Please see
+</I>&gt;<i> <A HREF="http://code.google.com/p/harvestman-crawler/issues/detail?id=7">http://code.google.com/p/harvestman-crawler/issues/detail?id=7</A> for changes.
+</I>&gt;<i>
+</I>&gt;<i> I am including the new filter design in this email also.
+</I>&gt;<i>
+</I>&gt;<i> ------------
+</I>&gt;<i> The filters will be changed to the following single filtering mechanism.
+</I>&gt;<i> There will be a single &lt;filter&gt; element which will enclose specific filters.
+</I>&gt;<i>
+</I>&gt;<i> There will be two distinct type of filters, namely &quot;urlfilter&quot;
+</I>&gt;<i> and &quot;textfilter&quot;. The former filter will work on URLs and latter
+</I>&gt;<i> on text content of pages.
+</I>&gt;<i>
+</I>&gt;<i> The &quot;urlfilter&quot; can consist of three types of filters.
+</I>&gt;<i>
+</I>&gt;<i> I. URL filters
+</I>&gt;<i>
+</I>&gt;<i> 1. A regular expression filter which allows one to specify a regular
+</I>&gt;<i> expression to filter out URLs. These work just like regular expressions.
+</I>&gt;<i> 2. A URL &quot;path&quot; filter which allows to specify parts of a URL as a filter.
+</I>&gt;<i> This works as follows.
+</I>&gt;<i>
+</I>&gt;<i> A path is any part of a URL. It could be a part or a complete URL
+</I>&gt;<i> or its beginning or front. It allows wildcards by using &quot;*&quot;.
+</I>&gt;<i>
+</I>&gt;<i> Example: -/images/private/
+</I>&gt;<i>     - Exclude any URL matching /images/private anywhere in the URL
+</I>&gt;<i>
+</I>&gt;<i>         -/images/*+/images/public/*
+</I>&gt;<i>
+</I>&gt;<i>    - Exclude any URL with /images/, but
+</I>&gt;<i>      allow any URL which has /images/public in it. This would block the
+</I>&gt;<i>      following URLs.
+</I>&gt;<i>
+</I>&gt;<i>      <A HREF="http://www.foo.com/images/image1.jpg">http://www.foo.com/images/image1.jpg</A>
+</I>&gt;<i>      <A HREF="http://www.foo.com/images/image2.jpg">http://www.foo.com/images/image2.jpg</A>
+</I>&gt;<i>      <A HREF="http://www.foo.com/images/image3.jpg">http://www.foo.com/images/image3.jpg</A>
+</I>&gt;<i>
+</I>&gt;<i>      But it will allow the following URLs,
+</I>&gt;<i>
+</I>&gt;<i>      <A HREF="http://www.foo.com/images/public/pub1.jpg">http://www.foo.com/images/public/pub1.jpg</A>
+</I>&gt;<i>      <A HREF="http://www.foo.com/images/public/pub2.jpg">http://www.foo.com/images/public/pub2.jpg</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 3. A file extension filter which allows to specify file extensions of URLs
+</I>&gt;<i> as the basis to be filtered.
+</I>&gt;<i>
+</I>&gt;<i> This filter is quite simple, allowing to specify file extensions to
+</I>&gt;<i> be filtered.
+</I>&gt;<i>
+</I>&gt;<i> Example:
+</I>&gt;<i>
+</I>&gt;<i>   &quot;-jpg,-png&quot; or
+</I>&gt;<i>   &quot;-jpg -png&quot;
+</I>&gt;<i>
+</I>&gt;<i> Means - filter out URLs with extensions .jpg and .png. This will filter
+</I>&gt;<i> out most JPEG and PNG images. The &quot;.&quot; are not required in the filter
+</I>&gt;<i> but a comma or space is required between the subsequent extensions.
+</I>&gt;<i>
+</I>&gt;<i> These filters are titled &quot;regexp&quot; &quot;path&quot; and &quot;extension&quot; respectively.
+</I>&gt;<i>
+</I>&gt;<i> All filters will follow the existing syntax of exclude using &quot;-&quot; prefix
+</I>&gt;<i> and include using &quot;+&quot; prefix. Further, filters can be tied together in the same
+</I>&gt;<i> string by using + and - chars.
+</I>
+This is cool. You can specify exclude all &quot;-jpg&quot; and crawl only pages
+that have &quot;+png&quot;
+
+&gt;<i>
+</I>&gt;<i> If a - or + prefix is not found, it is assumed that the filter specifies
+</I>&gt;<i> an exclusion, i.e URLs matching the filter are filtered out. However
+</I>&gt;<i> regex filters will *not* support the + or - prefix since it would be
+</I>&gt;<i> difficult to parse such filters as + or - can be part of the regular
+</I>&gt;<i> expression itself. Regex filters hence are always considered to be exclusion
+</I>&gt;<i> filters (If you want a regex filter to be inclusion, reverse the regex...)
+</I>&gt;<i>
+</I>&gt;<i> All filter values will be specified as the &quot;value&quot; attribute of the
+</I>&gt;<i> elements. Also filters will act cumulatively. A URL is checked to match
+</I>&gt;<i> any of the filters and action taken accordingly. There is no way
+</I>&gt;<i> to specify a relation between filters, i.e something like (filterA and filterB)
+</I>&gt;<i> or filterC. It is always an OR relation, i.e
+</I>&gt;<i>
+</I>&gt;<i> if match(filterA) or filterB or filterC:
+</I>&gt;<i>    # Take action
+</I>&gt;<i>    ...
+</I>
+So these filter will work as :
+If filter A don't crawl or Filter B don't crawl or Filter C dont'
+crawl by default.
+
+I'm trying to think of example that I would want to use the &quot;and&quot;
+filter, but I guess most web crawling will use OR.
+
+
+&gt;<i>
+</I>&gt;<i> However you can disable a filter by settings its &quot;enable&quot; attribute to zero.
+</I>&gt;<i>
+</I>&gt;<i> Here are samples of filters.
+</I>&gt;<i>
+</I>&gt;<i> &lt;urlfilter&gt;
+</I>&gt;<i>  &lt;regexp value=&quot;(\s*\/banner\/)&quot; enable=&quot;1&quot; /&gt;
+</I>&gt;<i>  &lt;path value=&quot;-/images/*+/images/public/*&quot; enable=&quot;1&quot; /&gt;
+</I>&gt;<i>  &lt;extension value=&quot;-jpg,-png&quot; enable=&quot;1&quot; /&gt;
+</I>&gt;<i> &lt;/urlfilter&gt;
+</I>&gt;<i>
+</I>&gt;<i> The above means that a URL is tried on each of the above as a filter.
+</I>&gt;<i> If *any* of it match, appropriate  action is taken. Only if none match
+</I>&gt;<i> is the URL unfiltered.
+</I>&gt;<i>
+</I>&gt;<i> By default all filters are &quot;crawl&quot; filters. Which means that the URLs are
+</I>&gt;<i> filtered out before entering them into the crawl URL queue, immediately after
+</I>&gt;<i> parsing the URLs from a parent URL's web-page. However sometimes one wants
+</I>&gt;<i> &quot;download&quot; filters, i.e you woud want to fetch and parse these URLs and
+</I>&gt;<i> find out their child URLs, but only apply the filter as a download filter.
+</I>&gt;<i>
+</I>&gt;<i> This is possible by specifying the attribute &quot;crawl&quot; in the &lt;urlfilter&gt;
+</I>&gt;<i> element. By default this is &quot;0&quot;, but if it is set to &quot;1&quot;, URLs are not
+</I>&gt;<i> checked for filter at the time of crawling, but only at the time of saving
+</I>&gt;<i> them to disk.
+</I>&gt;<i>
+</I>
+This is nice as well.
+
+
+&gt;<i> However, this is possible only on the entire set of &lt;urlfilter&gt; types, not
+</I>&gt;<i> on each individual element.
+</I>&gt;<i>
+</I>&gt;<i> Example:
+</I>&gt;<i>
+</I>&gt;<i> &lt;urlfilter crawl=&quot;1&quot; &gt;
+</I>&gt;<i>  &lt;path value=&quot;-/images/*+/images/public/*&quot; enable=&quot;1&quot; /&gt;
+</I>&gt;<i> &lt;/urlfilter&gt;
+</I>&gt;<i>
+</I>
+
+&gt;<i> The above filter means that any checking is done only at the file-saving
+</I>&gt;<i> time and not during crawling. N
+</I>&gt;<i>
+</I>&gt;<i> NOTE: Note that crawl attribute makes sense only for web-page
+</I>&gt;<i> (HTML) filters and hence don't use it if your filters
+</I>&gt;<i> only match non-webpage URLs like images, documents (PDF) etc.
+</I>&gt;<i> For non-webpage URLs, filters work only as download filters
+</I>&gt;<i> anyway.
+</I>&gt;<i>
+</I>&gt;<i> NOTE: By default regex filters are UNICODE filters. Regex filters
+</I>&gt;<i> take additional argument called &quot;flags&quot; which allows one to pass
+</I>&gt;<i> additional flags taken by Python's re module to them. For example,
+</I>&gt;<i> to specify a filter to match the current locale,
+</I>&gt;<i>
+</I>&gt;<i>  &lt;regexp value=&quot;(\s*\/banner\/)&quot; enable=&quot;1&quot; flags=&quot;re.LOCALE&quot; /&gt;
+</I>&gt;<i>
+</I>&gt;<i> Also, all filters are case-insensitive by default.  To enable
+</I>&gt;<i> case-sensitivity all filters take a &quot;case&quot; attribute which is &quot;0&quot;
+</I>&gt;<i> by default. To enable casing, set it to 1.
+</I>&gt;<i>
+</I>&gt;<i> Example:
+</I>&gt;<i>
+</I>&gt;<i> &lt;urlfilter&gt;
+</I>&gt;<i>  &lt;regexp value=&quot;(\s*\/banner\/)&quot; enable=&quot;1&quot; case=&quot;1&quot; /&gt;
+</I>&gt;<i>  &lt;path value=&quot;-/images/*+/images/public/*&quot; enable=&quot;1&quot; case=&quot;1&quot; /&gt;
+</I>&gt;<i>  &lt;extension value=&quot;-jpg,-png&quot; enable=&quot;1&quot; case=&quot;1&quot; /&gt;
+</I>&gt;<i> &lt;/urlfilter&gt;
+</I>&gt;<i>
+</I>&gt;<i> NOTE: There is no top-level &quot;case&quot; attribute. So casing has to
+</I>&gt;<i> be set individually for each filter if required.
+</I>&gt;<i>
+</I>&gt;<i> 2. Text Filters
+</I>&gt;<i>
+</I>&gt;<i> Text-filters work on the URL content, title, keywords and description.
+</I>&gt;<i> These filters accept only regular expressions and is always an
+</I>&gt;<i> exclude filter, i.e there is no way to specify an inclusion or exclusion
+</I>&gt;<i> in the filter text by using a + or -. Any such logic has to be part
+</I>&gt;<i> of the regular expression itself.
+</I>&gt;<i>
+</I>&gt;<i> Text-filters are of two types.
+</I>&gt;<i>
+</I>&gt;<i> 1. Content-filter - This works only on the body of the web-page, excluding
+</I>&gt;<i> the HTML tags. It is a regular expression filter. The element name is
+</I>&gt;<i> &quot;content&quot;.
+</I>&gt;<i>
+</I>&gt;<i> Example:
+</I>&gt;<i>
+</I>&gt;<i>   &lt;content value=&quot;(Python\s+Perl)&quot; flags=&quot;re.MULTILINE&quot; /&gt;
+</I>
+If this just goes through body of an html I would call it body, as
+that would be more appropriate I think.
+ &lt;body value=&quot;(Python\s+Perl)&quot; flags=&quot;re.MULTILINE&quot; /&gt;
+
+&gt;<i>
+</I>&gt;<i> 2. metafilter - This works on the content of the tags &quot;title&quot;, &quot;keywords&quot; and
+</I>&gt;<i> &quot;description&quot; (as of now, more tags could be added later). It takes a &quot;tags&quot;
+</I>&gt;<i> attribute which by default is set to &quot;all&quot; which means that the filter will
+</I>&gt;<i> be applied to any of these tags, looking for a match. To specify specific tags
+</I>&gt;<i> change the value of this attribute. It accepts 'OR'ing and 'AND'ing of tags
+</I>&gt;<i> by using &quot;|&quot; and &quot;&amp;&quot; respectively. The element name is &quot;meta&quot;.
+</I>&gt;<i>
+</I>&gt;<i> Examples:
+</I>&gt;<i>
+</I>&gt;<i>  &lt;meta value=&quot;web-bot&quot; /&gt;
+</I>&gt;<i>  &lt;meta value=&quot;(web-bot|crawler|robot|web-crawler)&quot;
+</I>&gt;<i> tags=&quot;keywords|description&quot;/&gt;
+</I>&gt;<i>  &lt;meta value=&quot;(web-bot|crawler|robot|web-crawler)&quot;
+</I>&gt;<i> tags=&quot;keywords&amp;description&quot;/&gt;
+</I>&gt;<i>
+</I>&gt;<i> The 2nd filer will apply if the regex matches content of either the
+</I>&gt;<i> &quot;keywords&quot; or
+</I>&gt;<i> &quot;description&quot; tags, but the last will apply only if it matches both of them.
+</I>&gt;<i>
+</I>&gt;<i> NOTE: For &quot;keywords&quot; the regexp is applied to every item in the keyword list
+</I>&gt;<i> separately, not to the entire string. For example if the &quot;keywords&quot; is,
+</I>&gt;<i>
+</I>&gt;<i> &lt;meta name=&quot;keywords&quot; content=&quot;crawler, spider, bot, web-bot, robot&quot; /&gt;
+</I>&gt;<i>
+</I>&gt;<i> Then the keywords regexp is applied to each item of the list
+</I>&gt;<i> [&quot;crawler&quot;,&quot;spider&quot;,&quot;bot&quot;,&quot;web-bot&quot;,&quot;robot&quot;] separately. If any match the filter
+</I>&gt;<i> is assumed to have matched &quot;keywords&quot; tag.
+</I>&gt;<i>
+</I>&gt;<i> NOTE: If you want separate regexp for these tags, do as follows.
+</I>&gt;<i>
+</I>&gt;<i>  &lt;meta value=&quot;(web-bot|crawler|robot|web-crawler)&quot; tags=&quot;keywords&quot;/&gt;
+</I>&gt;<i>  &lt;meta value=&quot;internet|crawler|web-bot|web-crawler&quot; tags=&quot;description&quot;/&gt;
+</I>&gt;<i>  &lt;meta value=&quot;harvestman|web-crawler&quot; tags=&quot;title&quot;/&gt;
+</I>&gt;<i>
+</I>&gt;<i> Here is a complete example of a text-filter.
+</I>&gt;<i>
+</I>&gt;<i> &lt;textfilter&gt;
+</I>&gt;<i>  &lt;content value=&quot;(Python\s+Perl)&quot; flags=&quot;re.MULTILINE&quot; /&gt;
+</I>&gt;<i>  &lt;meta value=&quot;(web-bot|crawler|robot|web-crawler)&quot; tags=&quot;keywords&quot;/&gt;
+</I>&gt;<i>  &lt;meta value=&quot;internet|crawler|web-bot|web-crawler&quot; tags=&quot;description&quot;/&gt;
+</I>&gt;<i>  &lt;meta value=&quot;harvestman|web-crawler&quot; tags=&quot;title&quot;/&gt;
+</I>&gt;<i> &lt;/textfilter&gt;
+</I>&gt;<i>
+</I>&gt;<i> NOTE: Text-filters also accept the &quot;case&quot; attribute per filter.
+</I>&gt;<i>
+</I>&gt;<i> That is all.
+</I>&gt;<i>
+</I>&gt;<i> Please give feedbacks!
+</I>&gt;<i>
+</I>
+Very nice. This will allow for a nice customization of filtering. Will
+these filter work on javascript somehow? I wonder if it is possible to
+filter out the &quot;ads&quot; while crawing. Not sure if I would want to filter
+the javascript or create filters for keywords &quot;ads&quot; that might be
+external to the page.
+
+Other then that it looks  good to me. Let me know if you want to make
+it final, I'll add it to the docs.
+<A HREF="http://code.google.com/p/harvestman-crawler/wiki/ConfigXml">http://code.google.com/p/harvestman-crawler/wiki/ConfigXml</A>
+
+
+Thanks,
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000106.html">[HarvestMan-devel] Enhancement of filters
+</A></li>
+	<LI>Next message: <A HREF="000107.html">[HarvestMan-devel] Trunk is broken
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#108">[ date ]</a>
+              <a href="thread.html#108">[ thread ]</a>
+              <a href="subject.html#108">[ subject ]</a>
+              <a href="author.html#108">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

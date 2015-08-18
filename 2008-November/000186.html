@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-November/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70810311856p1e4d43d9wa8aaa6d0e1de2a52%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000187.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70810311856p1e4d43d9wa8aaa6d0e1de2a52%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">szybalski at gmail.com
+       </A><BR>
+    <I>Sat Nov  1 02:56:36 CET 2008</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000187.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>It works now...
+
+give that a try
+
+
+svn update
+
+
+Lucas
+
+
+On Tue, Oct 28, 2008 at 9:19 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> On Tue, Oct 28, 2008 at 1:00 AM, Anand Balachandran Pillai
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> Hi Lukasz,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        I removed setuptools from my Python (2.5.1) and re-ran
+</I>&gt;&gt;<i> the installation. The installation exits after setuptools is installed,
+</I>&gt;&gt;<i> without going through the rest of setup.py.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> [<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at localhost</A> HarvestMan]$ sudo python setup.py install
+</I>&gt;&gt;<i> Downloading <A HREF="http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg">http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg</A>
+</I>&gt;&gt;<i> Searching for setuptools
+</I>&gt;&gt;<i> Reading <A HREF="http://pypi.python.org/simple/setuptools/">http://pypi.python.org/simple/setuptools/</A>
+</I>&gt;&gt;<i> Best match: setuptools 0.6c9
+</I>&gt;&gt;<i> Downloading <A HREF="http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg#md5=fe67c3e5a17b12c0e7c541b7ea43a8e6">http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9-py2.5.egg#md5=fe67c3e5a17b12c0e7c541b7ea43a8e6</A>
+</I>&gt;&gt;<i> Processing setuptools-0.6c9-py2.5.egg
+</I>&gt;&gt;<i> Moving setuptools-0.6c9-py2.5.egg to /usr/lib/python2.5/site-packages
+</I>&gt;&gt;<i> Adding setuptools 0.6c9 to easy-install.pth file
+</I>&gt;&gt;<i> Installing easy_install script to /usr/bin
+</I>&gt;&gt;<i> Installing easy_install-2.5 script to /usr/bin
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Installed /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+</I>&gt;&gt;<i> Processing dependencies for setuptools
+</I>&gt;&gt;<i> Finished processing dependencies for setuptools
+</I>&gt;&gt;<i> Processing setuptools-0.6c9-py2.5.egg
+</I>&gt;&gt;<i> Removing /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+</I>&gt;&gt;<i> Copying setuptools-0.6c9-py2.5.egg to /usr/lib/python2.5/site-packages
+</I>&gt;&gt;<i> setuptools 0.6c9 is already the active version in easy-install.pth
+</I>&gt;&gt;<i> Installing easy_install script to /usr/bin
+</I>&gt;&gt;<i> Installing easy_install-2.5 script to /usr/bin
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Installed /usr/lib/python2.5/site-packages/setuptools-0.6c9-py2.5.egg
+</I>&gt;&gt;<i> Processing dependencies for setuptools==0.6c9
+</I>&gt;&gt;<i> Finished processing dependencies for setuptools==0.6c9
+</I>&gt;&gt;<i> running install
+</I>&gt;&gt;<i> running bdist_egg
+</I>&gt;&gt;<i> running egg_info
+</I>&gt;&gt;<i> writing requirements to HarvestMan.egg-info/requires.txt
+</I>&gt;&gt;<i> writing HarvestMan.egg-info/PKG-INFO
+</I>&gt;&gt;<i> writing top-level names to HarvestMan.egg-info/top_level.txt
+</I>&gt;&gt;<i> writing dependency_links to HarvestMan.egg-info/dependency_links.txt
+</I>&gt;&gt;<i> writing entry points to HarvestMan.egg-info/entry_points.txt
+</I>&gt;&gt;<i> error: None
+</I>&gt;&gt;<i> [<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at localhost</A> HarvestMan]$
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> After this if I try it again, of course the setup completes.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Any idea what is happening ? My machine is FC-9 x86_64 ,
+</I>&gt;&gt;<i> Python 2.5.1.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> That is weird...
+</I>&gt;<i> I'll try to reproduce the same thing on my machine.
+</I>&gt;<i>
+</I>&gt;<i> Lucas
+</I>&gt;<i>
+</I>
+
+
+-- 
+Turbogears2 Manual
+<A HREF="http://lucasmanual.com/mywiki/TurboGears2">http://lucasmanual.com/mywiki/TurboGears2</A>
+Bazaar and Launchpad
+<A HREF="http://lucasmanual.com/mywiki/bzr">http://lucasmanual.com/mywiki/bzr</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000187.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

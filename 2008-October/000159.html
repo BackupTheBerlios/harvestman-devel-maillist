@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Checkin revision 144
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Checkin%20revision%20144&In-Reply-To=%3C8548c5f30810111229n1a6e8744kf5426b63e02b149d%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000157.html">
+   <LINK REL="Next"  HREF="000160.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Checkin revision 144</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Checkin%20revision%20144&In-Reply-To=%3C8548c5f30810111229n1a6e8744kf5426b63e02b149d%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Checkin revision 144">abpillai at gmail.com
+       </A><BR>
+    <I>Sat Oct 11 21:29:09 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000157.html">[HarvestMan-devel] harvestman new option --genconfig
+</A></li>
+        <LI>Next message: <A HREF="000160.html">[HarvestMan-devel] Checkin revision 144
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#159">[ date ]</a>
+              <a href="thread.html#159">[ thread ]</a>
+              <a href="subject.html#159">[ subject ]</a>
+              <a href="author.html#159">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Lukasz,
+
+       I just checked in a number of files in harvestman/lib
+and harvestman/test to trunk. The major changes are
+
+1. Modified all imports in harvestman/lib to use the style
+&quot;from harvestman.lib import ...&quot;
+2. Somehow a checkin had regressed test_urlparser.py
+to old code, so fixed it.
+3. Changes to test_base.py to prevent creation of the
+.bidx... folders when running unit tests.
+
+Btw, I see you had commented out code in apps/__init__.py
+and also the line calling &quot;setUpPaths&quot; in test_base.py.
+I have re-enabled them. Let this remain. This makes
+it possible to run the application and the tests directly
+from the checked out code or a source package without
+requiring an install, which is a useful feature.
+
+Btw, we need to specify Python &gt;=2.4 in setup.py along with
+the other change (for setuptools). I had done some changes
+for this, but I did not check it in, since I think you are the
+best person to fix this. So please go ahead and check it in.
+After that I will merge in my changes for Windows executable
+creation. We need to close the setup.py issues soon and
+focus on the rest of the work in the application/framework
+code.
+
+Thanks &amp; Regards,
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000157.html">[HarvestMan-devel] harvestman new option --genconfig
+</A></li>
+	<LI>Next message: <A HREF="000160.html">[HarvestMan-devel] Checkin revision 144
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#159">[ date ]</a>
+              <a href="thread.html#159">[ thread ]</a>
+              <a href="subject.html#159">[ subject ]</a>
+              <a href="author.html#159">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

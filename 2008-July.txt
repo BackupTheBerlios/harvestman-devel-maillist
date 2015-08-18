@@ -1,0 +1,2744 @@
+From abpillai at gmail.com  Tue Jul  1 11:45:24 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 1 Jul 2008 15:15:24 +0530
+Subject: [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement
+	download throttling to constraint download speeds
+In-Reply-To: <001636283ada1f9d260450c6d0b5@google.com>
+References: <001636283ada1f9d260450c6d0b5@google.com>
+Message-ID: <8548c5f30807010245p6256b7eer3fad696180e1d9aa@mail.gmail.com>
+
+Hi Lucas,
+
+        I have fixed both issues #1 and #11. #1 is fixed by moving the
+bandwidth checking logic to the controller thread on the entire
+data downloaded so far. The thread then calculates the lagging time,
+divides it by number of connectors and sets it as the sleep time per
+connector. I use a factor of 1% more on the sleep time, otherwise
+the threads won't sleep enough and finally a single connector will
+have to sleep off the accumulated sleep time.
+
+This works fine in my tests. It was even able to limit the speed
+to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+side, so that even if we under achieve the speeds, we never overshoot
+them.
+
+Please test now and close the bug as verified. I have marked it as fixed.
+
+Regards
+
+--Anand
+
+On Sun, Jun 29, 2008 at 10:15 AM,  <codesite-noreply at google.com> wrote:
+> Issue 1: Implement download throttling to constraint download speeds
+> http://code.google.com/p/harvestman-crawler/issues/detail?id=1
+>
+> Comment #4 by szybalski:
+> Hope this one helps too.
+> http://www.ibm.com/developerworks/aix/library/au-threadingpython/
+> or
+> http://www.velocityreviews.com/forums/t583705-urllib2-rate-limiting.html
+>
+> Lucas
+>
+>
+>
+> --
+> You received this message because you are listed in the owner
+> or CC fields of this issue, or because you starred this issue.
+> You may adjust your issue notification preferences at:
+> http://code.google.com/hosting/settings
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Tue Jul  1 15:03:51 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 1 Jul 2008 08:03:51 -0500
+Subject: [HarvestMan-devel] harvestman and confix.xml
+Message-ID: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+
+Hello,
+Could you explain the:
+
+verbosity: config setting.
+
+I found the fetchlevel description on you old site but couldn't find
+anything about verbosity. Is that a verbosity of how much information
+you show or....?
+
+Lucas
+
+
+From szybalski at gmail.com  Tue Jul  1 15:01:54 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 1 Jul 2008 08:01:54 -0500
+Subject: [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement
+	download throttling to constraint download speeds
+In-Reply-To: <8548c5f30807010245p6256b7eer3fad696180e1d9aa@mail.gmail.com>
+References: <001636283ada1f9d260450c6d0b5@google.com>
+	<8548c5f30807010245p6256b7eer3fad696180e1d9aa@mail.gmail.com>
+Message-ID: <804e5c70807010601h14423923y6e63918c3bdf7249@mail.gmail.com>
+
+On Tue, Jul 1, 2008 at 4:45 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>        I have fixed both issues #1 and #11. #1 is fixed by moving the
+> bandwidth checking logic to the controller thread on the entire
+> data downloaded so far. The thread then calculates the lagging time,
+> divides it by number of connectors and sets it as the sleep time per
+> connector. I use a factor of 1% more on the sleep time, otherwise
+> the threads won't sleep enough and finally a single connector will
+> have to sleep off the accumulated sleep time.
+>
+> This works fine in my tests. It was even able to limit the speed
+> to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+> side, so that even if we under achieve the speeds, we never overshoot
+> them.
+>
+> Please test now and close the bug as verified. I have marked it as fixed.
+
+I'll test it tonight.
+
+Thank you.
+
+Lucas
+
+>
+> Regards
+>
+> --Anand
+>
+> On Sun, Jun 29, 2008 at 10:15 AM,  <codesite-noreply at google.com> wrote:
+>> Issue 1: Implement download throttling to constraint download speeds
+>> http://code.google.com/p/harvestman-crawler/issues/detail?id=1
+>>
+>> Comment #4 by szybalski:
+>> Hope this one helps too.
+>> http://www.ibm.com/developerworks/aix/library/au-threadingpython/
+>> or
+>> http://www.velocityreviews.com/forums/t583705-urllib2-rate-limiting.html
+>>
+>> Lucas
+>>
+>>
+>>
+>> --
+>> You received this message because you are listed in the owner
+>> or CC fields of this issue, or because you starred this issue.
+>> You may adjust your issue notification preferences at:
+>> http://code.google.com/hosting/settings
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+Where was my car manufactured?
+http://cars.lucasmanual.com/vin
+TurboGears Manual-Howto
+http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+
+
+From szybalski at gmail.com  Wed Jul  2 06:24:42 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 1 Jul 2008 23:24:42 -0500
+Subject: [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement
+	download throttling to constraint download speeds
+In-Reply-To: <804e5c70807010601h14423923y6e63918c3bdf7249@mail.gmail.com>
+References: <001636283ada1f9d260450c6d0b5@google.com>
+	<8548c5f30807010245p6256b7eer3fad696180e1d9aa@mail.gmail.com>
+	<804e5c70807010601h14423923y6e63918c3bdf7249@mail.gmail.com>
+Message-ID: <804e5c70807012124t2cb6611cse78ffbc5f17bec87@mail.gmail.com>
+
+On Tue, Jul 1, 2008 at 8:01 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Tue, Jul 1, 2008 at 4:45 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lucas,
+>>
+>>        I have fixed both issues #1 and #11. #1 is fixed by moving the
+>> bandwidth checking logic to the controller thread on the entire
+>> data downloaded so far. The thread then calculates the lagging time,
+>> divides it by number of connectors and sets it as the sleep time per
+>> connector. I use a factor of 1% more on the sleep time, otherwise
+>> the threads won't sleep enough and finally a single connector will
+>> have to sleep off the accumulated sleep time.
+>>
+>> This works fine in my tests. It was even able to limit the speed
+>> to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+>> side, so that even if we under achieve the speeds, we never overshoot
+>> them.
+>>
+>> Please test now and close the bug as verified. I have marked it as fixed.
+>
+> I'll test it tonight.
+>
+
+I've tested it and for some reason I still get the speed of 8kb when I
+crawl automotive.com at 5kb and max download of 5mb.
+
+ Saved to /home/lucas/crawl/www.automotive.com-used/www.automotive.com/used-cars/01/nissan/index.html
+[23:15:03] Specified maxbytes limit of 5242880 reached!
+[23:15:03]
+[23:15:04]
+[23:15:04] HarvestMan mirror www.automotive.com-used completed in 75.63 seconds.
+[23:15:04] 1816 links scanned in 1 server .
+[23:15:04] 41 files written.
+[23:15:04] 655314  bytes received at the rate of 8.46 KB/sec .
+[23:15:04] 4738867  bytes were written to disk.
+
+I'll try to look at the code, and provide more feedback, if not we
+leave it as is I guess.
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Wed Jul  2 06:31:28 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 1 Jul 2008 23:31:28 -0500
+Subject: [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement
+	download throttling to constraint download speeds
+In-Reply-To: <804e5c70807012124t2cb6611cse78ffbc5f17bec87@mail.gmail.com>
+References: <001636283ada1f9d260450c6d0b5@google.com>
+	<8548c5f30807010245p6256b7eer3fad696180e1d9aa@mail.gmail.com>
+	<804e5c70807010601h14423923y6e63918c3bdf7249@mail.gmail.com>
+	<804e5c70807012124t2cb6611cse78ffbc5f17bec87@mail.gmail.com>
+Message-ID: <804e5c70807012131q18485a70m6c14c7d6798ce0d8@mail.gmail.com>
+
+On Tue, Jul 1, 2008 at 11:24 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Tue, Jul 1, 2008 at 8:01 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Tue, Jul 1, 2008 at 4:45 AM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> Hi Lucas,
+>>>
+>>>        I have fixed both issues #1 and #11. #1 is fixed by moving the
+>>> bandwidth checking logic to the controller thread
+
+Are you currently using queues with threads or just threads?
+
+Lucas
+
+
+From szybalski at gmail.com  Wed Jul  2 06:37:17 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 1 Jul 2008 23:37:17 -0500
+Subject: [HarvestMan-devel] harvestman and confix.xml
+In-Reply-To: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+References: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+Message-ID: <804e5c70807012137j65886936h94df8344573d8d06@mail.gmail.com>
+
+Is there a config variable that overwrites a useragent in harvestman?
+
+Something like:
+
+
+   16 class HarvestmanUserAgent(urllib.FancyURLopener):
+   17 	version =
+"Harvestman/2.0.0+http://code.google.com/p/harvestman-crawler/wiki/UserAgent"
+   18
+   19 urllib._urlopener=HarvestmanUserAgent()
+
+then in config.xml I would like to put my version of useragent, but if
+blank use harvestman default.
+
+Lucas
+
+
+From abpillai at gmail.com  Wed Jul  2 08:29:35 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 2 Jul 2008 11:59:35 +0530
+Subject: [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement
+	download throttling to constraint download speeds
+In-Reply-To: <804e5c70807012124t2cb6611cse78ffbc5f17bec87@mail.gmail.com>
+References: <001636283ada1f9d260450c6d0b5@google.com>
+	<8548c5f30807010245p6256b7eer3fad696180e1d9aa@mail.gmail.com>
+	<804e5c70807010601h14423923y6e63918c3bdf7249@mail.gmail.com>
+	<804e5c70807012124t2cb6611cse78ffbc5f17bec87@mail.gmail.com>
+Message-ID: <8548c5f30807012329s5e6bf075uc17b667b93632dc5@mail.gmail.com>
+
+Hi Lucas,
+
+       I figured why this does not work the way we expect.
+
+When we throttle the connections, the connections are put
+to sleep by a value which is exactly the lag time for the
+throttling to reach its specified value. However, since the
+actual speed of the network will be much more than the specified
+throttling bandwidth, the connectors will always exceed
+it.
+
+For a regular download without any limits, this works because
+the controller thread works till the very end and the lag times
+typically increase towards the end, thus the final connecitons
+get throttled to the maximum when compared to the earlier ones,
+providing the required bandwidth once the crawl is complete,
+in a normal way.
+
+However, in this case you specify a maxbytes limit also, so
+the crawl is killed while in progress, while the throttling has not
+fully adjusted to the given bandwidth requirement, the controller
+is not allowed to go the logical end of the crawl.
+
+This could be considered as a flaw in our throttling logic, in that
+it will work only if the controller thread is allowed to logically
+finish and won't work if it has to exit in between due to max bytes,
+max files or max time limits.
+
+To make this work even with these limits, we have to throttle
+more agressively if limits are enabled right from the beginning.
+This can be done by increasing the factor of the throttling.
+Currently I am using a factor of 1.01 (1% extra), but for limits
+this has to be much higher to get the required effect. Perhaps
+we could use a higher factor anyway, say something in the
+range of 1.2-1.5. Since the throttling logic checks if we are
+behind or ahead and adjusts accordingly, it should work fine
+even for a regular crawl without limits.
+
+Try adjusting the factor (in datamgr.py->class HarvestManController
+->_manage_bandwidth function) from the current 1.01 to
+some experimental values and see if an increase in the
+factor gives you the required effect.  If it does, try for a regular
+crawl and see if this increase throttles it to a too low bandwidth.
+I guess it won't.
+
+The other option is to expose the throttling sleep factor as
+an option in the config file so that the user can specify it.
+However it will be at most a "hunch factor" and the user
+will have to get it right by trial and error.
+
+Hope this is clear. Let me know if you have any more questions
+on this.
+
+regards
+
+--Anand
+On Wed, Jul 2, 2008 at 9:54 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Tue, Jul 1, 2008 at 8:01 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Tue, Jul 1, 2008 at 4:45 AM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> Hi Lucas,
+>>>
+>>>        I have fixed both issues #1 and #11. #1 is fixed by moving the
+>>> bandwidth checking logic to the controller thread on the entire
+>>> data downloaded so far. The thread then calculates the lagging time,
+>>> divides it by number of connectors and sets it as the sleep time per
+>>> connector. I use a factor of 1% more on the sleep time, otherwise
+>>> the threads won't sleep enough and finally a single connector will
+>>> have to sleep off the accumulated sleep time.
+>>>
+>>> This works fine in my tests. It was even able to limit the speed
+>>> to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+>>> side, so that even if we under achieve the speeds, we never overshoot
+>>> them.
+>>>
+>>> Please test now and close the bug as verified. I have marked it as fixed.
+>>
+>> I'll test it tonight.
+>>
+>
+> I've tested it and for some reason I still get the speed of 8kb when I
+> crawl automotive.com at 5kb and max download of 5mb.
+>
+>  Saved to /home/lucas/crawl/www.automotive.com-used/www.automotive.com/used-cars/01/nissan/index.html
+> [23:15:03] Specified maxbytes limit of 5242880 reached!
+> [23:15:03]
+> [23:15:04]
+> [23:15:04] HarvestMan mirror www.automotive.com-used completed in 75.63 seconds.
+> [23:15:04] 1816 links scanned in 1 server .
+> [23:15:04] 41 files written.
+> [23:15:04] 655314  bytes received at the rate of 8.46 KB/sec .
+> [23:15:04] 4738867  bytes were written to disk.
+>
+> I'll try to look at the code, and provide more feedback, if not we
+> leave it as is I guess.
+> Thanks,
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jul  2 12:27:00 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 2 Jul 2008 15:57:00 +0530
+Subject: [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement
+	download throttling to constraint download speeds
+In-Reply-To: <8548c5f30807012329s5e6bf075uc17b667b93632dc5@mail.gmail.com>
+References: <001636283ada1f9d260450c6d0b5@google.com>
+	<8548c5f30807010245p6256b7eer3fad696180e1d9aa@mail.gmail.com>
+	<804e5c70807010601h14423923y6e63918c3bdf7249@mail.gmail.com>
+	<804e5c70807012124t2cb6611cse78ffbc5f17bec87@mail.gmail.com>
+	<8548c5f30807012329s5e6bf075uc17b667b93632dc5@mail.gmail.com>
+Message-ID: <8548c5f30807020327r26efbd3bg712e113fec6b500b@mail.gmail.com>
+
+By using a throttling factor of 1.5, I am able to achieve closer
+speeds for your site crawl. And I verified that the increase in
+factor does not affect regular crawl without limits.
+
+....
+[15:33:29] Finished download of
+http://www.automotive.com/auto-enthusiast/index.html
+[15:33:43] Writing url headers database
+[15:33:43] Dumping url tree to file ./auto/urltree.html
+[15:33:44]
+[15:33:44] HarvestMan mirror auto completed in 172.73 seconds.
+[15:33:44] 3039 links scanned in 1 server .
+[15:33:44] 45 files written.
+[15:33:44] 947722  bytes received at the rate of 5.36 KB/sec .
+[15:33:44] 5190224  bytes were written to disk.
+
+--Anand
+
+On Wed, Jul 2, 2008 at 11:59 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>       I figured why this does not work the way we expect.
+>
+> When we throttle the connections, the connections are put
+> to sleep by a value which is exactly the lag time for the
+> throttling to reach its specified value. However, since the
+> actual speed of the network will be much more than the specified
+> throttling bandwidth, the connectors will always exceed
+> it.
+>
+> For a regular download without any limits, this works because
+> the controller thread works till the very end and the lag times
+> typically increase towards the end, thus the final connecitons
+> get throttled to the maximum when compared to the earlier ones,
+> providing the required bandwidth once the crawl is complete,
+> in a normal way.
+>
+> However, in this case you specify a maxbytes limit also, so
+> the crawl is killed while in progress, while the throttling has not
+> fully adjusted to the given bandwidth requirement, the controller
+> is not allowed to go the logical end of the crawl.
+>
+> This could be considered as a flaw in our throttling logic, in that
+> it will work only if the controller thread is allowed to logically
+> finish and won't work if it has to exit in between due to max bytes,
+> max files or max time limits.
+>
+> To make this work even with these limits, we have to throttle
+> more agressively if limits are enabled right from the beginning.
+> This can be done by increasing the factor of the throttling.
+> Currently I am using a factor of 1.01 (1% extra), but for limits
+> this has to be much higher to get the required effect. Perhaps
+> we could use a higher factor anyway, say something in the
+> range of 1.2-1.5. Since the throttling logic checks if we are
+> behind or ahead and adjusts accordingly, it should work fine
+> even for a regular crawl without limits.
+>
+> Try adjusting the factor (in datamgr.py->class HarvestManController
+> ->_manage_bandwidth function) from the current 1.01 to
+> some experimental values and see if an increase in the
+> factor gives you the required effect.  If it does, try for a regular
+> crawl and see if this increase throttles it to a too low bandwidth.
+> I guess it won't.
+>
+> The other option is to expose the throttling sleep factor as
+> an option in the config file so that the user can specify it.
+> However it will be at most a "hunch factor" and the user
+> will have to get it right by trial and error.
+>
+> Hope this is clear. Let me know if you have any more questions
+> on this.
+>
+> regards
+>
+> --Anand
+> On Wed, Jul 2, 2008 at 9:54 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Tue, Jul 1, 2008 at 8:01 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> On Tue, Jul 1, 2008 at 4:45 AM, Anand Balachandran Pillai
+>>> <abpillai at gmail.com> wrote:
+>>>> Hi Lucas,
+>>>>
+>>>>        I have fixed both issues #1 and #11. #1 is fixed by moving the
+>>>> bandwidth checking logic to the controller thread on the entire
+>>>> data downloaded so far. The thread then calculates the lagging time,
+>>>> divides it by number of connectors and sets it as the sleep time per
+>>>> connector. I use a factor of 1% more on the sleep time, otherwise
+>>>> the threads won't sleep enough and finally a single connector will
+>>>> have to sleep off the accumulated sleep time.
+>>>>
+>>>> This works fine in my tests. It was even able to limit the speed
+>>>> to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+>>>> side, so that even if we under achieve the speeds, we never overshoot
+>>>> them.
+>>>>
+>>>> Please test now and close the bug as verified. I have marked it as fixed.
+>>>
+>>> I'll test it tonight.
+>>>
+>>
+>> I've tested it and for some reason I still get the speed of 8kb when I
+>> crawl automotive.com at 5kb and max download of 5mb.
+>>
+>>  Saved to /home/lucas/crawl/www.automotive.com-used/www.automotive.com/used-cars/01/nissan/index.html
+>> [23:15:03] Specified maxbytes limit of 5242880 reached!
+>> [23:15:03]
+>> [23:15:04]
+>> [23:15:04] HarvestMan mirror www.automotive.com-used completed in 75.63 seconds.
+>> [23:15:04] 1816 links scanned in 1 server .
+>> [23:15:04] 41 files written.
+>> [23:15:04] 655314  bytes received at the rate of 8.46 KB/sec .
+>> [23:15:04] 4738867  bytes were written to disk.
+>>
+>> I'll try to look at the code, and provide more feedback, if not we
+>> leave it as is I guess.
+>> Thanks,
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jul  2 12:32:21 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 2 Jul 2008 16:02:21 +0530
+Subject: [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement
+	download throttling to constraint download speeds
+In-Reply-To: <8548c5f30807020327r26efbd3bg712e113fec6b500b@mail.gmail.com>
+References: <001636283ada1f9d260450c6d0b5@google.com>
+	<8548c5f30807010245p6256b7eer3fad696180e1d9aa@mail.gmail.com>
+	<804e5c70807010601h14423923y6e63918c3bdf7249@mail.gmail.com>
+	<804e5c70807012124t2cb6611cse78ffbc5f17bec87@mail.gmail.com>
+	<8548c5f30807012329s5e6bf075uc17b667b93632dc5@mail.gmail.com>
+	<8548c5f30807020327r26efbd3bg712e113fec6b500b@mail.gmail.com>
+Message-ID: <8548c5f30807020332p6b5a8088vee468d4d3940d413@mail.gmail.com>
+
+I was surprised to see this stats :)
+
+> [15:33:44] 947722  bytes received at the rate of 5.36 KB/sec .
+> [15:33:44] 5190224  bytes were written to disk.
+
+So, amount of bytes written to disk is more than amount fetched !
+I was initially shocked...
+
+Then I recalled that we update bytes count before uncompressing
+data for gzip encoding, so the byte count is the length of compressed
+data and the saved byte count is length of uncompressed data.
+Apparently the website uses HTTP compression generously and
+hence this effect !
+
+--Anand
+
+On Wed, Jul 2, 2008 at 3:57 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> By using a throttling factor of 1.5, I am able to achieve closer
+> speeds for your site crawl. And I verified that the increase in
+> factor does not affect regular crawl without limits.
+>
+> ....
+> [15:33:29] Finished download of
+> http://www.automotive.com/auto-enthusiast/index.html
+> [15:33:43] Writing url headers database
+> [15:33:43] Dumping url tree to file ./auto/urltree.html
+> [15:33:44]
+> [15:33:44] HarvestMan mirror auto completed in 172.73 seconds.
+> [15:33:44] 3039 links scanned in 1 server .
+> [15:33:44] 45 files written.
+> [15:33:44] 947722  bytes received at the rate of 5.36 KB/sec .
+> [15:33:44] 5190224  bytes were written to disk.
+>
+> --Anand
+>
+> On Wed, Jul 2, 2008 at 11:59 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lucas,
+>>
+>>       I figured why this does not work the way we expect.
+>>
+>> When we throttle the connections, the connections are put
+>> to sleep by a value which is exactly the lag time for the
+>> throttling to reach its specified value. However, since the
+>> actual speed of the network will be much more than the specified
+>> throttling bandwidth, the connectors will always exceed
+>> it.
+>>
+>> For a regular download without any limits, this works because
+>> the controller thread works till the very end and the lag times
+>> typically increase towards the end, thus the final connecitons
+>> get throttled to the maximum when compared to the earlier ones,
+>> providing the required bandwidth once the crawl is complete,
+>> in a normal way.
+>>
+>> However, in this case you specify a maxbytes limit also, so
+>> the crawl is killed while in progress, while the throttling has not
+>> fully adjusted to the given bandwidth requirement, the controller
+>> is not allowed to go the logical end of the crawl.
+>>
+>> This could be considered as a flaw in our throttling logic, in that
+>> it will work only if the controller thread is allowed to logically
+>> finish and won't work if it has to exit in between due to max bytes,
+>> max files or max time limits.
+>>
+>> To make this work even with these limits, we have to throttle
+>> more agressively if limits are enabled right from the beginning.
+>> This can be done by increasing the factor of the throttling.
+>> Currently I am using a factor of 1.01 (1% extra), but for limits
+>> this has to be much higher to get the required effect. Perhaps
+>> we could use a higher factor anyway, say something in the
+>> range of 1.2-1.5. Since the throttling logic checks if we are
+>> behind or ahead and adjusts accordingly, it should work fine
+>> even for a regular crawl without limits.
+>>
+>> Try adjusting the factor (in datamgr.py->class HarvestManController
+>> ->_manage_bandwidth function) from the current 1.01 to
+>> some experimental values and see if an increase in the
+>> factor gives you the required effect.  If it does, try for a regular
+>> crawl and see if this increase throttles it to a too low bandwidth.
+>> I guess it won't.
+>>
+>> The other option is to expose the throttling sleep factor as
+>> an option in the config file so that the user can specify it.
+>> However it will be at most a "hunch factor" and the user
+>> will have to get it right by trial and error.
+>>
+>> Hope this is clear. Let me know if you have any more questions
+>> on this.
+>>
+>> regards
+>>
+>> --Anand
+>> On Wed, Jul 2, 2008 at 9:54 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> On Tue, Jul 1, 2008 at 8:01 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>>> On Tue, Jul 1, 2008 at 4:45 AM, Anand Balachandran Pillai
+>>>> <abpillai at gmail.com> wrote:
+>>>>> Hi Lucas,
+>>>>>
+>>>>>        I have fixed both issues #1 and #11. #1 is fixed by moving the
+>>>>> bandwidth checking logic to the controller thread on the entire
+>>>>> data downloaded so far. The thread then calculates the lagging time,
+>>>>> divides it by number of connectors and sets it as the sleep time per
+>>>>> connector. I use a factor of 1% more on the sleep time, otherwise
+>>>>> the threads won't sleep enough and finally a single connector will
+>>>>> have to sleep off the accumulated sleep time.
+>>>>>
+>>>>> This works fine in my tests. It was even able to limit the speed
+>>>>> to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+>>>>> side, so that even if we under achieve the speeds, we never overshoot
+>>>>> them.
+>>>>>
+>>>>> Please test now and close the bug as verified. I have marked it as fixed.
+>>>>
+>>>> I'll test it tonight.
+>>>>
+>>>
+>>> I've tested it and for some reason I still get the speed of 8kb when I
+>>> crawl automotive.com at 5kb and max download of 5mb.
+>>>
+>>>  Saved to /home/lucas/crawl/www.automotive.com-used/www.automotive.com/used-cars/01/nissan/index.html
+>>> [23:15:03] Specified maxbytes limit of 5242880 reached!
+>>> [23:15:03]
+>>> [23:15:04]
+>>> [23:15:04] HarvestMan mirror www.automotive.com-used completed in 75.63 seconds.
+>>> [23:15:04] 1816 links scanned in 1 server .
+>>> [23:15:04] 41 files written.
+>>> [23:15:04] 655314  bytes received at the rate of 8.46 KB/sec .
+>>> [23:15:04] 4738867  bytes were written to disk.
+>>>
+>>> I'll try to look at the code, and provide more feedback, if not we
+>>> leave it as is I guess.
+>>> Thanks,
+>>> Lucas
+>>> _______________________________________________
+>>> HarvestMan-devel mailing list
+>>> HarvestMan-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>>
+>>
+>>
+>>
+>> --
+>> -Anand
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jul  2 14:00:16 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 2 Jul 2008 17:30:16 +0530
+Subject: [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement
+	download throttling to constraint download speeds
+In-Reply-To: <8548c5f30807012329s5e6bf075uc17b667b93632dc5@mail.gmail.com>
+References: <001636283ada1f9d260450c6d0b5@google.com>
+	<8548c5f30807010245p6256b7eer3fad696180e1d9aa@mail.gmail.com>
+	<804e5c70807010601h14423923y6e63918c3bdf7249@mail.gmail.com>
+	<804e5c70807012124t2cb6611cse78ffbc5f17bec87@mail.gmail.com>
+	<8548c5f30807012329s5e6bf075uc17b667b93632dc5@mail.gmail.com>
+Message-ID: <8548c5f30807020500i47af45fbv66e847df70ef96b1@mail.gmail.com>
+
+Hi,
+
+  I continued the fix for this, by adding throttling factor in the
+config file and using the default as 1.5 in the code.
+
+  I also changed the way we specify the max bandwidth. Just
+a number "x" no longer indicates "x kbps". Just mentioning
+"5" would now mean "5 bytes per sec". For  5 kbps we need
+to say "5 k"/"5 kb"/"5 kbps". It also accepts m/mb/mbps, very
+similar to the maxbytes value.
+
+   The XML element is now like,
+
+  <maxbandwidth value="20 k" factor="1.5" />
+
+The factor is used to multiply the sleep times, so this can be fine-tuned
+at the config level now.
+
+The fix is checked in.
+
+--Anand
+
+
+On Wed, Jul 2, 2008 at 11:59 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>       I figured why this does not work the way we expect.
+>
+> When we throttle the connections, the connections are put
+> to sleep by a value which is exactly the lag time for the
+> throttling to reach its specified value. However, since the
+> actual speed of the network will be much more than the specified
+> throttling bandwidth, the connectors will always exceed
+> it.
+>
+> For a regular download without any limits, this works because
+> the controller thread works till the very end and the lag times
+> typically increase towards the end, thus the final connecitons
+> get throttled to the maximum when compared to the earlier ones,
+> providing the required bandwidth once the crawl is complete,
+> in a normal way.
+>
+> However, in this case you specify a maxbytes limit also, so
+> the crawl is killed while in progress, while the throttling has not
+> fully adjusted to the given bandwidth requirement, the controller
+> is not allowed to go the logical end of the crawl.
+>
+> This could be considered as a flaw in our throttling logic, in that
+> it will work only if the controller thread is allowed to logically
+> finish and won't work if it has to exit in between due to max bytes,
+> max files or max time limits.
+>
+> To make this work even with these limits, we have to throttle
+> more agressively if limits are enabled right from the beginning.
+> This can be done by increasing the factor of the throttling.
+> Currently I am using a factor of 1.01 (1% extra), but for limits
+> this has to be much higher to get the required effect. Perhaps
+> we could use a higher factor anyway, say something in the
+> range of 1.2-1.5. Since the throttling logic checks if we are
+> behind or ahead and adjusts accordingly, it should work fine
+> even for a regular crawl without limits.
+>
+> Try adjusting the factor (in datamgr.py->class HarvestManController
+> ->_manage_bandwidth function) from the current 1.01 to
+> some experimental values and see if an increase in the
+> factor gives you the required effect.  If it does, try for a regular
+> crawl and see if this increase throttles it to a too low bandwidth.
+> I guess it won't.
+>
+> The other option is to expose the throttling sleep factor as
+> an option in the config file so that the user can specify it.
+> However it will be at most a "hunch factor" and the user
+> will have to get it right by trial and error.
+>
+> Hope this is clear. Let me know if you have any more questions
+> on this.
+>
+> regards
+>
+> --Anand
+> On Wed, Jul 2, 2008 at 9:54 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Tue, Jul 1, 2008 at 8:01 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> On Tue, Jul 1, 2008 at 4:45 AM, Anand Balachandran Pillai
+>>> <abpillai at gmail.com> wrote:
+>>>> Hi Lucas,
+>>>>
+>>>>        I have fixed both issues #1 and #11. #1 is fixed by moving the
+>>>> bandwidth checking logic to the controller thread on the entire
+>>>> data downloaded so far. The thread then calculates the lagging time,
+>>>> divides it by number of connectors and sets it as the sleep time per
+>>>> connector. I use a factor of 1% more on the sleep time, otherwise
+>>>> the threads won't sleep enough and finally a single connector will
+>>>> have to sleep off the accumulated sleep time.
+>>>>
+>>>> This works fine in my tests. It was even able to limit the speed
+>>>> to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+>>>> side, so that even if we under achieve the speeds, we never overshoot
+>>>> them.
+>>>>
+>>>> Please test now and close the bug as verified. I have marked it as fixed.
+>>>
+>>> I'll test it tonight.
+>>>
+>>
+>> I've tested it and for some reason I still get the speed of 8kb when I
+>> crawl automotive.com at 5kb and max download of 5mb.
+>>
+>>  Saved to /home/lucas/crawl/www.automotive.com-used/www.automotive.com/used-cars/01/nissan/index.html
+>> [23:15:03] Specified maxbytes limit of 5242880 reached!
+>> [23:15:03]
+>> [23:15:04]
+>> [23:15:04] HarvestMan mirror www.automotive.com-used completed in 75.63 seconds.
+>> [23:15:04] 1816 links scanned in 1 server .
+>> [23:15:04] 41 files written.
+>> [23:15:04] 655314  bytes received at the rate of 8.46 KB/sec .
+>> [23:15:04] 4738867  bytes were written to disk.
+>>
+>> I'll try to look at the code, and provide more feedback, if not we
+>> leave it as is I guess.
+>> Thanks,
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jul  2 16:30:04 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 2 Jul 2008 20:00:04 +0530
+Subject: [HarvestMan-devel] harvestman and confix.xml
+In-Reply-To: <804e5c70807012137j65886936h94df8344573d8d06@mail.gmail.com>
+References: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+	<804e5c70807012137j65886936h94df8344573d8d06@mail.gmail.com>
+Message-ID: <8548c5f30807020730l1d1a61e8sef104e83535b6a3d@mail.gmail.com>
+
+Nothing yet, but again it is a good idea, so I added it.
+
+Specify your user-agent inside <system> as
+
+<useragent value="My user agent" />
+
+This will then over-ride the default user-agent.
+
+--Anand
+
+On Wed, Jul 2, 2008 at 10:07 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Is there a config variable that overwrites a useragent in harvestman?
+>
+> Something like:
+>
+>
+>   16 class HarvestmanUserAgent(urllib.FancyURLopener):
+>   17   version =
+> "Harvestman/2.0.0+http://code.google.com/p/harvestman-crawler/wiki/UserAgent"
+>   18
+>   19 urllib._urlopener=HarvestmanUserAgent()
+>
+> then in config.xml I would like to put my version of useragent, but if
+> blank use harvestman default.
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jul  2 16:42:57 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 2 Jul 2008 20:12:57 +0530
+Subject: [HarvestMan-devel] harvestman and confix.xml
+In-Reply-To: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+References: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+Message-ID: <8548c5f30807020742g2a84d929r50f248e39ef995f0@mail.gmail.com>
+
+Yes, verbosity is the level of logging. It ranges from 0-5.
+
+0 => Almost no logging at all, except a few lines of starting messages.
+
+Example,
+-----------------------------------------------------------------------------------
+Loading system configuration...
+Loading user configuration...
+Using configuration file config-sample.xml...
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+-----------------------------------------------------------------------------
+1=> Basic informational logging, you won't see any logs for every URL
+downloaded,
+but only a "Start" and "End message".
+
+For example, here is the sample log for level==1 for a crawl.
+
+--------------------------------------------------------------------------------------------
+[anand at localhost apps]$ python harvestman.py -C config-sample.xml
+Loading system configuration...
+Loading user configuration...
+Using configuration file config-sample.xml...
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[19:39:36] *** Log Started ***
+
+[19:39:36] Starting project pytut ...
+[19:39:36] Starting download of url
+http://www.python.org/doc/current/tut/tut.html ...
+[19:40:06]
+[19:40:06] HarvestMan mirror pytut completed in 29.27 seconds.
+[19:40:06] 113 links scanned in 1 server .
+[19:40:06] 29 files written.
+[19:40:06] 461947  bytes received at the rate of 15.41 KB/sec .
+[19:40:06] 461947  bytes were written to disk.
+
+[19:40:06] *** Log Completed ***
+
+------------------------------------------------------------------------------
+2 => Logs for every URL crawled, downloaded and saved, with saved file
+information.
+
+Example,
+--------------------------------------------------------------------------------------
+[anand at localhost apps]$ python harvestman.py -C config-sample.xml
+Loading system configuration...
+Loading user configuration...
+Using configuration file config-sample.xml...
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[19:41:47] *** Log Started ***
+
+[19:41:47] Starting project pytut ...
+[19:41:47] Writing Project Files...
+[19:41:47] Done.
+[19:41:47] Starting download of url
+http://www.python.org/doc/current/tut/tut.html ...
+[19:41:47] Reading Project Cache...
+[19:41:47] Project cache not found
+[19:41:47] Downloading file for url
+http://www.python.org/doc/current/tut/tut.html
+[19:41:51] Saved to
+/media/FLASH4GB/oss/HarvestMan/harvestman/apps/pytut/www.python.org/doc/current/tut/tut.html
+[19:41:51] Fetching links for url http://www.python.org/doc/current/tut/tut.html
+[19:41:52] Downloading file for url
+http://www.python.org/doc/current/tut/about.html
+[19:41:52] Downloading file for url
+http://www.python.org/doc/current/tut/node2.html
+[19:41:52] Downloading file for url
+http://www.python.org/doc/current/tut/node3.html
+[19:41:52] Downloading file for url
+http://www.python.org/doc/current/tut/node4.html
+[19:41:52] Downloading file for url
+http://www.python.org/doc/current/tut/node5.html
+[19:41:52] Downloading file for url
+http://www.python.org/doc/current/tut/node17.html
+[19:41:53] Downloading file for url
+http://www.python.org/doc/current/tut/node15.html
+[19:41:54] Saved to
+/media/FLASH4GB/oss/HarvestMan/harvestman/apps/pytut/www.python.org/doc/current/tut/about.html
+------------------------------------------------
+3 => On top of 2, prints information on every URL filtered, also why it
+was filtered, URL parsing steps,  File writing steps, Logs for URLs which
+finished downloads, directory creation steps etc.  Also most error messages
+which should be informed to user.
+
+4 => On top of 3, produce debug information.
+5 => On top of 4, produce more debug information. But I will phase out this
+level, and limit this from 0-4.
+
+These are labeled as
+
+0 => DISABLE
+1 => INFO
+2 => MOREINFO
+3 => EXTRAINFO
+4 => DEBUG
+
+Let me know your comments.
+
+Thanks
+
+--Anand
+
+On Tue, Jul 1, 2008 at 6:33 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+> Could you explain the:
+>
+> verbosity: config setting.
+>
+> I found the fetchlevel description on you old site but couldn't find
+> anything about verbosity. Is that a verbosity of how much information
+> you show or....?
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Thu Jul  3 03:12:42 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Wed, 2 Jul 2008 20:12:42 -0500
+Subject: [HarvestMan-devel] harvestman and confix.xml
+In-Reply-To: <8548c5f30807020742g2a84d929r50f248e39ef995f0@mail.gmail.com>
+References: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+	<8548c5f30807020742g2a84d929r50f248e39ef995f0@mail.gmail.com>
+Message-ID: <804e5c70807021812g55202c9pe976543f94cb2010@mail.gmail.com>
+
+Is there a setting for:
+
+- download based on time stamp? aka. If time stamp is newer of what
+was previously downloaded, get the new pages?
+-  Continue getting a partially-downloaded file? aka. If there is new
+bigger file I only need to download the new remaining part, not the
+whole file again?
+
+
+Lucas
+
+
+From vijayr at wisdomtap.com  Thu Jul  3 04:25:10 2008
+From: vijayr at wisdomtap.com (Vijay Ramachandran)
+Date: Thu, 3 Jul 2008 07:55:10 +0530
+Subject: [HarvestMan-devel] HarvestMan-devel Digest, Vol 4, Issue 3
+In-Reply-To: <mailman.5522.1215010393.5435.harvestman-devel@lists.berlios.de>
+References: <mailman.5522.1215010393.5435.harvestman-devel@lists.berlios.de>
+Message-ID: <ac3072180807021925q4215185ex8c59deb1aba6d1d6@mail.gmail.com>
+
+> These are labeled as
+>
+> 0 => DISABLE
+> 1 => INFO
+> 2 => MOREINFO
+> 3 => EXTRAINFO
+> 4 => DEBUG
+
+
+Any particular reason for using your own level name and numbers, rather than
+the standard ones <http://docs.python.org/lib/module-logging.html> in the
+logging module? I'm also assuming that errors during crawling are always
+logged?
+
+thx,
+Vijay
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20080703/6b80b869/attachment.html>
+
+From abpillai at gmail.com  Thu Jul  3 05:48:38 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 3 Jul 2008 09:18:38 +0530
+Subject: [HarvestMan-devel] harvestman and confix.xml
+In-Reply-To: <804e5c70807021812g55202c9pe976543f94cb2010@mail.gmail.com>
+References: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+	<8548c5f30807020742g2a84d929r50f248e39ef995f0@mail.gmail.com>
+	<804e5c70807021812g55202c9pe976543f94cb2010@mail.gmail.com>
+Message-ID: <8548c5f30807022048j74f2181cu38c3d33d44589bd7@mail.gmail.com>
+
+Hi
+
+On Thu, Jul 3, 2008 at 6:42 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Is there a setting for:
+>
+> - download based on time stamp? aka. If time stamp is newer of what
+> was previously downloaded, get the new pages?
+
+HarvestMan creates its own cache of a crawled project using downloaded
+time-stamps for every URL. Next time when you recrawl the same project,
+if cache is present, automatically the "if-modified-since" header is attached
+to requests and a HEAD request is performed. Only if the page is modified,
+do we go and download it. Otherwise the website returns an HTTP 304
+(Not Modified) error which is caught and understood as such and the
+page is not downloaded.
+
+Similarly, any etag headers are also saved to this cache and next time
+automatically compared with the server-side etag using "If-None-Match".
+Only if i does not match (etag has changed), is the URL downloaded.
+
+> -  Continue getting a partially-downloaded file? aka. If there is new
+> bigger file I only need to download the new remaining part, not the
+> whole file again?
+You mean HTTP resume. It is not there as part of HarvestMan.
+But support for resume is there in connector.py and this is part of the
+other program in the HarvestMan framework, namely "hget".
+
+For a crawl it does not make sense to me that you will not download
+a file. Crawls are complete only when downloads are complete. However,
+this might be useful if we terminate a crawl in between and still want
+to save the piece of file downloaded so far. The logic is already
+there in connector.py, but it is not part of the harvestman's download
+and control flow. It won't be very difficult to integrate this.
+
+>
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Thu Jul  3 05:49:33 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 3 Jul 2008 09:19:33 +0530
+Subject: [HarvestMan-devel] harvestman and confix.xml
+In-Reply-To: <8548c5f30807022048j74f2181cu38c3d33d44589bd7@mail.gmail.com>
+References: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+	<8548c5f30807020742g2a84d929r50f248e39ef995f0@mail.gmail.com>
+	<804e5c70807021812g55202c9pe976543f94cb2010@mail.gmail.com>
+	<8548c5f30807022048j74f2181cu38c3d33d44589bd7@mail.gmail.com>
+Message-ID: <8548c5f30807022049p50bae565x33328f2d3e65eece@mail.gmail.com>
+
+For seeing cache creation and loading, set verbosity to 3 and crawl.
+The cache is saved in the folder "hm-cache" in the project directory.
+It is an instance of pydblite database.
+
+--Anand
+
+On Thu, Jul 3, 2008 at 9:18 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi
+>
+> On Thu, Jul 3, 2008 at 6:42 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> Is there a setting for:
+>>
+>> - download based on time stamp? aka. If time stamp is newer of what
+>> was previously downloaded, get the new pages?
+>
+> HarvestMan creates its own cache of a crawled project using downloaded
+> time-stamps for every URL. Next time when you recrawl the same project,
+> if cache is present, automatically the "if-modified-since" header is attached
+> to requests and a HEAD request is performed. Only if the page is modified,
+> do we go and download it. Otherwise the website returns an HTTP 304
+> (Not Modified) error which is caught and understood as such and the
+> page is not downloaded.
+>
+> Similarly, any etag headers are also saved to this cache and next time
+> automatically compared with the server-side etag using "If-None-Match".
+> Only if i does not match (etag has changed), is the URL downloaded.
+>
+>> -  Continue getting a partially-downloaded file? aka. If there is new
+>> bigger file I only need to download the new remaining part, not the
+>> whole file again?
+> You mean HTTP resume. It is not there as part of HarvestMan.
+> But support for resume is there in connector.py and this is part of the
+> other program in the HarvestMan framework, namely "hget".
+>
+> For a crawl it does not make sense to me that you will not download
+> a file. Crawls are complete only when downloads are complete. However,
+> this might be useful if we terminate a crawl in between and still want
+> to save the piece of file downloaded so far. The logic is already
+> there in connector.py, but it is not part of the harvestman's download
+> and control flow. It won't be very difficult to integrate this.
+>
+>>
+>>
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Thu Jul  3 05:55:18 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 3 Jul 2008 09:25:18 +0530
+Subject: [HarvestMan-devel] HarvestMan-devel Digest, Vol 4, Issue 3
+In-Reply-To: <ac3072180807021925q4215185ex8c59deb1aba6d1d6@mail.gmail.com>
+References: <mailman.5522.1215010393.5435.harvestman-devel@lists.berlios.de>
+	<ac3072180807021925q4215185ex8c59deb1aba6d1d6@mail.gmail.com>
+Message-ID: <8548c5f30807022055w73f30917ib262b07491e0f023@mail.gmail.com>
+
+No reason apart from legacy and perhaps lethargy :)
+
+I added this in earlier harvestman when logging module was not yet
+there in Python (Python 2.2) and I was using my custom logging
+code.
+
+When it came in 2.3, I modified the logger to use the logging module,
+but still kept the levels the same. The typical DEBUG/INFO/WARNING/
+ERROR/CRITICAL does not make sense for a program like this, since
+we want errors etc logged anyway and we want to specify more like
+a verbosity flag which will increase the logging as the levels go up.
+
+For example, there cannot be a log level were only errors are printed.
+Does not make sense. Instead lower levels will log lesser information
+on URLs and higher levels, more information.
+
+All critical errors, which cause the program to exit are logged to the
+console and the traceback is captured and printed which will point to
+the location of the error. However, it may not get logged to the log
+file, depending on the log level. I need to verify this.
+
+My suggestion is, for most crawls use a log level of 2 if you want
+smaller logs and 3 if you want to see more URL information like
+filtering checks etc. You should be fine if you do this.
+
+--Anand
+
+On Thu, Jul 3, 2008 at 7:55 AM, Vijay Ramachandran <vijayr at wisdomtap.com> wrote:
+>
+>> These are labeled as
+>>
+>> 0 => DISABLE
+>> 1 => INFO
+>> 2 => MOREINFO
+>> 3 => EXTRAINFO
+>> 4 => DEBUG
+>
+> Any particular reason for using your own level name and numbers, rather than
+> the standard ones in the logging module? I'm also assuming that errors
+> during crawling are always logged?
+>
+> thx,
+> Vijay
+>
+>
+>
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Thu Jul  3 06:03:12 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 3 Jul 2008 09:33:12 +0530
+Subject: [HarvestMan-devel] Net@home, finally...
+Message-ID: <8548c5f30807022103h2451322ekf44667fff5330728@mail.gmail.com>
+
+I finally got broadband connection at my home yesterday.
+
+You may not believe it, that a guy developing web crawler
+as his project does not have broadband connection at home.
+Fact is, I did not, since it was quite difficult to get it in the
+area I am staying in Bangalore, as most connections by
+most ISPs were full.
+
+Finally got a Wimax broadband connection from Reliance
+yesterday, which is working out pretty good so far. With this,
+I can accelerate HarvestMan development!
+
+Planning to close out a few bugs this week and implement
+RSS integration. Please come back with feedbacks on the
+RSS features which can be useful for the crawler, apart from
+that documented in the bug.
+
+Thanks!
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Thu Jul  3 15:06:29 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 3 Jul 2008 08:06:29 -0500
+Subject: [HarvestMan-devel] harvestman and confix.xml
+In-Reply-To: <8548c5f30807022048j74f2181cu38c3d33d44589bd7@mail.gmail.com>
+References: <804e5c70807010603s7544f121v99218056ade1a7c8@mail.gmail.com>
+	<8548c5f30807020742g2a84d929r50f248e39ef995f0@mail.gmail.com>
+	<804e5c70807021812g55202c9pe976543f94cb2010@mail.gmail.com>
+	<8548c5f30807022048j74f2181cu38c3d33d44589bd7@mail.gmail.com>
+Message-ID: <804e5c70807030606q4f431820r7cbdd6363097768a@mail.gmail.com>
+
+On Wed, Jul 2, 2008 at 10:48 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi
+>
+> On Thu, Jul 3, 2008 at 6:42 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> Is there a setting for:
+>>
+>> - download based on time stamp? aka. If time stamp is newer of what
+>> was previously downloaded, get the new pages?
+>
+> HarvestMan creates its own cache of a crawled project using downloaded
+> time-stamps for every URL. Next time when you recrawl the same project,
+> if cache is present, automatically the "if-modified-since" header is attached
+> to requests and a HEAD request is performed. Only if the page is modified,
+> do we go and download it. Otherwise the website returns an HTTP 304
+> (Not Modified) error which is caught and understood as such and the
+> page is not downloaded.
+>
+> Similarly, any etag headers are also saved to this cache and next time
+> automatically compared with the server-side etag using "If-None-Match".
+> Only if i does not match (etag has changed), is the URL downloaded.
+Sounds good.
+
+>
+>> -  Continue getting a partially-downloaded file? aka. If there is new
+>> bigger file I only need to download the new remaining part, not the
+>> whole file again?
+> You mean HTTP resume. It is not there as part of HarvestMan.
+> But support for resume is there in connector.py and this is part of the
+> other program in the HarvestMan framework, namely "hget".
+>
+> For a crawl it does not make sense to me that you will not download
+> a file. Crawls are complete only when downloads are complete.
+
+I wasn't necessarily thinking about incomplete crawls. There is a file
+I download every 2 days. The file right now is about 100mb. The first
+time I downloaded it fully, but in 2 days it I only download the part
+I'm missing. So I get my 100mb, then 2 days later it gets updated, I
+run a "resume download" and I only have to get 2mb, instead of 102mb.
+
+It would be nice if harvestman was able to do "resume download" under
+some conditions. For files bigger then 1mb I guess would be
+sufficient.
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Thu Jul  3 16:45:21 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 3 Jul 2008 09:45:21 -0500
+Subject: [HarvestMan-devel] Net@home, finally...
+In-Reply-To: <8548c5f30807022103h2451322ekf44667fff5330728@mail.gmail.com>
+References: <8548c5f30807022103h2451322ekf44667fff5330728@mail.gmail.com>
+Message-ID: <804e5c70807030745v1e0f163r4d40da4cdf724146@mail.gmail.com>
+
+On Wed, Jul 2, 2008 at 11:03 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> I finally got broadband connection at my home yesterday.
+>
+> You may not believe it, that a guy developing web crawler
+> as his project does not have broadband connection at home.
+
+Congrats!!!
+
+> Fact is, I did not, since it was quite difficult to get it in the
+> area I am staying in Bangalore, as most connections by
+> most ISPs were full.
+
+What download speeds can you achieve now?
+
+Lucas
+
+
+-- 
+Where was my car manufactured?
+http://cars.lucasmanual.com/vin
+TurboGears Manual-Howto
+http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+
+
+From vijayr at wisdomtap.com  Fri Jul  4 14:20:52 2008
+From: vijayr at wisdomtap.com (Vijay Ramachandran)
+Date: Fri, 4 Jul 2008 17:50:52 +0530
+Subject: [HarvestMan-devel] HarvestMan-devel Digest, Vol 4, Issue 4
+In-Reply-To: <mailman.91.1215079325.11941.harvestman-devel@lists.berlios.de>
+References: <mailman.91.1215079325.11941.harvestman-devel@lists.berlios.de>
+Message-ID: <ac3072180807040520i3e0e4c5as45e6486ea20d0f18@mail.gmail.com>
+
+>
+> When it came in 2.3, I modified the logger to use the logging module,
+> but still kept the levels the same. The typical DEBUG/INFO/WARNING/
+> ERROR/CRITICAL does not make sense for a program like this, since
+> we want errors etc logged anyway and we want to specify more like
+> a verbosity flag which will increase the logging as the levels go up.
+
+
+Anand, from my experience with building many systems, it pays to use a
+common, well defined logging levels:
+
+   - Less developer confusion on which level to pick.
+   - Use of common log parsing tools - say, nagios can look for "ERROR"
+
+As opposed to this, there are hardly any advantages to using custom levels.
+Any (sub)system's logging levels can be translated to the standard ones. Its
+not a burning issue - but I'd encourage using standard logging levels.
+
+cheers,
+Vijay
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20080704/b5ee0629/attachment.html>
+
+From abpillai at gmail.com  Fri Jul  4 14:34:18 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 4 Jul 2008 18:04:18 +0530
+Subject: [HarvestMan-devel] HarvestMan-devel Digest, Vol 4, Issue 4
+In-Reply-To: <ac3072180807040520i3e0e4c5as45e6486ea20d0f18@mail.gmail.com>
+References: <mailman.91.1215079325.11941.harvestman-devel@lists.berlios.de>
+	<ac3072180807040520i3e0e4c5as45e6486ea20d0f18@mail.gmail.com>
+Message-ID: <8548c5f30807040534g6fc3ae2fw8cc1edc589d62e1f@mail.gmail.com>
+
+I tend to agree with you. My only problem is that I want more control
+over logging
+URL messages than the standard DEBUG/INFO provided by the standard logger.
+
+In short I want the following levels.
+
+DISABLE= > No logging
+DEBUG => Log all
+EXTRAINFO => Less than debug, but more informational messages, this
+will be a custom level.
+INFO => Less than moreinfo, but informational messages anyway.
+WARNING => Warning messages, though we don't have even a single one yet.
+ERROR => Error messages
+CRITICAL => Critical messages.
+
+
+So the current INFO/MOREINFO/EXTRAINFO/DEBUG will be replaced by
+DEBUG/EXTRAINFO/INFO/WARNING/ERROR/CRITICAL.
+
+I will file a bug for this.
+
+--Anand
+
+On Fri, Jul 4, 2008 at 5:50 PM, Vijay Ramachandran <vijayr at wisdomtap.com> wrote:
+>
+>>
+>> When it came in 2.3, I modified the logger to use the logging module,
+>> but still kept the levels the same. The typical DEBUG/INFO/WARNING/
+>> ERROR/CRITICAL does not make sense for a program like this, since
+>> we want errors etc logged anyway and we want to specify more like
+>> a verbosity flag which will increase the logging as the levels go up.
+>
+> Anand, from my experience with building many systems, it pays to use a
+> common, well defined logging levels:
+>
+> Less developer confusion on which level to pick.
+> Use of common log parsing tools - say, nagios can look for "ERROR"
+>
+> As opposed to this, there are hardly any advantages to using custom levels.
+> Any (sub)system's logging levels can be translated to the standard ones. Its
+> not a burning issue - but I'd encourage using standard logging levels.
+>
+> cheers,
+> Vijay
+>
+>
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Jul  4 14:45:32 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 4 Jul 2008 18:15:32 +0530
+Subject: [HarvestMan-devel] HarvestMan-devel Digest, Vol 4, Issue 4
+In-Reply-To: <8548c5f30807040534g6fc3ae2fw8cc1edc589d62e1f@mail.gmail.com>
+References: <mailman.91.1215079325.11941.harvestman-devel@lists.berlios.de>
+	<ac3072180807040520i3e0e4c5as45e6486ea20d0f18@mail.gmail.com>
+	<8548c5f30807040534g6fc3ae2fw8cc1edc589d62e1f@mail.gmail.com>
+Message-ID: <8548c5f30807040545k6e377c41i75471ff9ca984fc1@mail.gmail.com>
+
+Hi Vijay,
+
+http://code.google.com/p/harvestman-crawler/issues/detail?id=12
+Please send comments.
+
+Btw, if you register as project member, you will be automatically
+notified of the issues etc.
+
+Thanks
+
+--Anand
+
+On Fri, Jul 4, 2008 at 6:04 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> I tend to agree with you. My only problem is that I want more control
+> over logging
+> URL messages than the standard DEBUG/INFO provided by the standard logger.
+>
+> In short I want the following levels.
+>
+> DISABLE= > No logging
+> DEBUG => Log all
+> EXTRAINFO => Less than debug, but more informational messages, this
+> will be a custom level.
+> INFO => Less than moreinfo, but informational messages anyway.
+> WARNING => Warning messages, though we don't have even a single one yet.
+> ERROR => Error messages
+> CRITICAL => Critical messages.
+>
+>
+> So the current INFO/MOREINFO/EXTRAINFO/DEBUG will be replaced by
+> DEBUG/EXTRAINFO/INFO/WARNING/ERROR/CRITICAL.
+>
+> I will file a bug for this.
+>
+> --Anand
+>
+> On Fri, Jul 4, 2008 at 5:50 PM, Vijay Ramachandran <vijayr at wisdomtap.com> wrote:
+>>
+>>>
+>>> When it came in 2.3, I modified the logger to use the logging module,
+>>> but still kept the levels the same. The typical DEBUG/INFO/WARNING/
+>>> ERROR/CRITICAL does not make sense for a program like this, since
+>>> we want errors etc logged anyway and we want to specify more like
+>>> a verbosity flag which will increase the logging as the levels go up.
+>>
+>> Anand, from my experience with building many systems, it pays to use a
+>> common, well defined logging levels:
+>>
+>> Less developer confusion on which level to pick.
+>> Use of common log parsing tools - say, nagios can look for "ERROR"
+>>
+>> As opposed to this, there are hardly any advantages to using custom levels.
+>> Any (sub)system's logging levels can be translated to the standard ones. Its
+>> not a burning issue - but I'd encourage using standard logging levels.
+>>
+>> cheers,
+>> Vijay
+>>
+>>
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Jul  7 22:08:25 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 8 Jul 2008 01:38:25 +0530
+Subject: [HarvestMan-devel] Issues #1 and #6
+Message-ID: <8548c5f30807071308k5223d0a7x273990ecbd674679@mail.gmail.com>
+
+Hi list,
+
+  I have fixed issue #6 and has checked in a better fix (third one) for
+issue #1 (bandwidth throttling) which combines the earlier connector
+based throttling (first fix) with the check for total bytes downloaded so
+far (second fix) for the current fix. The difference is that the throttling
+check is done directly on the connector object instead of the controller
+thread (second fix), since the setting of the sleep time by the controller
+on the connectors was not really working out in fast crawls.
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Jul  7 22:16:19 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 8 Jul 2008 01:46:19 +0530
+Subject: [HarvestMan-devel] RSS Integration
+Message-ID: <8548c5f30807071316v3058a482m3df28b1eac4d4137@mail.gmail.com>
+
+Hi list,
+
+   I am starting on the RSS integration work tomorrow. Please send
+your suggestions on how best to integrate RSS feeds into the
+crawler.
+
+Thanks
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Thu Jul 10 10:50:57 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 10 Jul 2008 14:20:57 +0530
+Subject: [HarvestMan-devel] Harvestman install problem
+In-Reply-To: <c9952a990807091416q7a65ba75u5a79c058a68b1a4@mail.gmail.com>
+References: <c9952a990807091416q7a65ba75u5a79c058a68b1a4@mail.gmail.com>
+Message-ID: <8548c5f30807100150l4bf9c0bfy4dbdded967432e96@mail.gmail.com>
+
+Thanks, fixed this. Update your svn and it will install.
+
+Hereafter please CC <harvestman-devel at lists.berlios.de> also in your emails
+regarding HarvestMan.
+
+Thanks
+
+--Anand
+
+On Thu, Jul 10, 2008 at 2:46 AM, wenjie zheng <wenjie.zheng at gmail.com> wrote:
+> Hi Anand,
+>
+> I encountered a problem when I tried to install the latest version
+> Harvestman (svn co ...)
+>
+> It got stuck when trying to creating config file
+>
+> ...
+> Creating basic configuration in /etc/harvestman...
+> Traceback (most recent call last):
+>  File "setup.py", line 463, in ?
+>    main()
+>  File "setup.py", line 406, in main
+>    conf_data = cfg.generate_system_configuration()
+>  File "/home/wzheng/code/HarvestMan-2.0/harvestman/lib/config.py",
+> line 1526, in generate_system_configuration
+>    return CONFIG_XML_TEMPLATE % self
+> KeyError: 'USERAGENT'
+>
+> I am using Python 2.4.3 on a CentOS box with 2.6 kernel.
+>
+> Thanks a bunch!
+>
+> Wenjie
+>
+
+
+
+-- 
+-Anand
+
+
+From wenjie.zheng at gmail.com  Thu Jul 10 14:46:33 2008
+From: wenjie.zheng at gmail.com (wenjie zheng)
+Date: Thu, 10 Jul 2008 08:46:33 -0400
+Subject: [HarvestMan-devel] Harvestman install problem
+In-Reply-To: <8548c5f30807100150l4bf9c0bfy4dbdded967432e96@mail.gmail.com>
+References: <c9952a990807091416q7a65ba75u5a79c058a68b1a4@mail.gmail.com>
+	<8548c5f30807100150l4bf9c0bfy4dbdded967432e96@mail.gmail.com>
+Message-ID: <c9952a990807100546o3a9023e4raa4e5c2b5d1fcc3f@mail.gmail.com>
+
+Thanks.
+
+After doing svn up, another error popped up.
+
+Traceback (most recent call last):
+  File "setup.py", line 463, in ?
+    main()
+  File "setup.py", line 435, in main
+    from harvestman.test import run_tests
+  File "/home/wzheng/code/HarvestMan-2.0/harvestman/test/run_tests.py",
+line 10, in ?
+    import test_connector
+  File "/home/wzheng/code/HarvestMan-2.0/harvestman/test/test_connector.py",
+line 14, in ?
+    test_base.setUp()
+  File "/home/wzheng/code/HarvestMan-2.0/harvestman/test/test_base.py",
+line 34, in setUp
+    from lib import datamgr
+  File "/home/wzheng/code/HarvestMan-2.0/harvestman/lib/datamgr.py",
+line 57, in ?
+    from mirrors import HarvestManMirrorManager
+  File "/home/wzheng/code/HarvestMan-2.0/harvestman/lib/mirrors.py",
+line 135, in ?
+    class HarvestManMirrorSearch(object):
+  File "/home/wzheng/code/HarvestMan-2.0/harvestman/lib/mirrors.py",
+line 144, in HarvestManMirrorSearch
+    quotes_re = re.compile(r'[\'\"]')
+NameError: name 're' is not defined
+
+It can be fixed by adding "import re".
+
+However, after installation successfully finished, 1 unit test failed.
+
+Fresh installation, running unit tests...
+Running test_connector...
+test_connect...
+test_connect_etag...
+test_connect_lmt...
+Running test_urlparser...
+Ran 10 tests, 9 passes, 1 failures
+Creating application links...
+Creating application link for harvestman...
+Creating application link for hget...
+
+Do you know where I can find out which unit test failed and where the log is?
+
+Thanks,
+Wenjie
+
+On Thu, Jul 10, 2008 at 4:50 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Thanks, fixed this. Update your svn and it will install.
+>
+> Hereafter please CC <harvestman-devel at lists.berlios.de> also in your emails
+> regarding HarvestMan.
+>
+> Thanks
+>
+> --Anand
+>
+> On Thu, Jul 10, 2008 at 2:46 AM, wenjie zheng <wenjie.zheng at gmail.com> wrote:
+>> Hi Anand,
+>>
+>> I encountered a problem when I tried to install the latest version
+>> Harvestman (svn co ...)
+>>
+>> It got stuck when trying to creating config file
+>>
+>> ...
+>> Creating basic configuration in /etc/harvestman...
+>> Traceback (most recent call last):
+>>  File "setup.py", line 463, in ?
+>>    main()
+>>  File "setup.py", line 406, in main
+>>    conf_data = cfg.generate_system_configuration()
+>>  File "/home/wzheng/code/HarvestMan-2.0/harvestman/lib/config.py",
+>> line 1526, in generate_system_configuration
+>>    return CONFIG_XML_TEMPLATE % self
+>> KeyError: 'USERAGENT'
+>>
+>> I am using Python 2.4.3 on a CentOS box with 2.6 kernel.
+>>
+>> Thanks a bunch!
+>>
+>> Wenjie
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+From abpillai at gmail.com  Thu Jul 10 16:20:54 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 10 Jul 2008 19:50:54 +0530
+Subject: [HarvestMan-devel] Harvestman install problem
+In-Reply-To: <c9952a990807100546o3a9023e4raa4e5c2b5d1fcc3f@mail.gmail.com>
+References: <c9952a990807091416q7a65ba75u5a79c058a68b1a4@mail.gmail.com>
+	<8548c5f30807100150l4bf9c0bfy4dbdded967432e96@mail.gmail.com>
+	<c9952a990807100546o3a9023e4raa4e5c2b5d1fcc3f@mail.gmail.com>
+Message-ID: <8548c5f30807100720t1c6a95f2ha9514517c022f9bd@mail.gmail.com>
+
+Hi wenjie,
+
+        A recent bug-fix in connector.py which added the ability to frequently
+flush crawled data to temp files, introduced a bug and the connector unit
+tests were failing because of this. I did not run the unit-tests
+before committing this
+fix :)
+
+        Now everything is fixed. All unit-tests will work now. Let me know
+if you still face trouble. I have not added a unit-test log yet, but will
+add it tonight.
+
+   Thanks for your feedbacks!
+
+Regards,
+
+--Anand
+
+On Thu, Jul 10, 2008 at 6:16 PM, wenjie zheng <wenjie.zheng at gmail.com> wrote:
+> Thanks.
+>
+> After doing svn up, another error popped up.
+>
+> Traceback (most recent call last):
+>  File "setup.py", line 463, in ?
+>    main()
+>  File "setup.py", line 435, in main
+>    from harvestman.test import run_tests
+>  File "/home/wzheng/code/HarvestMan-2.0/harvestman/test/run_tests.py",
+> line 10, in ?
+>    import test_connector
+>  File "/home/wzheng/code/HarvestMan-2.0/harvestman/test/test_connector.py",
+> line 14, in ?
+>    test_base.setUp()
+>  File "/home/wzheng/code/HarvestMan-2.0/harvestman/test/test_base.py",
+> line 34, in setUp
+>    from lib import datamgr
+>  File "/home/wzheng/code/HarvestMan-2.0/harvestman/lib/datamgr.py",
+> line 57, in ?
+>    from mirrors import HarvestManMirrorManager
+>  File "/home/wzheng/code/HarvestMan-2.0/harvestman/lib/mirrors.py",
+> line 135, in ?
+>    class HarvestManMirrorSearch(object):
+>  File "/home/wzheng/code/HarvestMan-2.0/harvestman/lib/mirrors.py",
+> line 144, in HarvestManMirrorSearch
+>    quotes_re = re.compile(r'[\'\"]')
+> NameError: name 're' is not defined
+>
+> It can be fixed by adding "import re".
+>
+> However, after installation successfully finished, 1 unit test failed.
+>
+> Fresh installation, running unit tests...
+> Running test_connector...
+> test_connect...
+> test_connect_etag...
+> test_connect_lmt...
+> Running test_urlparser...
+> Ran 10 tests, 9 passes, 1 failures
+> Creating application links...
+> Creating application link for harvestman...
+> Creating application link for hget...
+>
+> Do you know where I can find out which unit test failed and where the log is?
+>
+> Thanks,
+> Wenjie
+>
+> On Thu, Jul 10, 2008 at 4:50 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Thanks, fixed this. Update your svn and it will install.
+>>
+>> Hereafter please CC <harvestman-devel at lists.berlios.de> also in your emails
+>> regarding HarvestMan.
+>>
+>> Thanks
+>>
+>> --Anand
+>>
+>> On Thu, Jul 10, 2008 at 2:46 AM, wenjie zheng <wenjie.zheng at gmail.com> wrote:
+>>> Hi Anand,
+>>>
+>>> I encountered a problem when I tried to install the latest version
+>>> Harvestman (svn co ...)
+>>>
+>>> It got stuck when trying to creating config file
+>>>
+>>> ...
+>>> Creating basic configuration in /etc/harvestman...
+>>> Traceback (most recent call last):
+>>>  File "setup.py", line 463, in ?
+>>>    main()
+>>>  File "setup.py", line 406, in main
+>>>    conf_data = cfg.generate_system_configuration()
+>>>  File "/home/wzheng/code/HarvestMan-2.0/harvestman/lib/config.py",
+>>> line 1526, in generate_system_configuration
+>>>    return CONFIG_XML_TEMPLATE % self
+>>> KeyError: 'USERAGENT'
+>>>
+>>> I am using Python 2.4.3 on a CentOS box with 2.6 kernel.
+>>>
+>>> Thanks a bunch!
+>>>
+>>> Wenjie
+>>>
+>>
+>>
+>>
+>> --
+>> -Anand
+>>
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Sun Jul 13 22:48:30 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 14 Jul 2008 02:18:30 +0530
+Subject: [HarvestMan-devel] HarvestMan-devel Digest, Vol 4, Issue 4
+In-Reply-To: <ac3072180807040520i3e0e4c5as45e6486ea20d0f18@mail.gmail.com>
+References: <mailman.91.1215079325.11941.harvestman-devel@lists.berlios.de>
+	<ac3072180807040520i3e0e4c5as45e6486ea20d0f18@mail.gmail.com>
+Message-ID: <8548c5f30807131348u13cdb5b4g250ec4f651bbd1d2@mail.gmail.com>
+
+Hi,
+
+       The logging has been fixed as part of enhancement issue #12.
+
+--Anand
+
+On Fri, Jul 4, 2008 at 5:50 PM, Vijay Ramachandran <vijayr at wisdomtap.com> wrote:
+>
+>>
+>> When it came in 2.3, I modified the logger to use the logging module,
+>> but still kept the levels the same. The typical DEBUG/INFO/WARNING/
+>> ERROR/CRITICAL does not make sense for a program like this, since
+>> we want errors etc logged anyway and we want to specify more like
+>> a verbosity flag which will increase the logging as the levels go up.
+>
+> Anand, from my experience with building many systems, it pays to use a
+> common, well defined logging levels:
+>
+> Less developer confusion on which level to pick.
+> Use of common log parsing tools - say, nagios can look for "ERROR"
+>
+> As opposed to this, there are hardly any advantages to using custom levels.
+> Any (sub)system's logging levels can be translated to the standard ones. Its
+> not a burning issue - but I'd encourage using standard logging levels.
+>
+> cheers,
+> Vijay
+>
+>
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Jul 21 07:13:17 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 21 Jul 2008 10:43:17 +0530
+Subject: [HarvestMan-devel] Enhancement of filters
+Message-ID: <8548c5f30807202213w4d7edda9g7393a975c61ee678@mail.gmail.com>
+
+Hi,
+
+ I have updated issue #7 with the new filter design. Please see
+http://code.google.com/p/harvestman-crawler/issues/detail?id=7 for changes.
+
+I am including the new filter design in this email also.
+
+------------
+The filters will be changed to the following single filtering mechanism.
+There will be a single <filter> element which will enclose specific filters.
+
+There will be two distinct type of filters, namely "urlfilter"
+and "textfilter". The former filter will work on URLs and latter
+on text content of pages.
+
+The "urlfilter" can consist of three types of filters.
+
+I. URL filters
+
+1. A regular expression filter which allows one to specify a regular
+expression to filter out URLs. These work just like regular expressions.
+2. A URL "path" filter which allows to specify parts of a URL as a filter.
+This works as follows.
+
+A path is any part of a URL. It could be a part or a complete URL
+or its beginning or front. It allows wildcards by using "*".
+
+Example: -/images/private/
+     - Exclude any URL matching /images/private anywhere in the URL
+
+         -/images/*+/images/public/*
+
+    - Exclude any URL with /images/, but
+      allow any URL which has /images/public in it. This would block the
+      following URLs.
+
+      http://www.foo.com/images/image1.jpg
+      http://www.foo.com/images/image2.jpg
+      http://www.foo.com/images/image3.jpg
+
+      But it will allow the following URLs,
+
+      http://www.foo.com/images/public/pub1.jpg
+      http://www.foo.com/images/public/pub2.jpg
+
+
+3. A file extension filter which allows to specify file extensions of URLs
+as the basis to be filtered.
+
+This filter is quite simple, allowing to specify file extensions to
+be filtered.
+
+Example:
+
+   "-jpg,-png" or
+   "-jpg -png"
+
+Means - filter out URLs with extensions .jpg and .png. This will filter
+out most JPEG and PNG images. The "." are not required in the filter
+but a comma or space is required between the subsequent extensions.
+
+These filters are titled "regexp" "path" and "extension" respectively.
+
+All filters will follow the existing syntax of exclude using "-" prefix
+and include using "+" prefix. Further, filters can be tied together in the same
+string by using + and - chars.
+
+If a - or + prefix is not found, it is assumed that the filter specifies
+an exclusion, i.e URLs matching the filter are filtered out. However
+regex filters will *not* support the + or - prefix since it would be
+difficult to parse such filters as + or - can be part of the regular
+expression itself. Regex filters hence are always considered to be exclusion
+filters (If you want a regex filter to be inclusion, reverse the regex...)
+
+All filter values will be specified as the "value" attribute of the
+elements. Also filters will act cumulatively. A URL is checked to match
+any of the filters and action taken accordingly. There is no way
+to specify a relation between filters, i.e something like (filterA and filterB)
+or filterC. It is always an OR relation, i.e
+
+if match(filterA) or filterB or filterC:
+    # Take action
+    ...
+
+However you can disable a filter by settings its "enable" attribute to zero.
+
+Here are samples of filters.
+
+<urlfilter>
+  <regexp value="(\s*\/banner\/)" enable="1" />
+  <path value="-/images/*+/images/public/*" enable="1" />
+  <extension value="-jpg,-png" enable="1" />
+</urlfilter>
+
+The above means that a URL is tried on each of the above as a filter.
+If *any* of it match, appropriate  action is taken. Only if none match
+is the URL unfiltered.
+
+By default all filters are "crawl" filters. Which means that the URLs are
+filtered out before entering them into the crawl URL queue, immediately after
+parsing the URLs from a parent URL's web-page. However sometimes one wants
+"download" filters, i.e you woud want to fetch and parse these URLs and
+find out their child URLs, but only apply the filter as a download filter.
+
+This is possible by specifying the attribute "crawl" in the <urlfilter>
+element. By default this is "0", but if it is set to "1", URLs are not
+checked for filter at the time of crawling, but only at the time of saving
+them to disk.
+
+However, this is possible only on the entire set of <urlfilter> types, not
+on each individual element.
+
+Example:
+
+<urlfilter crawl="1" >
+  <path value="-/images/*+/images/public/*" enable="1" />
+</urlfilter>
+
+The above filter means that any checking is done only at the file-saving
+time and not during crawling. N
+
+NOTE: Note that crawl attribute makes sense only for web-page
+(HTML) filters and hence don't use it if your filters
+only match non-webpage URLs like images, documents (PDF) etc.
+For non-webpage URLs, filters work only as download filters
+anyway.
+
+NOTE: By default regex filters are UNICODE filters. Regex filters
+take additional argument called "flags" which allows one to pass
+additional flags taken by Python's re module to them. For example,
+to specify a filter to match the current locale,
+
+  <regexp value="(\s*\/banner\/)" enable="1" flags="re.LOCALE" />
+
+Also, all filters are case-insensitive by default.  To enable
+case-sensitivity all filters take a "case" attribute which is "0"
+by default. To enable casing, set it to 1.
+
+Example:
+
+<urlfilter>
+  <regexp value="(\s*\/banner\/)" enable="1" case="1" />
+  <path value="-/images/*+/images/public/*" enable="1" case="1" />
+  <extension value="-jpg,-png" enable="1" case="1" />
+</urlfilter>
+
+NOTE: There is no top-level "case" attribute. So casing has to
+be set individually for each filter if required.
+
+2. Text Filters
+
+Text-filters work on the URL content, title, keywords and description.
+These filters accept only regular expressions and is always an
+exclude filter, i.e there is no way to specify an inclusion or exclusion
+in the filter text by using a + or -. Any such logic has to be part
+of the regular expression itself.
+
+Text-filters are of two types.
+
+1. Content-filter - This works only on the body of the web-page, excluding
+the HTML tags. It is a regular expression filter. The element name is
+"content".
+
+Example:
+
+   <content value="(Python\s+Perl)" flags="re.MULTILINE" />
+
+2. metafilter - This works on the content of the tags "title", "keywords" and
+"description" (as of now, more tags could be added later). It takes a "tags"
+attribute which by default is set to "all" which means that the filter will
+be applied to any of these tags, looking for a match. To specify specific tags
+change the value of this attribute. It accepts 'OR'ing and 'AND'ing of tags
+by using "|" and "&" respectively. The element name is "meta".
+
+Examples:
+
+  <meta value="web-bot" />
+  <meta value="(web-bot|crawler|robot|web-crawler)"
+tags="keywords|description"/>
+  <meta value="(web-bot|crawler|robot|web-crawler)"
+tags="keywords&description"/>
+
+The 2nd filer will apply if the regex matches content of either the
+"keywords" or
+"description" tags, but the last will apply only if it matches both of them.
+
+NOTE: For "keywords" the regexp is applied to every item in the keyword list
+separately, not to the entire string. For example if the "keywords" is,
+
+<meta name="keywords" content="crawler, spider, bot, web-bot, robot" />
+
+Then the keywords regexp is applied to each item of the list
+["crawler","spider","bot","web-bot","robot"] separately. If any match the filter
+is assumed to have matched "keywords" tag.
+
+NOTE: If you want separate regexp for these tags, do as follows.
+
+ <meta value="(web-bot|crawler|robot|web-crawler)" tags="keywords"/>
+ <meta value="internet|crawler|web-bot|web-crawler" tags="description"/>
+ <meta value="harvestman|web-crawler" tags="title"/>
+
+Here is a complete example of a text-filter.
+
+<textfilter>
+ <content value="(Python\s+Perl)" flags="re.MULTILINE" />
+ <meta value="(web-bot|crawler|robot|web-crawler)" tags="keywords"/>
+ <meta value="internet|crawler|web-bot|web-crawler" tags="description"/>
+ <meta value="harvestman|web-crawler" tags="title"/>
+</textfilter>
+
+NOTE: Text-filters also accept the "case" attribute per filter.
+
+That is all.
+
+Please give feedbacks!
+
+
+------------
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Jul 21 07:15:40 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 21 Jul 2008 10:45:40 +0530
+Subject: [HarvestMan-devel] Enhancement of filters
+In-Reply-To: <8548c5f30807202213w4d7edda9g7393a975c61ee678@mail.gmail.com>
+References: <8548c5f30807202213w4d7edda9g7393a975c61ee678@mail.gmail.com>
+Message-ID: <8548c5f30807202215j65a45855i4dd7bb210dda9c03@mail.gmail.com>
+
+Here is a complete <filter> sample.
+
+<filter>
+   <urlfilter>
+      <regexp value="(\s*\/banner\/)" enable="1" />
+     <path value="-/images/*+/images/public/*" enable="1" />
+    <extension value="-jpg,-png" enable="1" />
+   </urlfilter>
+<textfilter>
+   <content value="(Python\s+Perl)" flags="re.MULTILINE" />
+     <meta value="(web-bot|crawler|robot|web-crawler)" tags="keywords"/>
+     <meta value="internet|crawler|web-bot|web-crawler" tags="description"/>
+     <meta value="harvestman|web-crawler" tags="title"/>
+   </textfilter>
+</fiter>
+
+To make it easy to create filters, the browser based UI
+as well as the genconfig.py script will provide a tool specifically
+for making filters and adding it to a config.xml file.
+
+--Anand
+
+
+
+On Mon, Jul 21, 2008 at 10:43 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi,
+>
+>  I have updated issue #7 with the new filter design. Please see
+> http://code.google.com/p/harvestman-crawler/issues/detail?id=7 for changes.
+>
+> I am including the new filter design in this email also.
+>
+> ------------
+> The filters will be changed to the following single filtering mechanism.
+> There will be a single <filter> element which will enclose specific filters.
+>
+> There will be two distinct type of filters, namely "urlfilter"
+> and "textfilter". The former filter will work on URLs and latter
+> on text content of pages.
+>
+> The "urlfilter" can consist of three types of filters.
+>
+> I. URL filters
+>
+> 1. A regular expression filter which allows one to specify a regular
+> expression to filter out URLs. These work just like regular expressions.
+> 2. A URL "path" filter which allows to specify parts of a URL as a filter.
+> This works as follows.
+>
+> A path is any part of a URL. It could be a part or a complete URL
+> or its beginning or front. It allows wildcards by using "*".
+>
+> Example: -/images/private/
+>     - Exclude any URL matching /images/private anywhere in the URL
+>
+>         -/images/*+/images/public/*
+>
+>    - Exclude any URL with /images/, but
+>      allow any URL which has /images/public in it. This would block the
+>      following URLs.
+>
+>      http://www.foo.com/images/image1.jpg
+>      http://www.foo.com/images/image2.jpg
+>      http://www.foo.com/images/image3.jpg
+>
+>      But it will allow the following URLs,
+>
+>      http://www.foo.com/images/public/pub1.jpg
+>      http://www.foo.com/images/public/pub2.jpg
+>
+>
+> 3. A file extension filter which allows to specify file extensions of URLs
+> as the basis to be filtered.
+>
+> This filter is quite simple, allowing to specify file extensions to
+> be filtered.
+>
+> Example:
+>
+>   "-jpg,-png" or
+>   "-jpg -png"
+>
+> Means - filter out URLs with extensions .jpg and .png. This will filter
+> out most JPEG and PNG images. The "." are not required in the filter
+> but a comma or space is required between the subsequent extensions.
+>
+> These filters are titled "regexp" "path" and "extension" respectively.
+>
+> All filters will follow the existing syntax of exclude using "-" prefix
+> and include using "+" prefix. Further, filters can be tied together in the same
+> string by using + and - chars.
+>
+> If a - or + prefix is not found, it is assumed that the filter specifies
+> an exclusion, i.e URLs matching the filter are filtered out. However
+> regex filters will *not* support the + or - prefix since it would be
+> difficult to parse such filters as + or - can be part of the regular
+> expression itself. Regex filters hence are always considered to be exclusion
+> filters (If you want a regex filter to be inclusion, reverse the regex...)
+>
+> All filter values will be specified as the "value" attribute of the
+> elements. Also filters will act cumulatively. A URL is checked to match
+> any of the filters and action taken accordingly. There is no way
+> to specify a relation between filters, i.e something like (filterA and filterB)
+> or filterC. It is always an OR relation, i.e
+>
+> if match(filterA) or filterB or filterC:
+>    # Take action
+>    ...
+>
+> However you can disable a filter by settings its "enable" attribute to zero.
+>
+> Here are samples of filters.
+>
+> <urlfilter>
+>  <regexp value="(\s*\/banner\/)" enable="1" />
+>  <path value="-/images/*+/images/public/*" enable="1" />
+>  <extension value="-jpg,-png" enable="1" />
+> </urlfilter>
+>
+> The above means that a URL is tried on each of the above as a filter.
+> If *any* of it match, appropriate  action is taken. Only if none match
+> is the URL unfiltered.
+>
+> By default all filters are "crawl" filters. Which means that the URLs are
+> filtered out before entering them into the crawl URL queue, immediately after
+> parsing the URLs from a parent URL's web-page. However sometimes one wants
+> "download" filters, i.e you woud want to fetch and parse these URLs and
+> find out their child URLs, but only apply the filter as a download filter.
+>
+> This is possible by specifying the attribute "crawl" in the <urlfilter>
+> element. By default this is "0", but if it is set to "1", URLs are not
+> checked for filter at the time of crawling, but only at the time of saving
+> them to disk.
+>
+> However, this is possible only on the entire set of <urlfilter> types, not
+> on each individual element.
+>
+> Example:
+>
+> <urlfilter crawl="1" >
+>  <path value="-/images/*+/images/public/*" enable="1" />
+> </urlfilter>
+>
+> The above filter means that any checking is done only at the file-saving
+> time and not during crawling. N
+>
+> NOTE: Note that crawl attribute makes sense only for web-page
+> (HTML) filters and hence don't use it if your filters
+> only match non-webpage URLs like images, documents (PDF) etc.
+> For non-webpage URLs, filters work only as download filters
+> anyway.
+>
+> NOTE: By default regex filters are UNICODE filters. Regex filters
+> take additional argument called "flags" which allows one to pass
+> additional flags taken by Python's re module to them. For example,
+> to specify a filter to match the current locale,
+>
+>  <regexp value="(\s*\/banner\/)" enable="1" flags="re.LOCALE" />
+>
+> Also, all filters are case-insensitive by default.  To enable
+> case-sensitivity all filters take a "case" attribute which is "0"
+> by default. To enable casing, set it to 1.
+>
+> Example:
+>
+> <urlfilter>
+>  <regexp value="(\s*\/banner\/)" enable="1" case="1" />
+>  <path value="-/images/*+/images/public/*" enable="1" case="1" />
+>  <extension value="-jpg,-png" enable="1" case="1" />
+> </urlfilter>
+>
+> NOTE: There is no top-level "case" attribute. So casing has to
+> be set individually for each filter if required.
+>
+> 2. Text Filters
+>
+> Text-filters work on the URL content, title, keywords and description.
+> These filters accept only regular expressions and is always an
+> exclude filter, i.e there is no way to specify an inclusion or exclusion
+> in the filter text by using a + or -. Any such logic has to be part
+> of the regular expression itself.
+>
+> Text-filters are of two types.
+>
+> 1. Content-filter - This works only on the body of the web-page, excluding
+> the HTML tags. It is a regular expression filter. The element name is
+> "content".
+>
+> Example:
+>
+>   <content value="(Python\s+Perl)" flags="re.MULTILINE" />
+>
+> 2. metafilter - This works on the content of the tags "title", "keywords" and
+> "description" (as of now, more tags could be added later). It takes a "tags"
+> attribute which by default is set to "all" which means that the filter will
+> be applied to any of these tags, looking for a match. To specify specific tags
+> change the value of this attribute. It accepts 'OR'ing and 'AND'ing of tags
+> by using "|" and "&" respectively. The element name is "meta".
+>
+> Examples:
+>
+>  <meta value="web-bot" />
+>  <meta value="(web-bot|crawler|robot|web-crawler)"
+> tags="keywords|description"/>
+>  <meta value="(web-bot|crawler|robot|web-crawler)"
+> tags="keywords&description"/>
+>
+> The 2nd filer will apply if the regex matches content of either the
+> "keywords" or
+> "description" tags, but the last will apply only if it matches both of them.
+>
+> NOTE: For "keywords" the regexp is applied to every item in the keyword list
+> separately, not to the entire string. For example if the "keywords" is,
+>
+> <meta name="keywords" content="crawler, spider, bot, web-bot, robot" />
+>
+> Then the keywords regexp is applied to each item of the list
+> ["crawler","spider","bot","web-bot","robot"] separately. If any match the filter
+> is assumed to have matched "keywords" tag.
+>
+> NOTE: If you want separate regexp for these tags, do as follows.
+>
+>  <meta value="(web-bot|crawler|robot|web-crawler)" tags="keywords"/>
+>  <meta value="internet|crawler|web-bot|web-crawler" tags="description"/>
+>  <meta value="harvestman|web-crawler" tags="title"/>
+>
+> Here is a complete example of a text-filter.
+>
+> <textfilter>
+>  <content value="(Python\s+Perl)" flags="re.MULTILINE" />
+>  <meta value="(web-bot|crawler|robot|web-crawler)" tags="keywords"/>
+>  <meta value="internet|crawler|web-bot|web-crawler" tags="description"/>
+>  <meta value="harvestman|web-crawler" tags="title"/>
+> </textfilter>
+>
+> NOTE: Text-filters also accept the "case" attribute per filter.
+>
+> That is all.
+>
+> Please give feedbacks!
+>
+>
+> ------------
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jul 23 14:06:12 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 23 Jul 2008 17:36:12 +0530
+Subject: [HarvestMan-devel] Trunk is broken
+Message-ID: <8548c5f30807230506l6005bb5asee349465fe3b5398@mail.gmail.com>
+
+Hi,
+
+  I am currently updating files in trunk for fixing issue #7.
+Since these are partial checkins, the trunk is in an unstable
+state now and will not mostly work.
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Tue Jul 29 02:49:05 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 28 Jul 2008 19:49:05 -0500
+Subject: [HarvestMan-devel] Enhancement of filters
+In-Reply-To: <8548c5f30807202213w4d7edda9g7393a975c61ee678@mail.gmail.com>
+References: <8548c5f30807202213w4d7edda9g7393a975c61ee678@mail.gmail.com>
+Message-ID: <804e5c70807281749x7182e30aif894ea1e5da87969@mail.gmail.com>
+
+sorry I somehow missed this email previously.
+
+comments inline.
+
+On Mon, Jul 21, 2008 at 12:13 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi,
+>
+>  I have updated issue #7 with the new filter design. Please see
+> http://code.google.com/p/harvestman-crawler/issues/detail?id=7 for changes.
+>
+> I am including the new filter design in this email also.
+>
+> ------------
+> The filters will be changed to the following single filtering mechanism.
+> There will be a single <filter> element which will enclose specific filters.
+>
+> There will be two distinct type of filters, namely "urlfilter"
+> and "textfilter". The former filter will work on URLs and latter
+> on text content of pages.
+>
+> The "urlfilter" can consist of three types of filters.
+>
+> I. URL filters
+>
+> 1. A regular expression filter which allows one to specify a regular
+> expression to filter out URLs. These work just like regular expressions.
+> 2. A URL "path" filter which allows to specify parts of a URL as a filter.
+> This works as follows.
+>
+> A path is any part of a URL. It could be a part or a complete URL
+> or its beginning or front. It allows wildcards by using "*".
+>
+> Example: -/images/private/
+>     - Exclude any URL matching /images/private anywhere in the URL
+>
+>         -/images/*+/images/public/*
+>
+>    - Exclude any URL with /images/, but
+>      allow any URL which has /images/public in it. This would block the
+>      following URLs.
+>
+>      http://www.foo.com/images/image1.jpg
+>      http://www.foo.com/images/image2.jpg
+>      http://www.foo.com/images/image3.jpg
+>
+>      But it will allow the following URLs,
+>
+>      http://www.foo.com/images/public/pub1.jpg
+>      http://www.foo.com/images/public/pub2.jpg
+>
+>
+> 3. A file extension filter which allows to specify file extensions of URLs
+> as the basis to be filtered.
+>
+> This filter is quite simple, allowing to specify file extensions to
+> be filtered.
+>
+> Example:
+>
+>   "-jpg,-png" or
+>   "-jpg -png"
+>
+> Means - filter out URLs with extensions .jpg and .png. This will filter
+> out most JPEG and PNG images. The "." are not required in the filter
+> but a comma or space is required between the subsequent extensions.
+>
+> These filters are titled "regexp" "path" and "extension" respectively.
+>
+> All filters will follow the existing syntax of exclude using "-" prefix
+> and include using "+" prefix. Further, filters can be tied together in the same
+> string by using + and - chars.
+
+This is cool. You can specify exclude all "-jpg" and crawl only pages
+that have "+png"
+
+>
+> If a - or + prefix is not found, it is assumed that the filter specifies
+> an exclusion, i.e URLs matching the filter are filtered out. However
+> regex filters will *not* support the + or - prefix since it would be
+> difficult to parse such filters as + or - can be part of the regular
+> expression itself. Regex filters hence are always considered to be exclusion
+> filters (If you want a regex filter to be inclusion, reverse the regex...)
+>
+> All filter values will be specified as the "value" attribute of the
+> elements. Also filters will act cumulatively. A URL is checked to match
+> any of the filters and action taken accordingly. There is no way
+> to specify a relation between filters, i.e something like (filterA and filterB)
+> or filterC. It is always an OR relation, i.e
+>
+> if match(filterA) or filterB or filterC:
+>    # Take action
+>    ...
+
+So these filter will work as :
+If filter A don't crawl or Filter B don't crawl or Filter C dont'
+crawl by default.
+
+I'm trying to think of example that I would want to use the "and"
+filter, but I guess most web crawling will use OR.
+
+
+>
+> However you can disable a filter by settings its "enable" attribute to zero.
+>
+> Here are samples of filters.
+>
+> <urlfilter>
+>  <regexp value="(\s*\/banner\/)" enable="1" />
+>  <path value="-/images/*+/images/public/*" enable="1" />
+>  <extension value="-jpg,-png" enable="1" />
+> </urlfilter>
+>
+> The above means that a URL is tried on each of the above as a filter.
+> If *any* of it match, appropriate  action is taken. Only if none match
+> is the URL unfiltered.
+>
+> By default all filters are "crawl" filters. Which means that the URLs are
+> filtered out before entering them into the crawl URL queue, immediately after
+> parsing the URLs from a parent URL's web-page. However sometimes one wants
+> "download" filters, i.e you woud want to fetch and parse these URLs and
+> find out their child URLs, but only apply the filter as a download filter.
+>
+> This is possible by specifying the attribute "crawl" in the <urlfilter>
+> element. By default this is "0", but if it is set to "1", URLs are not
+> checked for filter at the time of crawling, but only at the time of saving
+> them to disk.
+>
+
+This is nice as well.
+
+
+> However, this is possible only on the entire set of <urlfilter> types, not
+> on each individual element.
+>
+> Example:
+>
+> <urlfilter crawl="1" >
+>  <path value="-/images/*+/images/public/*" enable="1" />
+> </urlfilter>
+>
+
+
+> The above filter means that any checking is done only at the file-saving
+> time and not during crawling. N
+>
+> NOTE: Note that crawl attribute makes sense only for web-page
+> (HTML) filters and hence don't use it if your filters
+> only match non-webpage URLs like images, documents (PDF) etc.
+> For non-webpage URLs, filters work only as download filters
+> anyway.
+>
+> NOTE: By default regex filters are UNICODE filters. Regex filters
+> take additional argument called "flags" which allows one to pass
+> additional flags taken by Python's re module to them. For example,
+> to specify a filter to match the current locale,
+>
+>  <regexp value="(\s*\/banner\/)" enable="1" flags="re.LOCALE" />
+>
+> Also, all filters are case-insensitive by default.  To enable
+> case-sensitivity all filters take a "case" attribute which is "0"
+> by default. To enable casing, set it to 1.
+>
+> Example:
+>
+> <urlfilter>
+>  <regexp value="(\s*\/banner\/)" enable="1" case="1" />
+>  <path value="-/images/*+/images/public/*" enable="1" case="1" />
+>  <extension value="-jpg,-png" enable="1" case="1" />
+> </urlfilter>
+>
+> NOTE: There is no top-level "case" attribute. So casing has to
+> be set individually for each filter if required.
+>
+> 2. Text Filters
+>
+> Text-filters work on the URL content, title, keywords and description.
+> These filters accept only regular expressions and is always an
+> exclude filter, i.e there is no way to specify an inclusion or exclusion
+> in the filter text by using a + or -. Any such logic has to be part
+> of the regular expression itself.
+>
+> Text-filters are of two types.
+>
+> 1. Content-filter - This works only on the body of the web-page, excluding
+> the HTML tags. It is a regular expression filter. The element name is
+> "content".
+>
+> Example:
+>
+>   <content value="(Python\s+Perl)" flags="re.MULTILINE" />
+
+If this just goes through body of an html I would call it body, as
+that would be more appropriate I think.
+ <body value="(Python\s+Perl)" flags="re.MULTILINE" />
+
+>
+> 2. metafilter - This works on the content of the tags "title", "keywords" and
+> "description" (as of now, more tags could be added later). It takes a "tags"
+> attribute which by default is set to "all" which means that the filter will
+> be applied to any of these tags, looking for a match. To specify specific tags
+> change the value of this attribute. It accepts 'OR'ing and 'AND'ing of tags
+> by using "|" and "&" respectively. The element name is "meta".
+>
+> Examples:
+>
+>  <meta value="web-bot" />
+>  <meta value="(web-bot|crawler|robot|web-crawler)"
+> tags="keywords|description"/>
+>  <meta value="(web-bot|crawler|robot|web-crawler)"
+> tags="keywords&description"/>
+>
+> The 2nd filer will apply if the regex matches content of either the
+> "keywords" or
+> "description" tags, but the last will apply only if it matches both of them.
+>
+> NOTE: For "keywords" the regexp is applied to every item in the keyword list
+> separately, not to the entire string. For example if the "keywords" is,
+>
+> <meta name="keywords" content="crawler, spider, bot, web-bot, robot" />
+>
+> Then the keywords regexp is applied to each item of the list
+> ["crawler","spider","bot","web-bot","robot"] separately. If any match the filter
+> is assumed to have matched "keywords" tag.
+>
+> NOTE: If you want separate regexp for these tags, do as follows.
+>
+>  <meta value="(web-bot|crawler|robot|web-crawler)" tags="keywords"/>
+>  <meta value="internet|crawler|web-bot|web-crawler" tags="description"/>
+>  <meta value="harvestman|web-crawler" tags="title"/>
+>
+> Here is a complete example of a text-filter.
+>
+> <textfilter>
+>  <content value="(Python\s+Perl)" flags="re.MULTILINE" />
+>  <meta value="(web-bot|crawler|robot|web-crawler)" tags="keywords"/>
+>  <meta value="internet|crawler|web-bot|web-crawler" tags="description"/>
+>  <meta value="harvestman|web-crawler" tags="title"/>
+> </textfilter>
+>
+> NOTE: Text-filters also accept the "case" attribute per filter.
+>
+> That is all.
+>
+> Please give feedbacks!
+>
+
+Very nice. This will allow for a nice customization of filtering. Will
+these filter work on javascript somehow? I wonder if it is possible to
+filter out the "ads" while crawing. Not sure if I would want to filter
+the javascript or create filters for keywords "ads" that might be
+external to the page.
+
+Other then that it looks  good to me. Let me know if you want to make
+it final, I'll add it to the docs.
+http://code.google.com/p/harvestman-crawler/wiki/ConfigXml
+
+
+Thanks,
+Lucas
+
+

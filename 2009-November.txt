@@ -1,0 +1,68 @@
+From fabio.t at email.it  Tue Nov  3 16:16:31 2009
+From: fabio.t at email.it (Fabio Tordini)
+Date: Tue, 03 Nov 2009 16:16:31 +0100
+Subject: [HarvestMan-devel] harvestMan UI and python problems
+Message-ID: <4AF0494F.8030300@email.it>
+
+Hi,
+I finally installed harvestMan 2.0 alpha1, after experiencing some 
+problems that I fixed. But now, when I try to run the UI, I get a python 
+error in gui.py:
+
+fabio at NuFabUntU:~$ harvestman --ui
+/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/crawler.py:53: 
+DeprecationWarning: the sha module is deprecated; use the hashlib module 
+instead
+  import sha
+/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/urlparser.py:48: 
+DeprecationWarning: the md5 module is deprecated; use hashlib instead
+  import md5
+Loading system configuration...
+Traceback (most recent call last):
+  File "/usr/local/bin/harvestman", line 8, in <module>
+    load_entry_point('HarvestMan==2.0.4betadev', 'console_scripts', 
+'harvestman')()
+  File 
+"/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/apps/spider.py", 
+line 688, in main
+    spider.initialize()
+  File 
+"/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/apps/spider.py", 
+line 435, in initialize
+    self.init_config()
+  File 
+"/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/apps/spider.py", 
+line 421, in init_config
+    self.get_options()
+  File 
+"/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/apps/appbase.py", 
+line 81, in get_options
+    objects.config.get_program_options()
+  File 
+"/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/config.py", 
+line 1493, in get_program_options
+    res = self.parse_arguments()
+  File 
+"/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/config.py", 
+line 1107, in parse_arguments
+    from harvestman.lib import gui
+  File 
+"/usr/local/lib/python2.6/dist-packages/HarvestMan-2.0.4betadev-py2.6.egg/harvestman/lib/gui.py", 
+line 16, in <module>
+    from web import form, net, request
+ImportError: cannot import name request
+
+I had a look at the file and try to modify something after googleing the 
+problem but couldn't solve anything: Still can't run HarvesMan with it's UI.
+Any help?
+
+Thanks,
+-f
+
+
+-- 
+P Prima di stampare questa pagina verifica che sia necessario. 
+Proteggiamo l'Ambiente
+P Before printig this page make sure it is necessary. Save the Environment
+
+

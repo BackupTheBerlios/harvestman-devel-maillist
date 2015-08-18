@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Issue%201%20in%20harvestman-crawler%3A%20Implement%0A%09download%20throttling%20to%20constraint%20download%20speeds&In-Reply-To=%3C8548c5f30807020332p6b5a8088vee468d4d3940d413%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000083.html">
+   <LINK REL="Next"  HREF="000085.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Issue%201%20in%20harvestman-crawler%3A%20Implement%0A%09download%20throttling%20to%20constraint%20download%20speeds&In-Reply-To=%3C8548c5f30807020332p6b5a8088vee468d4d3940d413%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds">abpillai at gmail.com
+       </A><BR>
+    <I>Wed Jul  2 12:32:21 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000083.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+        <LI>Next message: <A HREF="000085.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>I was surprised to see this stats :)
+
+&gt;<i> [15:33:44] 947722  bytes received at the rate of 5.36 KB/sec .
+</I>&gt;<i> [15:33:44] 5190224  bytes were written to disk.
+</I>
+So, amount of bytes written to disk is more than amount fetched !
+I was initially shocked...
+
+Then I recalled that we update bytes count before uncompressing
+data for gzip encoding, so the byte count is the length of compressed
+data and the saved byte count is length of uncompressed data.
+Apparently the website uses HTTP compression generously and
+hence this effect !
+
+--Anand
+
+On Wed, Jul 2, 2008 at 3:57 PM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> By using a throttling factor of 1.5, I am able to achieve closer
+</I>&gt;<i> speeds for your site crawl. And I verified that the increase in
+</I>&gt;<i> factor does not affect regular crawl without limits.
+</I>&gt;<i>
+</I>&gt;<i> ....
+</I>&gt;<i> [15:33:29] Finished download of
+</I>&gt;<i> <A HREF="http://www.automotive.com/auto-enthusiast/index.html">http://www.automotive.com/auto-enthusiast/index.html</A>
+</I>&gt;<i> [15:33:43] Writing url headers database
+</I>&gt;<i> [15:33:43] Dumping url tree to file ./auto/urltree.html
+</I>&gt;<i> [15:33:44]
+</I>&gt;<i> [15:33:44] HarvestMan mirror auto completed in 172.73 seconds.
+</I>&gt;<i> [15:33:44] 3039 links scanned in 1 server .
+</I>&gt;<i> [15:33:44] 45 files written.
+</I>&gt;<i> [15:33:44] 947722  bytes received at the rate of 5.36 KB/sec .
+</I>&gt;<i> [15:33:44] 5190224  bytes were written to disk.
+</I>&gt;<i>
+</I>&gt;<i> --Anand
+</I>&gt;<i>
+</I>&gt;<i> On Wed, Jul 2, 2008 at 11:59 AM, Anand Balachandran Pillai
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> Hi Lucas,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>       I figured why this does not work the way we expect.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> When we throttle the connections, the connections are put
+</I>&gt;&gt;<i> to sleep by a value which is exactly the lag time for the
+</I>&gt;&gt;<i> throttling to reach its specified value. However, since the
+</I>&gt;&gt;<i> actual speed of the network will be much more than the specified
+</I>&gt;&gt;<i> throttling bandwidth, the connectors will always exceed
+</I>&gt;&gt;<i> it.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> For a regular download without any limits, this works because
+</I>&gt;&gt;<i> the controller thread works till the very end and the lag times
+</I>&gt;&gt;<i> typically increase towards the end, thus the final connecitons
+</I>&gt;&gt;<i> get throttled to the maximum when compared to the earlier ones,
+</I>&gt;&gt;<i> providing the required bandwidth once the crawl is complete,
+</I>&gt;&gt;<i> in a normal way.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> However, in this case you specify a maxbytes limit also, so
+</I>&gt;&gt;<i> the crawl is killed while in progress, while the throttling has not
+</I>&gt;&gt;<i> fully adjusted to the given bandwidth requirement, the controller
+</I>&gt;&gt;<i> is not allowed to go the logical end of the crawl.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> This could be considered as a flaw in our throttling logic, in that
+</I>&gt;&gt;<i> it will work only if the controller thread is allowed to logically
+</I>&gt;&gt;<i> finish and won't work if it has to exit in between due to max bytes,
+</I>&gt;&gt;<i> max files or max time limits.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> To make this work even with these limits, we have to throttle
+</I>&gt;&gt;<i> more agressively if limits are enabled right from the beginning.
+</I>&gt;&gt;<i> This can be done by increasing the factor of the throttling.
+</I>&gt;&gt;<i> Currently I am using a factor of 1.01 (1% extra), but for limits
+</I>&gt;&gt;<i> this has to be much higher to get the required effect. Perhaps
+</I>&gt;&gt;<i> we could use a higher factor anyway, say something in the
+</I>&gt;&gt;<i> range of 1.2-1.5. Since the throttling logic checks if we are
+</I>&gt;&gt;<i> behind or ahead and adjusts accordingly, it should work fine
+</I>&gt;&gt;<i> even for a regular crawl without limits.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Try adjusting the factor (in datamgr.py-&gt;class HarvestManController
+</I>&gt;&gt;<i> -&gt;_manage_bandwidth function) from the current 1.01 to
+</I>&gt;&gt;<i> some experimental values and see if an increase in the
+</I>&gt;&gt;<i> factor gives you the required effect.  If it does, try for a regular
+</I>&gt;&gt;<i> crawl and see if this increase throttles it to a too low bandwidth.
+</I>&gt;&gt;<i> I guess it won't.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The other option is to expose the throttling sleep factor as
+</I>&gt;&gt;<i> an option in the config file so that the user can specify it.
+</I>&gt;&gt;<i> However it will be at most a &quot;hunch factor&quot; and the user
+</I>&gt;&gt;<i> will have to get it right by trial and error.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Hope this is clear. Let me know if you have any more questions
+</I>&gt;&gt;<i> on this.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> regards
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --Anand
+</I>&gt;&gt;<i> On Wed, Jul 2, 2008 at 9:54 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;<i> On Tue, Jul 1, 2008 at 8:01 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;&gt;<i> On Tue, Jul 1, 2008 at 4:45 AM, Anand Balachandran Pillai
+</I>&gt;&gt;&gt;&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;&gt;&gt;<i> Hi Lucas,
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i>        I have fixed both issues #1 and #11. #1 is fixed by moving the
+</I>&gt;&gt;&gt;&gt;&gt;<i> bandwidth checking logic to the controller thread on the entire
+</I>&gt;&gt;&gt;&gt;&gt;<i> data downloaded so far. The thread then calculates the lagging time,
+</I>&gt;&gt;&gt;&gt;&gt;<i> divides it by number of connectors and sets it as the sleep time per
+</I>&gt;&gt;&gt;&gt;&gt;<i> connector. I use a factor of 1% more on the sleep time, otherwise
+</I>&gt;&gt;&gt;&gt;&gt;<i> the threads won't sleep enough and finally a single connector will
+</I>&gt;&gt;&gt;&gt;&gt;<i> have to sleep off the accumulated sleep time.
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> This works fine in my tests. It was even able to limit the speed
+</I>&gt;&gt;&gt;&gt;&gt;<i> to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+</I>&gt;&gt;&gt;&gt;&gt;<i> side, so that even if we under achieve the speeds, we never overshoot
+</I>&gt;&gt;&gt;&gt;&gt;<i> them.
+</I>&gt;&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;&gt;<i> Please test now and close the bug as verified. I have marked it as fixed.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> I'll test it tonight.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I've tested it and for some reason I still get the speed of 8kb when I
+</I>&gt;&gt;&gt;<i> crawl automotive.com at 5kb and max download of 5mb.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>  Saved to /home/lucas/crawl/www.automotive.com-used/www.automotive.com/used-cars/01/nissan/index.html
+</I>&gt;&gt;&gt;<i> [23:15:03] Specified maxbytes limit of 5242880 reached!
+</I>&gt;&gt;&gt;<i> [23:15:03]
+</I>&gt;&gt;&gt;<i> [23:15:04]
+</I>&gt;&gt;&gt;<i> [23:15:04] HarvestMan mirror www.automotive.com-used completed in 75.63 seconds.
+</I>&gt;&gt;&gt;<i> [23:15:04] 1816 links scanned in 1 server .
+</I>&gt;&gt;&gt;<i> [23:15:04] 41 files written.
+</I>&gt;&gt;&gt;<i> [23:15:04] 655314  bytes received at the rate of 8.46 KB/sec .
+</I>&gt;&gt;&gt;<i> [23:15:04] 4738867  bytes were written to disk.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I'll try to look at the code, and provide more feedback, if not we
+</I>&gt;&gt;&gt;<i> leave it as is I guess.
+</I>&gt;&gt;&gt;<i> Thanks,
+</I>&gt;&gt;&gt;<i> Lucas
+</I>&gt;&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;&gt;<i> HarvestMan-devel mailing list
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> -Anand
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> -Anand
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000083.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+	<LI>Next message: <A HREF="000085.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#84">[ date ]</a>
+              <a href="thread.html#84">[ thread ]</a>
+              <a href="subject.html#84">[ subject ]</a>
+              <a href="author.html#84">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

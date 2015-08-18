@@ -1,0 +1,129 @@
+From abpillai at gmail.com  Wed Sep 12 14:23:46 2007
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 12 Sep 2007 17:53:46 +0530
+Subject: [HarvestMan-devel] Welcome ...
+Message-ID: <8548c5f30709120523j198331pa8e95fe78fa58c1d@mail.gmail.com>
+
+Hi,
+
+   First of all, thanks for joining the HarvestMan-devel mailing list!
+ I am hoping that the members of this list can come together to write
+some quality software together and try and have fun at the same
+time...:)
+
+The main purpose of this list is to get together developers who are
+interested in writing code for the HarvestMan project. The specific
+immediate purpose is to develop a design and do a prototype
+implementation of a distributed HarvestMan using p2p architecture by
+reusing existing HarvestMan code.
+
+First of all, you need to be familiar with the HarvestMan project. The
+project website is at http://harvestmanontheweb.com. You can find some
+documentation there - the FAQ is useful but some parts of it is out of
+date. Most of the documentation is also pretty out of date w.r.t the
+current code.
+
+The project is hosted at Berlios as "harvestman". The project URL is
+http://developer.berlios.de/projects/harvestman. The current development version
+is 2.0.
+
+You need to create a developer id at berlios so I can add you to the
+project as a developer (Ignore if you are already in). Once that is
+done, you can check out  the code as developer. For that do the
+following.
+
+$export CVSROOT=<username>@cvs.harvestman.berlios.de:/cvsroot/harvestman
+$export CVS_RSH=ssh
+
+Then checkout the latest source code using
+
+$ cvs co HarvestMan-2.0
+
+You need to teach yourself how to use the program. The easiest way is to run it
+out of the box (no installation required though a setup.py is
+provided). Developers should *not* do a setup.py installation since
+this will copy the modules to your Python installation folder and any
+local changes you make may not be visible later.
+
+$ python harvestman.py
+
+This will do a crawl using the default config.xml file and if everything
+goes fine, the website referred in that will get saved to your disk.
+
+You can even do a command line crawl in the Python interpreter. This is done
+as follows.
+$ python
+>>> from harvestman import *
+>>> prepare()
+>>> cfg = GetObject('config')
+#    Modify any params for crawl if u feel like
+# Here we set download of images to false and no localization
+# (localization means converting outward pointing links to disk ones)
+>>> cfg.images = 0
+>>> cfg.localize = 0
+>>> spider = HarvestMan()
+>>> spider.main()
+...
+
+This uses the default config.xml file to do the crawling (it has to be
+present).
+
+The source package also has some documentation I have written for
+the upcoming 2.0 release - mostly about how to write plugins. Read that
+and play around with the sample plugins - the simulator, userbrowse
+and lucene plugin are quite interesting.
+
+Since there is not much documentation on the design etc, I am attaching
+two presentations I gave on the project - one which I gave in Norway
+for the EIAO project and another one in BangPypers. Some of the information
+there is also a bit out of date, however it will give you a good idea on
+the design and architecture. Kindly go through them (there are a lot of
+common slides which you can skip) and let me know if you have any doubts.
+
+Another project which is related is the d-harvestman project which I
+did as a part of a distant course with the Norwegian university. We managed
+to develop a prototype of a distributed crawler with a master-slave architecture
+in this course. The source code for this is public. It can be seen
+at http://sourceforge.net/projects/dcrawler. There are no file releases,
+so you can check out the source code using anonymous CVS. It defines
+ a distributed crawler on top of old HarvestMan code (Code as of
+November 2005). It uses Pyro (http://pyro.sourceforge.net) to
+communicate between masters and slaves.
+
+The project report and design document for this project can
+be downloaded from http://steinbit.agder-ikt.hia.no/~aandas99/ .
+
+The design planned for the new distributed harvestman is not  a master-slave
+one but a p2p one. So not much code can be reused from this project, still
+it is good for reference.
+
+Please reply back with any questions, to the list. Thanks for
+your participation.
+
+-- 
+-Anand
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: HarvestMan_EIAO.ppt
+Type: application/vnd.ms-powerpoint
+Size: 144384 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20070912/b90bb332/attachment.ppt>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: HarvestMan_BangPypers.odp
+Type: application/vnd.oasis.opendocument.presentation
+Size: 40519 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20070912/b90bb332/attachment.odp>
+
+From abpillai at gmail.com  Wed Sep 12 14:29:15 2007
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 12 Sep 2007 17:59:15 +0530
+Subject: [HarvestMan-devel] Testing, please ignore <eom>
+Message-ID: <8548c5f30709120529k1247ad3bse857edccc11bb538@mail.gmail.com>
+
+-- 
+-Anand
+
+

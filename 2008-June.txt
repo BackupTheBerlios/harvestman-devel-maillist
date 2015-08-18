@@ -1,0 +1,4418 @@
+From abpillai at gmail.com  Tue Jun  3 17:17:56 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 3 Jun 2008 20:47:56 +0530
+Subject: [HarvestMan-devel] harvestman schedule crawl at x speed per y
+	time?
+In-Reply-To: <804e5c70805272223n18855411g1277b48addcf3ab6@mail.gmail.com>
+References: <804e5c70805272223n18855411g1277b48addcf3ab6@mail.gmail.com>
+Message-ID: <8548c5f30806030817g6283f50aoc7e55e82206ef583@mail.gmail.com>
+
+Hi Lukasz,
+
+    Currently scheduler functionality is not there. Also you cannot specify a
+throttle download rate such as 5 kb/s. But these are getting added and will
+be present in 2.0 when it is released.
+
+
+--Anand
+
+On Wed, May 28, 2008 at 10:53 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+> What would be the command line option to schedule harvestman to crawl
+> at specific download speed 5kb/s max, each page download every
+> 1,minute and download only from 11pm to 7am?
+>
+> Thanks,
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Thu Jun 12 03:50:55 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Wed, 11 Jun 2008 20:50:55 -0500
+Subject: [HarvestMan-devel] harvestman schedule crawl at x speed per y
+	time?
+In-Reply-To: <8548c5f30806030817g6283f50aoc7e55e82206ef583@mail.gmail.com>
+References: <804e5c70805272223n18855411g1277b48addcf3ab6@mail.gmail.com>
+	<8548c5f30806030817g6283f50aoc7e55e82206ef583@mail.gmail.com>
+Message-ID: <804e5c70806111850j706d2cej62db710545ed6aff@mail.gmail.com>
+
+On Tue, Jun 3, 2008 at 10:17 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lukasz,
+>
+>    Currently scheduler functionality is not there. Also you cannot specify a
+> throttle download rate such as 5 kb/s. But these are getting added and will
+> be present in 2.0 when it is released.
+>
+Is i already in a trunk maybe?
+
+I really need to make it 5kb/s max download. So if its in a trunk I
+could check it out and use it.
+
+Lucas
+
+
+From abpillai at gmail.com  Thu Jun 12 12:00:08 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 12 Jun 2008 15:30:08 +0530
+Subject: [HarvestMan-devel] harvestman schedule crawl at x speed per y
+	time?
+In-Reply-To: <13d5c3cf0806112336x40b84bd1p6990c3e252ccac13@mail.gmail.com>
+References: <804e5c70805272223n18855411g1277b48addcf3ab6@mail.gmail.com>
+	<8548c5f30806030817g6283f50aoc7e55e82206ef583@mail.gmail.com>
+	<804e5c70806111850j706d2cej62db710545ed6aff@mail.gmail.com>
+	<13d5c3cf0806112336x40b84bd1p6990c3e252ccac13@mail.gmail.com>
+Message-ID: <8548c5f30806120300pea3bc6ck132fdd3185445498@mail.gmail.com>
+
+Hi,
+
+       Thanks for the tip. I already know about urlgrabber and has integrated
+its keep-alive module to HarvestMan.
+
+       He is doing the throttling at the reading phase by  creating a special
+file object that supports throttling to make it close to the required rate.
+However HarvestMan is multi-threaded and a throttle rate in HarvestMan
+should mean a combined rate for all the threads doing the download.
+
+     This is much more difficult to implement - one can do a rough translation
+by dividing the expected throttle rate by number of download threads and
+assigning the result to each as its throttle rate. But at any given time, not
+all the download threads will be busy, so this will be inaccurate. Otherwise
+there needs to be a way of determining the number of active download
+threads and then creating a dynamic throttle per thread. This could be
+assigned to the connector of that thread. I think it might work.
+
+ I will have a go at it next week. Code contributions are welcome...!
+
+Regards
+
+--Anand
+
+
+On Thu, Jun 12, 2008 at 12:06 PM, Vaibhav Bhatia <vaikings at gmail.com> wrote:
+> Anand, I found an implementation to throttle download bandwidth. You
+> might have already seen it though.
+>
+> http://devel.linux.duke.edu/cgi-bin/viewcvs.cgi/urlgrabber/urlgrabber/grabber.py?root=urlgrabber&view=markup
+>
+> regards,
+> vaibhav
+>
+> On Thu, Jun 12, 2008 at 7:20 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Tue, Jun 3, 2008 at 10:17 AM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> Hi Lukasz,
+>>>
+>>>    Currently scheduler functionality is not there. Also you cannot specify a
+>>> throttle download rate such as 5 kb/s. But these are getting added and will
+>>> be present in 2.0 when it is released.
+>>>
+>> Is i already in a trunk maybe?
+>>
+>> I really need to make it 5kb/s max download. So if its in a trunk I
+>> could check it out and use it.
+>>
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> vaibhav
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Thu Jun 12 15:18:20 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 12 Jun 2008 08:18:20 -0500
+Subject: [HarvestMan-devel] harvestman schedule crawl at x speed per y
+	time?
+In-Reply-To: <8548c5f30806120300pea3bc6ck132fdd3185445498@mail.gmail.com>
+References: <804e5c70805272223n18855411g1277b48addcf3ab6@mail.gmail.com>
+	<8548c5f30806030817g6283f50aoc7e55e82206ef583@mail.gmail.com>
+	<804e5c70806111850j706d2cej62db710545ed6aff@mail.gmail.com>
+	<13d5c3cf0806112336x40b84bd1p6990c3e252ccac13@mail.gmail.com>
+	<8548c5f30806120300pea3bc6ck132fdd3185445498@mail.gmail.com>
+Message-ID: <804e5c70806120618x471dfb2dg6c2537def3d1465c@mail.gmail.com>
+
+On Thu, Jun 12, 2008 at 5:00 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi,
+>
+>       Thanks for the tip. I already know about urlgrabber and has integrated
+> its keep-alive module to HarvestMan.
+>
+>       He is doing the throttling at the reading phase by  creating a special
+> file object that supports throttling to make it close to the required rate.
+> However HarvestMan is multi-threaded and a throttle rate in HarvestMan
+> should mean a combined rate for all the threads doing the download.
+>
+>     This is much more difficult to implement - one can do a rough translation
+> by dividing the expected throttle rate by number of download threads and
+> assigning the result to each as its throttle rate. But at any given time, not
+> all the download threads will be busy, so this will be inaccurate. Otherwise
+> there needs to be a way of determining the number of active download
+> threads and then creating a dynamic throttle per thread. This could be
+> assigned to the connector of that thread. I think it might work.
+>
+
+Do threads get generated automatically? If you had some counter that
+kept count of threads, and you controlled max number of threads that
+get created, you could when total reaches 5kb/s, say "don't create
+more threads". Not sure if that helps in any way.
+
+Lucas
+
+
+
+
+>  I will have a go at it next week. Code contributions are welcome...!
+>
+> Regards
+>
+> --Anand
+>
+>
+> On Thu, Jun 12, 2008 at 12:06 PM, Vaibhav Bhatia <vaikings at gmail.com> wrote:
+>> Anand, I found an implementation to throttle download bandwidth. You
+>> might have already seen it though.
+>>
+>> http://devel.linux.duke.edu/cgi-bin/viewcvs.cgi/urlgrabber/urlgrabber/grabber.py?root=urlgrabber&view=markup
+>>
+>> regards,
+>> vaibhav
+>>
+>> On Thu, Jun 12, 2008 at 7:20 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> On Tue, Jun 3, 2008 at 10:17 AM, Anand Balachandran Pillai
+>>> <abpillai at gmail.com> wrote:
+>>>> Hi Lukasz,
+>>>>
+>>>>    Currently scheduler functionality is not there. Also you cannot specify a
+>>>> throttle download rate such as 5 kb/s. But these are getting added and will
+>>>> be present in 2.0 when it is released.
+>>>>
+>>> Is i already in a trunk maybe?
+>>>
+>>> I really need to make it 5kb/s max download. So if its in a trunk I
+>>> could check it out and use it.
+>>>
+>>> Lucas
+>>> _______________________________________________
+>>> HarvestMan-devel mailing list
+>>> HarvestMan-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>>
+>>
+>>
+>>
+>> --
+>> vaibhav
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+Where was my car manufactured?
+http://cars.lucasmanual.com/vin
+TurboGears Manual-Howto
+http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+
+
+From abpillai at gmail.com  Fri Jun 13 09:07:28 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 13 Jun 2008 12:37:28 +0530
+Subject: [HarvestMan-devel] harvestman schedule crawl at x speed per y
+	time?
+In-Reply-To: <804e5c70806120618x471dfb2dg6c2537def3d1465c@mail.gmail.com>
+References: <804e5c70805272223n18855411g1277b48addcf3ab6@mail.gmail.com>
+	<8548c5f30806030817g6283f50aoc7e55e82206ef583@mail.gmail.com>
+	<804e5c70806111850j706d2cej62db710545ed6aff@mail.gmail.com>
+	<13d5c3cf0806112336x40b84bd1p6990c3e252ccac13@mail.gmail.com>
+	<8548c5f30806120300pea3bc6ck132fdd3185445498@mail.gmail.com>
+	<804e5c70806120618x471dfb2dg6c2537def3d1465c@mail.gmail.com>
+Message-ID: <8548c5f30806130007j500d53f7w87544daa6ce454c2@mail.gmail.com>
+
+On Thu, Jun 12, 2008 at 6:48 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Thu, Jun 12, 2008 at 5:00 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi,
+>>
+>>       Thanks for the tip. I already know about urlgrabber and has integrated
+>> its keep-alive module to HarvestMan.
+>>
+>>       He is doing the throttling at the reading phase by  creating a special
+>> file object that supports throttling to make it close to the required rate.
+>> However HarvestMan is multi-threaded and a throttle rate in HarvestMan
+>> should mean a combined rate for all the threads doing the download.
+>>
+>>     This is much more difficult to implement - one can do a rough translation
+>> by dividing the expected throttle rate by number of download threads and
+>> assigning the result to each as its throttle rate. But at any given time, not
+>> all the download threads will be busy, so this will be inaccurate. Otherwise
+>> there needs to be a way of determining the number of active download
+>> threads and then creating a dynamic throttle per thread. This could be
+>> assigned to the connector of that thread. I think it might work.
+>>
+>
+> Do threads get generated automatically? If you had some counter that
+> kept count of threads, and you controlled max number of threads that
+> get created, you could when total reaches 5kb/s, say "don't create
+> more threads". Not sure if that helps in any way.
+
+No, this is not the way it happens. We create n number of threads upfront
+when the program starts. Each thread has a well-defined role. There
+are crawler, fetcher and worker (downloader) threads. In total around
+30 threads are present if you use the standard configuration.
+
+It is possible to find out which threads are actively performing downloads
+at any given time. It is possible to use this to dynamically adjust the
+throttle of each thread. The actual work lies in integrating the urlgrabber's
+special file object which does throttling into HarvestMan and then adjusting
+it for the threads...
+
+I will start work on this the week-end. With my speed, an implementation should
+be read early next week...
+>
+> Lucas
+>
+>
+>
+>
+>>  I will have a go at it next week. Code contributions are welcome...!
+>>
+>> Regards
+>>
+>> --Anand
+>>
+>>
+>> On Thu, Jun 12, 2008 at 12:06 PM, Vaibhav Bhatia <vaikings at gmail.com> wrote:
+>>> Anand, I found an implementation to throttle download bandwidth. You
+>>> might have already seen it though.
+>>>
+>>> http://devel.linux.duke.edu/cgi-bin/viewcvs.cgi/urlgrabber/urlgrabber/grabber.py?root=urlgrabber&view=markup
+>>>
+>>> regards,
+>>> vaibhav
+>>>
+>>> On Thu, Jun 12, 2008 at 7:20 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>>> On Tue, Jun 3, 2008 at 10:17 AM, Anand Balachandran Pillai
+>>>> <abpillai at gmail.com> wrote:
+>>>>> Hi Lukasz,
+>>>>>
+>>>>>    Currently scheduler functionality is not there. Also you cannot specify a
+>>>>> throttle download rate such as 5 kb/s. But these are getting added and will
+>>>>> be present in 2.0 when it is released.
+>>>>>
+>>>> Is i already in a trunk maybe?
+>>>>
+>>>> I really need to make it 5kb/s max download. So if its in a trunk I
+>>>> could check it out and use it.
+>>>>
+>>>> Lucas
+>>>> _______________________________________________
+>>>> HarvestMan-devel mailing list
+>>>> HarvestMan-devel at lists.berlios.de
+>>>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>>>
+>>>
+>>>
+>>>
+>>> --
+>>> vaibhav
+>>>
+>>
+>>
+>>
+>> --
+>> -Anand
+>>
+>
+>
+>
+> --
+> Where was my car manufactured?
+> http://cars.lucasmanual.com/vin
+> TurboGears Manual-Howto
+> http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Jun 13 09:17:07 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 13 Jun 2008 12:47:07 +0530
+Subject: [HarvestMan-devel] HarvestMan GUI
+Message-ID: <8548c5f30806130017m272b193cxcae3b72d38cd3245@mail.gmail.com>
+
+Hi,
+
+ I have been working to integrate web.py into HarvestMan to provide
+a browser based GUI. A skeleton of this is ready now including
+a setup.py script that pulls in latest web.py if it is not found.
+
+After installation run 'harvestman --ui' and point your browser
+to http://localhost:5940 to see the UI. Currently it is only a skeleton,
+with no actual functionality. But I can use feedback to decide how
+to add meat to this.
+
+Btw, when you do this, make sure Javascript is enabled, else the UI
+won't work.
+
+Thanks!
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Jun 13 09:17:56 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 13 Jun 2008 12:47:56 +0530
+Subject: [HarvestMan-devel] new Harvestman version?
+In-Reply-To: <8548c5f30806110312r4b7e53a9m51d8e98c7d2b2985@mail.gmail.com>
+References: <ac3072180806101004w1451fdefm4b5b36c8ac20097e@mail.gmail.com>
+	<8548c5f30806110312r4b7e53a9m51d8e98c7d2b2985@mail.gmail.com>
+Message-ID: <8548c5f30806130017p6afa5984y30eb709a10dc2b37@mail.gmail.com>
+
+Please subscribe to <harvestman-devel at lists.berlios.de> mailing list for keeping
+in sync with development udpates.
+
+Regards
+
+--Anand
+
+On Wed, Jun 11, 2008 at 3:42 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Him
+>
+> On Tue, Jun 10, 2008 at 10:34 PM, Vijay Ramachandran
+> <vijayr at wisdomtap.com> wrote:
+>> Hi Anand. How are you doing? Did you end up making it into Google?
+>>
+>> Last time we met, you'd mentioned that you'd changed harvestman to add an
+>> event model, and that you had some sample code using this too. Is there a
+>> stable version that I can download and use? I'm running into major perf
+>> issues with ruya.
+>
+> The current subversion trunk is stable. You can check it out from
+> http://svn.eiao.net/robacc/experimental/HarvestMan-2.0/ . It contains the
+> event code, which is now fully stabilized. Check out "samples" folder
+> for sample crawlers which use events to get things done.
+>
+>>
+>> Also, is there a way to import crawl state into harvestman? I have 3 sql
+>> table (in sqlite) of urls - saved (so don't crawl again), seen (so don't
+>> crawl again), and to_crawl (in case the program crashes). Any way to add
+>> this state to harvestman? Perhaps through the event mechanism?
+>
+> Currently there is a mechanism which goes the other way round. HarvestMan
+> right now dumps crawl statistics/metadata into an sqlite database at
+> the end of a crawl.
+> One can customize the database module to import the state before a
+> crawl instead.
+> Checkout lib/db.py .
+>
+> Before release of 2.0, the following things remain. These will be
+> done in the order below.
+>
+>  - Creation of strategy classes (similar to Ruya, but much more powerful)
+>  - Rewrite of URL filter mechanism using pyparsing library
+>  - Integration with  RSS as a mechanism for triggering crawls and fetching
+>   information from a feed, RSS discovery
+>  - Scheduling options for crawls => Time-based, RSS based, event based
+>  - Fixing the disk localizing problems
+>  - A basic GUI using web.py
+>>
+>> thanks,
+>> Vijay
+>>
+>>
+>
+> Let me know if you have any questions.
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Jun 13 10:21:39 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 13 Jun 2008 13:51:39 +0530
+Subject: [HarvestMan-devel] Please cc harvestman-devel
+Message-ID: <8548c5f30806130121u27389e9evb5ea341921f6546a@mail.gmail.com>
+
+Hello Tom,
+
+  Please CC your emails regarding HarvestMan to
+<harvestman-devel at lists.berlios.de>
+hereafter. In fact, if it is better if you send it to the list
+directly instead of to me and
+CC ing to the list.
+
+ This would help others who are interested in the project to take part in our
+discussions.
+
+ I have invited you to the list. Please take the next steps.
+
+
+Thanks & Regards
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Jun 13 10:25:07 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 13 Jun 2008 13:55:07 +0530
+Subject: [HarvestMan-devel] Companion website
+Message-ID: <8548c5f30806130125l209b2c48j6fcd34a46cd28a3c@mail.gmail.com>
+
+Hi list,
+
+  Tom Smith has been kind enough to start a companion
+website to HarvestMan. It has a Wiki and documentation.
+We plan to add FAQ and update the site as we move along.
+
+http://harvestman.everythingability.com
+
+If you got a question or something feel free to add it
+in the Wiki and send a note to the list. Also please
+update the Wiki with contributions to the sections.
+
+Thanks & Regards,
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Jun 13 12:23:43 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 13 Jun 2008 15:53:43 +0530
+Subject: [HarvestMan-devel] New alpha tarball drop
+Message-ID: <8548c5f30806130323o57eebc60seccc35292c8f2059@mail.gmail.com>
+
+I have dropped a tarball of the current subversion trunk to
+http://harvestmanontheweb.com/packages/2.0/HarvestMan-2.0alpha13062008.tar.gz .
+
+Hereafter, I will be dropping tarball files to this folder whenever a
+significant update has been
+made  to the trunk.
+
+For more information visit,
+
+http://harvestman.everythingability.com/wiki/Download
+http://harvestman.everythingability.com/wiki/Installation
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Jun 13 12:45:37 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 13 Jun 2008 16:15:37 +0530
+Subject: [HarvestMan-devel] Dev plan for next week....
+Message-ID: <8548c5f30806130345t2ae395a6ua3f3db7ff170a4aa@mail.gmail.com>
+
+Here are the plans for next week for HarvestMan-2.0.
+
+# Initial versions of the Crawler strategy classes which will abstract
+away many crawler control params in a single class and make it easy
+to work with the params....
+
+# An implementation of download throttling to limit download speeds
+by specifying rate/sec . Currently we cannot do this.
+
+# Expanding the GUI skeleton...
+
+Btw, I am under severe lack of time with HarvestMan-2.0 with a lot
+of stuff to do and test. I want to wrap this thing up as quickly as I can,
+since the planned release is already like a year old. Please, please
+help out with code contributions, if you are using the program!
+
+Have a nice week-end...
+
+regards
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Fri Jun 13 16:21:46 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 13 Jun 2008 09:21:46 -0500
+Subject: [HarvestMan-devel] Companion website+ other
+Message-ID: <804e5c70806130721k26aca83bq4543c680b872f4d5@mail.gmail.com>
+
+Hello,
+1. Could you modify the settings on this list so when I click "reply"
+it goes to a list not a person who sent it.
+
+2. Could you list where the bug trucking system is? Which site.
+
+3. Did you think of moving your code and site into google code or
+subversion? You could get wiki, svn, and bug trucking in one place?
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Fri Jun 13 17:35:53 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 13 Jun 2008 10:35:53 -0500
+Subject: [HarvestMan-devel] Dev plan for next week....
+In-Reply-To: <8548c5f30806130345t2ae395a6ua3f3db7ff170a4aa@mail.gmail.com>
+References: <8548c5f30806130345t2ae395a6ua3f3db7ff170a4aa@mail.gmail.com>
+Message-ID: <804e5c70806130835p667b9b48oa9c3b49f1fc6c434@mail.gmail.com>
+
+On Fri, Jun 13, 2008 at 5:45 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Here are the plans for next week for HarvestMan-2.0.
+>
+> # Initial versions of the Crawler strategy classes which will abstract
+> away many crawler control params in a single class and make it easy
+> to work with the params....
+>
+> # An implementation of download throttling to limit download speeds
+> by specifying rate/sec . Currently we cannot do this.
+>
+> # Expanding the GUI skeleton...
+
+Is there a reason you went with xml config file?
+It is really hard to edit xml. I would much prefer python style
+configuration.  My first experience was an invalid xml config file
+that was one the website as an example.  So I had to use command line
+options. But I guess that is something for the future.
+
+What kind of gui skeleton you are talking about? web based? I could
+easly create something in turbogears.
+
+
+
+
+
+
+
+
+>
+> Btw, I am under severe lack of time with HarvestMan-2.0 with a lot
+> of stuff to do and test. I want to wrap this thing up as quickly as I can,
+> since the planned release is already like a year old. Please, please
+> help out with code contributions, if you are using the program!
+
+I could help but right now am still trying to get it working. As soon
+as download throttling is available I should be using it more, and
+hopefully help out.
+
+Lucas
+
+
+From abpillai at gmail.com  Mon Jun 16 08:57:27 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 16 Jun 2008 12:27:27 +0530
+Subject: [HarvestMan-devel] Companion website+ other
+In-Reply-To: <601c1ad00806130732x7d1bc146k30baf6bae94d8207@mail.gmail.com>
+References: <804e5c70806130721k26aca83bq4543c680b872f4d5@mail.gmail.com>
+	<601c1ad00806130732x7d1bc146k30baf6bae94d8207@mail.gmail.com>
+Message-ID: <8548c5f30806152357s48d19e63v103b817c0294662a@mail.gmail.com>
+
+On Fri, Jun 13, 2008 at 8:02 PM, Anush Shetty <anushshetty at gmail.com> wrote:
+>
+> Hi .
+> I can take up that task
+>
+> On Fri, Jun 13, 2008 at 7:51 PM, Lukasz Szybalski <szybalski at gmail.com>
+> wrote:
+>>
+>> Hello,
+>> 1. Could you modify the settings on this list so when I click "reply"
+>> it goes to a list not a person who sent it.
+
+Done.
+>>
+>> 2. Could you list where the bug trucking system is? Which site.
+>>
+>> 3. Did you think of moving your code and site into google code or
+>> subversion? You could get wiki, svn, and bug trucking in one place?
+>>
+
+This is a good idea, so I have created a google project for HarvestMan
+and moved the code there. I will send another mail regarding this.
+
+>
+>
+> -
+> Anush
+>
+
+
+Regards
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Jun 16 09:03:49 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 16 Jun 2008 12:33:49 +0530
+Subject: [HarvestMan-devel] Project Hosting
+Message-ID: <8548c5f30806160003y4c23381dn5e8ba15143f29fa1@mail.gmail.com>
+
+Hi,
+
+      I have moved the hosting of the project to Google code.
+The google project name is "harvestman-crawler". You can access
+the project's page at http://harvestman-crawler.googlecode.com .
+
+The existing code is checked into the google subversion server.
+To check out anonymously,
+
+$ svn co http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan
+
+As of now, I am the only member. Please let me know if you need developer
+privileges and send me your google code id, I will add you to the project.
+
+Please contribute to the wiki and the issue tracker.
+
+Thanks!
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Jun 16 09:35:26 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 16 Jun 2008 13:05:26 +0530
+Subject: [HarvestMan-devel] This mailing list...
+Message-ID: <8548c5f30806160035h16455ea1ua44b3429722cc98c@mail.gmail.com>
+
+Hi,
+
+    Now that the project has moved to google code hosting,
+it makes sense to move the mailing list also to google servers.
+
+I will do so in 2-3 days and inform the list of the new address.
+We will close out this mailing list, once this migration is completed.
+
+Regards
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Jun 16 15:22:49 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 16 Jun 2008 18:52:49 +0530
+Subject: [HarvestMan-devel] Dev plan for next week....
+In-Reply-To: <804e5c70806130835p667b9b48oa9c3b49f1fc6c434@mail.gmail.com>
+References: <8548c5f30806130345t2ae395a6ua3f3db7ff170a4aa@mail.gmail.com>
+	<804e5c70806130835p667b9b48oa9c3b49f1fc6c434@mail.gmail.com>
+Message-ID: <8548c5f30806160622w1c0074fet9b2f8b8682541e85@mail.gmail.com>
+
+On Fri, Jun 13, 2008 at 9:05 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Fri, Jun 13, 2008 at 5:45 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Here are the plans for next week for HarvestMan-2.0.
+>>
+>> # Initial versions of the Crawler strategy classes which will abstract
+>> away many crawler control params in a single class and make it easy
+>> to work with the params....
+>>
+>> # An implementation of download throttling to limit download speeds
+>> by specifying rate/sec . Currently we cannot do this.
+>>
+>> # Expanding the GUI skeleton...
+>
+> Is there a reason you went with xml config file?
+> It is really hard to edit xml. I would much prefer python style
+> configuration.  My first experience was an invalid xml config file
+> that was one the website as an example.  So I had to use command line
+> options. But I guess that is something for the future.
+
+Do you really think this is a problem ? HarvestMan used to have
+a Python style (INI style) file format earlier which was easily parseable
+by ConfigParser . I changed it to an XML format because I thought
+an XML format would be more universal than the Python style
+and more flexible and hierarchical.
+
+However, there is a tool which will create the XML config file for you
+from an HTML form in the current svn trunk. Try out tools/genconfig.py
+and give your feedback.
+>
+> What kind of gui skeleton you are talking about? web based? I could
+> easly create something in turbogears.
+
+HarvestMan is already integrated to web.py and I want to use it
+for doing all browser UI because it is simple and comes with its own
+templating language which is like Python. Btw, there is already skeleton
+GUI code available in the trunk. Run "harvestman --ui" and point your
+browser to http://localhost:5940 to see it.
+>
+>
+>
+>
+>
+>
+>
+>
+>>
+>> Btw, I am under severe lack of time with HarvestMan-2.0 with a lot
+>> of stuff to do and test. I want to wrap this thing up as quickly as I can,
+>> since the planned release is already like a year old. Please, please
+>> help out with code contributions, if you are using the program!
+>
+> I could help but right now am still trying to get it working. As soon
+> as download throttling is available I should be using it more, and
+> hopefully help out.
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Jun 16 15:23:28 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 16 Jun 2008 08:23:28 -0500
+Subject: [HarvestMan-devel] Companion website+ other
+In-Reply-To: <8548c5f30806152357s48d19e63v103b817c0294662a@mail.gmail.com>
+References: <804e5c70806130721k26aca83bq4543c680b872f4d5@mail.gmail.com>
+	<601c1ad00806130732x7d1bc146k30baf6bae94d8207@mail.gmail.com>
+	<8548c5f30806152357s48d19e63v103b817c0294662a@mail.gmail.com>
+Message-ID: <804e5c70806160623w3a86c9c6h4ba4ff02a5edbe7f@mail.gmail.com>
+
+On Mon, Jun 16, 2008 at 1:57 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> On Fri, Jun 13, 2008 at 8:02 PM, Anush Shetty <anushshetty at gmail.com> wrote:
+>>
+>> Hi .
+>> I can take up that task
+>>
+>> On Fri, Jun 13, 2008 at 7:51 PM, Lukasz Szybalski <szybalski at gmail.com>
+>> wrote:
+>>>
+>>> Hello,
+>>> 1. Could you modify the settings on this list so when I click "reply"
+>>> it goes to a list not a person who sent it.
+>
+> Done.
+
+Thanks!
+
+>>>
+>>> 2. Could you list where the bug trucking system is? Which site.
+>>>
+>>> 3. Did you think of moving your code and site into google code or
+>>> subversion? You could get wiki, svn, and bug trucking in one place?
+>>>
+>
+> This is a good idea, so I have created a google project for HarvestMan
+> and moved the code there. I will send another mail regarding this.
+
+Can you convert the whole history also? I know in sourceforge.net I
+was able to accept my dump my svn source. This will make the whole
+history available in a their site. All the historical changes
+preserved.
+
+
+here is how to do it.
+http://www.therightstuff.de/2008/05/12/Importing+Subversion+Repositories+To+Google+Code.aspx
+
+Thanks,
+Lucas
+
+
+From abpillai at gmail.com  Mon Jun 16 15:25:48 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 16 Jun 2008 18:55:48 +0530
+Subject: [HarvestMan-devel] Companion website+ other
+In-Reply-To: <804e5c70806160623w3a86c9c6h4ba4ff02a5edbe7f@mail.gmail.com>
+References: <804e5c70806130721k26aca83bq4543c680b872f4d5@mail.gmail.com>
+	<601c1ad00806130732x7d1bc146k30baf6bae94d8207@mail.gmail.com>
+	<8548c5f30806152357s48d19e63v103b817c0294662a@mail.gmail.com>
+	<804e5c70806160623w3a86c9c6h4ba4ff02a5edbe7f@mail.gmail.com>
+Message-ID: <8548c5f30806160625r342599d8o6c04ff85994ab0@mail.gmail.com>
+
+On Mon, Jun 16, 2008 at 6:53 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Mon, Jun 16, 2008 at 1:57 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> On Fri, Jun 13, 2008 at 8:02 PM, Anush Shetty <anushshetty at gmail.com> wrote:
+>>>
+>>> Hi .
+>>> I can take up that task
+>>>
+>>> On Fri, Jun 13, 2008 at 7:51 PM, Lukasz Szybalski <szybalski at gmail.com>
+>>> wrote:
+>>>>
+>>>> Hello,
+>>>> 1. Could you modify the settings on this list so when I click "reply"
+>>>> it goes to a list not a person who sent it.
+>>
+>> Done.
+>
+> Thanks!
+>
+>>>>
+>>>> 2. Could you list where the bug trucking system is? Which site.
+>>>>
+>>>> 3. Did you think of moving your code and site into google code or
+>>>> subversion? You could get wiki, svn, and bug trucking in one place?
+>>>>
+>>
+>> This is a good idea, so I have created a google project for HarvestMan
+>> and moved the code there. I will send another mail regarding this.
+>
+> Can you convert the whole history also? I know in sourceforge.net I
+> was able to accept my dump my svn source. This will make the whole
+> history available in a their site. All the historical changes
+> preserved.
+>
+>
+> here is how to do it.
+> http://www.therightstuff.de/2008/05/12/Importing+Subversion+Repositories+To+Google+Code.aspx
+>
+
+I tried this. But for this you need to reset the svn revision to zero.
+Unfortunately,
+the said link in the article above is no longer available on the "Source" tab of
+the project. I need to send email to admin to do this. Will do it later.
+
+> Thanks,
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Jun 16 16:33:00 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 16 Jun 2008 09:33:00 -0500
+Subject: [HarvestMan-devel] Dev plan for next week....
+In-Reply-To: <8548c5f30806160622w1c0074fet9b2f8b8682541e85@mail.gmail.com>
+References: <8548c5f30806130345t2ae395a6ua3f3db7ff170a4aa@mail.gmail.com>
+	<804e5c70806130835p667b9b48oa9c3b49f1fc6c434@mail.gmail.com>
+	<8548c5f30806160622w1c0074fet9b2f8b8682541e85@mail.gmail.com>
+Message-ID: <804e5c70806160733o66032451gbca906d71d38c52d@mail.gmail.com>
+
+
+From abpillai at gmail.com  Tue Jun 17 08:45:07 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 17 Jun 2008 12:15:07 +0530
+Subject: [HarvestMan-devel] Dev plan for next week....
+In-Reply-To: <804e5c70806160733o66032451gbca906d71d38c52d@mail.gmail.com>
+References: <8548c5f30806130345t2ae395a6ua3f3db7ff170a4aa@mail.gmail.com>
+	<804e5c70806130835p667b9b48oa9c3b49f1fc6c434@mail.gmail.com>
+	<8548c5f30806160622w1c0074fet9b2f8b8682541e85@mail.gmail.com>
+	<804e5c70806160733o66032451gbca906d71d38c52d@mail.gmail.com>
+Message-ID: <8548c5f30806162345g75853668gb6540e82e5af5e6@mail.gmail.com>
+
+Hi Lucas,
+
+
+On Mon, Jun 16, 2008 at 8:03 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> From the new repository:
+> (let me know when you get the svn dump moved over.)
+>
+> 1. Wrong install folder?
+> I was using virtualenv to install harvestmen... but it seems as it
+> installed itself in python default location.
+> my virtual env path was /usr/local/pythonpath/baseline/...
+>
+> Not sure if you use "http://pythonpaste.org/script/" or your custom
+> setup.py etc... http://lucasmanual.com/mywiki/Paste
+
+It is a custom setup.py written by me without using any particular
+template. I don't think it will work with virtualenv, though I am yet
+to try it. Can you file a bug on this and attach any traceback and
+assign it to me ?
+
+>
+> error....
+> python setup.py install
+> ........
+> Creating basic configuration in /etc/harvestman...
+> done.
+> Fresh installation, running unit tests...
+> Running test_connector...
+> test_connect...
+> test_connect_etag...
+> test_connect_lmt...
+> Running test_urlparser...
+> Ran 10 tests, 10 passes, 0 failures
+> Traceback (most recent call last):
+>  File "setup.py", line 458, in ?
+>    main()
+>  File "setup.py", line 441, in main
+>    open(test_log, 'w').write('1')
+> IOError: [Errno 2] No such file or directory:
+> '/usr/local/lib/python2.4/site-packages/harvestman/unittest.log'
+
+Hmmm... Clearly the folder /usr/local/lib/python2.4/site-packages/harvestman
+is missing. So where did it get installed ? I think perhaps my function which
+calculates site-packages folder is wrong ? Can you take a look at it in
+setup.py ?
+
+>
+>
+>
+>>>
+>>> Is there a reason you went with xml config file?
+>>> It is really hard to edit xml. I would much prefer python style
+>>> configuration.  My first experience was an invalid xml config file
+>>> that was one the website as an example.  So I had to use command line
+>>> options. But I guess that is something for the future.
+>>
+>> Do you really think this is a problem ? HarvestMan used to have
+>> a Python style (INI style) file format earlier which was easily parseable
+>> by ConfigParser . I changed it to an XML format because I thought
+>> an XML format would be more universal than the Python style
+>> and more flexible and hierarchical.
+>>
+>> However, there is a tool which will create the XML config file for you
+>> from an HTML form in the current svn trunk. Try out tools/genconfig.py
+>> and give your feedback.
+>
+> The genconfig looks good. Its even easier to set it up then editing
+> files. It seems to me that xml config style is more similar to lucene
+> xml style. It would be easier to create ini file from scratch, but as
+> long as there are some tools for making the xml, I think it will be
+> ok.
+>
+>
+> 2. I would provide 3 sample config files in "exemples" folder.  a.
+> (shortest config.xml), b. standard_config.xml (which is recommended
+> way you should crawl pages) and advanced_config.xml that has all the
+> options.
+>
+>
+> 3 . In genconf.py . I  would put a little note under "verbosity 1 is
+> abc, 2 is bcd, 3 is dfs...." and the same thing under fetch level,
+> since I don't know of hand what options they represent. Everything
+> else seems straight forward.
+
+Good suggestions, will add them.
+
+>
+> 4.  I would add a command "harvestman genconf" or "harvestman
+> --genconf" to list of available options, so I can call the program
+> from a command line.
+
+Not clear what you mean here. Do you mean that passing --genconf
+on the cmd line should try and list *all* the possible XML conf
+options ? Or that this should launch the tool ?
+>
+> 5. I got my config file but:
+>  harvestman -c config2.xml Loading system configuration...
+> Error assigning option " cache_status "
+> Error traceback...
+>  File "/usr/lib/python2.4/site-packages/harvestman/lib/config.py",
+> line 691, in set_option_xml
+>    self.assign_option(option_val, value)
+>  File "/usr/lib/python2.4/site-packages/harvestman/lib/config.py",
+> line 564, in assign_option
+>    fval = (eval(typ))(value)
+>
+> I'm attaching the config file.
+
+Ah, there is nothing wrong with the conf file. You need to pass "-C",
+not "-c" for accepting a config file on the cmd line. Still, I will add
+an exception handler in the param processing code.
+
+>
+>
+> If you could give me access to wiki, I could put some examples out
+> there some time this week.
+>
+> Thanks,
+> Lucas
+>
+>
+>>>
+>>> What kind of gui skeleton you are talking about? web based? I could
+>>> easly create something in turbogears.
+>>
+>> HarvestMan is already integrated to web.py and I want to use it
+>> for doing all browser UI because it is simple and comes with its own
+>> templating language which is like Python. Btw, there is already skeleton
+>> GUI code available in the trunk. Run "harvestman --ui" and point your
+>> browser to http://localhost:5940 to see it.
+>
+> Sounds good. Not sure what you should put there yet? I guess I might
+> have more ideas when I start using harvestman.
+>
+> Thanks,
+> Lucas
+>
+> --
+> Where was my car manufactured?
+> http://cars.lucasmanual.com/vin
+> TurboGears Manual-Howto
+> http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+>
+
+
+Regards
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Tue Jun 17 16:09:53 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 17 Jun 2008 09:09:53 -0500
+Subject: [HarvestMan-devel] Dev plan for next week....
+In-Reply-To: <8548c5f30806162345g75853668gb6540e82e5af5e6@mail.gmail.com>
+References: <8548c5f30806130345t2ae395a6ua3f3db7ff170a4aa@mail.gmail.com>
+	<804e5c70806130835p667b9b48oa9c3b49f1fc6c434@mail.gmail.com>
+	<8548c5f30806160622w1c0074fet9b2f8b8682541e85@mail.gmail.com>
+	<804e5c70806160733o66032451gbca906d71d38c52d@mail.gmail.com>
+	<8548c5f30806162345g75853668gb6540e82e5af5e6@mail.gmail.com>
+Message-ID: <804e5c70806170709j440e922fq3adecc2068e39683@mail.gmail.com>
+
+> It is
+ a custom setup.py written by me without using any particular
+> template. I don't think it will work with virtualenv, though I am yet
+> to try it. Can you file a bug on this and attach any traceback and
+> assign it to me ?
+
+filled.
+I don't know how hard would it be to convert you setup to paster.
+http://www.groovie.org/2005/10/04/python-paste-power
+
+
+> Hmmm... Clearly the folder /usr/local/lib/python2.4/site-packages/harvestman
+> is missing. So where did it get installed ? I think perhaps my function which
+> calculates site-packages folder is wrong ? Can you take a look at it in
+> setup.py ?
+
+I'll try.
+
+>
+>>
+>> 3 . In genconf.py . I  would put a little note under "verbosity 1 is
+>> abc, 2 is bcd, 3 is dfs...." and the same thing under fetch level,
+>> since I don't know of hand what options they represent. Everything
+>> else seems straight forward.
+>
+> Good suggestions, will add them.
+>
+>>
+>> 4.  I would add a command "harvestman genconf" or "harvestman
+>> --genconf" to list of available options, so I can call the program
+>> from a command line.
+>
+
+--genconf -> should launch the tool ?
+ --listall  should try and list *all* the possible XML conf options ?
+(that would be nice as well.)
+
+
+
+>>
+>> 5. I got my config file but:
+>>  harvestman -c config2.xml Loading system configuration...
+>> Error assigning option " cache_status "
+>> Error traceback...
+>>  File "/usr/lib/python2.4/site-packages/harvestman/lib/config.py",
+>> line 691, in set_option_xml
+>>    self.assign_option(option_val, value)
+>>  File "/usr/lib/python2.4/site-packages/harvestman/lib/config.py",
+>> line 564, in assign_option
+>>    fval = (eval(typ))(value)
+>>
+>> I'm attaching the config file.
+>
+> Ah, there is nothing wrong with the conf file. You need to pass "-C",
+
+-C worked.
+
+Lucas
+
+
+From abpillai at gmail.com  Thu Jun 19 15:54:03 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 19 Jun 2008 19:24:03 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+Message-ID: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+
+Hi list,
+
+ I have an initial implementation ready for throttling. I am about to add
+the config parameter in the config.xml file. This should go to the <limits>
+element of the <control> top-level element.
+
+Is the name "throttle" apt for this variable ? Or should it be "bandwidth" ?
+For the time being I am opting for "bandwidth". Please give feedback.
+
+Here is a sample XML element including this new param.
+
+<control>
+....
+    <limits>
+        <maxextservers value="0"/>
+        <maxextdirs value="0"/>
+        <maxfiles value="100"/>
+        <maxfilesize value="5242880"/>
+        <connections value="5"/>
+	<bandwidth value="5.0" />
+        <timelimit value="-1"/>
+    </limits>
+...
+</control>
+
+The value needs to be specified in kb/sec , not in bytes/sec .
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Thu Jun 19 16:05:03 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 19 Jun 2008 09:05:03 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+Message-ID: <804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+
+On Thu, Jun 19, 2008 at 8:54 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi list,
+>
+>  I have an initial implementation ready for throttling. I am about to add
+> the config parameter in the config.xml file. This should go to the <limits>
+> element of the <control> top-level element.
+>
+> Is the name "throttle" apt for this variable ? Or should it be "bandwidth" ?
+> For the time being I am opting for "bandwidth". Please give feedback.
+
+bandwidth sounds better to me.
+
+Is it a bandwidth per thread? or maxbandwidth?
+
+If max, then I would go with maxbandwidth.
+
+Thanks,
+Lucas
+
+
+>
+> Here is a sample XML element including this new param.
+>
+> <control>
+> ....
+>    <limits>
+>        <maxextservers value="0"/>
+>        <maxextdirs value="0"/>
+>        <maxfiles value="100"/>
+>        <maxfilesize value="5242880"/>
+>        <connections value="5"/>
+>        <bandwidth value="5.0" />
+>        <timelimit value="-1"/>
+>    </limits>
+> ...
+> </control>
+>
+> The value needs to be specified in kb/sec , not in bytes/sec .
+>
+> --
+> -Anand
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+Where was my car manufactured?
+http://cars.lucasmanual.com/vin
+TurboGears Manual-Howto
+http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+
+
+From abpillai at gmail.com  Thu Jun 19 16:08:27 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Thu, 19 Jun 2008 19:38:27 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+Message-ID: <8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+
+Hi Lucas,
+
+     It is a cumulative bandwidth for the entire program, not per thread.
+So, I will rename it as "maxbandwidth".
+
+On Thu, Jun 19, 2008 at 7:35 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Thu, Jun 19, 2008 at 8:54 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi list,
+>>
+>>  I have an initial implementation ready for throttling. I am about to add
+>> the config parameter in the config.xml file. This should go to the <limits>
+>> element of the <control> top-level element.
+>>
+>> Is the name "throttle" apt for this variable ? Or should it be "bandwidth" ?
+>> For the time being I am opting for "bandwidth". Please give feedback.
+>
+> bandwidth sounds better to me.
+>
+> Is it a bandwidth per thread? or maxbandwidth?
+>
+> If max, then I would go with maxbandwidth.
+
+>
+> Thanks,
+> Lucas
+>
+>
+>>
+>> Here is a sample XML element including this new param.
+>>
+>> <control>
+>> ....
+>>    <limits>
+>>        <maxextservers value="0"/>
+>>        <maxextdirs value="0"/>
+>>        <maxfiles value="100"/>
+>>        <maxfilesize value="5242880"/>
+>>        <connections value="5"/>
+>>        <bandwidth value="5.0" />
+>>        <timelimit value="-1"/>
+>>    </limits>
+>> ...
+>> </control>
+>>
+>> The value needs to be specified in kb/sec , not in bytes/sec .
+>>
+>> --
+>> -Anand
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> Where was my car manufactured?
+> http://cars.lucasmanual.com/vin
+> TurboGears Manual-Howto
+> http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Thu Jun 19 17:05:00 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 19 Jun 2008 10:05:00 -0500
+Subject: [HarvestMan-devel] Companion website+ other
+In-Reply-To: <8548c5f30806160625r342599d8o6c04ff85994ab0@mail.gmail.com>
+References: <804e5c70806130721k26aca83bq4543c680b872f4d5@mail.gmail.com>
+	<601c1ad00806130732x7d1bc146k30baf6bae94d8207@mail.gmail.com>
+	<8548c5f30806152357s48d19e63v103b817c0294662a@mail.gmail.com>
+	<804e5c70806160623w3a86c9c6h4ba4ff02a5edbe7f@mail.gmail.com>
+	<8548c5f30806160625r342599d8o6c04ff85994ab0@mail.gmail.com>
+Message-ID: <804e5c70806190805r44a49ac8q6795e9dd24636ef5@mail.gmail.com>
+
+Hello,
+It would be a good idea if you point or forward,
+http://www.harvestmanontheweb.com/ to
+http://code.google.com/p/harvestman-crawler/
+
+I think that would consolidate all traffic and any confusion that
+might happen as far as where you should download it.
+
+
+What do you think?
+Lucas
+
+
+From szybalski at gmail.com  Thu Jun 19 17:15:22 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 19 Jun 2008 10:15:22 -0500
+Subject: [HarvestMan-devel] svn dump, and trunk reset.
+Message-ID: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+
+On Mon, Jun 16, 2008 at 8:25 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> On Mon, Jun 16, 2008 at 6:53 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Mon, Jun 16, 2008 at 1:57 AM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> On Fri, Jun 13, 2008 at 8:02 PM, Anush Shetty <anushshetty at gmail.com> wrote:
+>>>>
+>>>> Hi .
+>>>> I can take up that task
+>>>>
+>>>> On Fri, Jun 13, 2008 at 7:51 PM, Lukasz Szybalski <szybalski at gmail.com>
+>>>> wrote:
+>>>>>
+>>>>> Hello,
+>>>>> 1. Could you modify the settings on this list so when I click "reply"
+>>>>> it goes to a list not a person who sent it.
+>>>
+>>> Done.
+>>
+>> Thanks!
+>>
+>>>>>
+>>>>> 2. Could you list where the bug trucking system is? Which site.
+>>>>>
+>>>>> 3. Did you think of moving your code and site into google code or
+>>>>> subversion? You could get wiki, svn, and bug trucking in one place?
+>>>>>
+>>>
+>>> This is a good idea, so I have created a google project for HarvestMan
+>>> and moved the code there. I will send another mail regarding this.
+>>
+>> Can you convert the whole history also? I know in sourceforge.net I
+>> was able to accept my dump my svn source. This will make the whole
+>> history available in a their site. All the historical changes
+>> preserved.
+>>
+>>
+>> here is how to do it.
+>> http://www.therightstuff.de/2008/05/12/Importing+Subversion+Repositories+To+Google+Code.aspx
+>>
+>
+> I tried this. But for this you need to reset the svn revision to zero.
+> Unfortunately,
+> the said link in the article above is no longer available on the "Source" tab of
+> the project. I need to send email to admin to do this. Will do it later.
+>
+
+I think google reset the tunk. Could you move over the svn dump from
+previous repository?
+
+Lucas
+
+
+From szybalski at gmail.com  Thu Jun 19 20:34:39 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Thu, 19 Jun 2008 13:34:39 -0500
+Subject: [HarvestMan-devel] New alpha tarball drop
+In-Reply-To: <8548c5f30806130323o57eebc60seccc35292c8f2059@mail.gmail.com>
+References: <8548c5f30806130323o57eebc60seccc35292c8f2059@mail.gmail.com>
+Message-ID: <804e5c70806191134pe8b3bf8o222873b0c40ba99a@mail.gmail.com>
+
+On Fri, Jun 13, 2008 at 5:23 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> I have dropped a tarball of the current subversion trunk to
+> http://harvestmanontheweb.com/packages/2.0/HarvestMan-2.0alpha13062008.tar.gz .
+>
+> Hereafter, I will be dropping tarball files to this folder whenever a
+> significant update has been
+> made  to the trunk.
+>
+
+I uploaded the files 1.4 and 2.0 alpha into google code.
+
+Lucas
+
+
+From abpillai at gmail.com  Fri Jun 20 12:45:06 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 20 Jun 2008 16:15:06 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+Message-ID: <8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+
+Hi,
+
+         This implementation is now completed. I have been able to achieve
+very close net bandwidth limits to the user specified limit.
+
+        Here are results from actual crawls.
+
+URL: http://www.python.org/doc/current/tut/tut.html
+Fetchlevel: 0       (Directory-only  crawl)
+Files Saved: 29
+
+Max Connections  |   Max Requested Bandwidth   |   Achieved Bandwidth  (Avg)|
+---------------------------------------------------------------------------------------------------------
+5                           |        5 kbps
+  |       5.4  kbps
+5                           |        10 kbps
+ |       9.4  kbps
+5                           |        15 kbps
+ |       13.0 kbps
+10                         |         5 kbps
+ |       5.2  kbps
+10                         |        10 kbps
+|       9.3 kbps
+10                         |         15 kbps
+|       13.0 kbps
+----------------------------------------------------------------------------------------------
+
+The throttling calculates a dynamic bandwidth limit for each connection
+by dividing the net bandwidth limit by total number of active
+connections, instead
+of making this a static factor. This helps to keep the actual bandwidth closer
+to the required bandwidth.
+
+For throttling, I introduced a special file object in connector module which
+reads data in blocks and using the expected bandwidth and data read so
+far, calculates a time period for sleeping on the read. This is calculated
+as follows.
+
+tsart = start timestamp of reading from connection
+tcurrent = current timestamp
+bw = expected bandwidth for this connection in bytes per sec
+clength = length of data read so far in bytes
+
+So, using this,
+
+texpected (Expected time for reading 'clength' data) = clength/bw
+tactual = tcurrent - tstart
+
+If we are "ahead" in reading, i.e overshooting the bandwidth, then actual
+time, "tactual" will be less than texpected, so we need to sleep
+(texpected - tactual) secs on this connection.
+
+tdiff = texpected - tactual
+if tdiff>0: sleep(tdiff)
+
+However, I found that due to other internal delays in HarvestMan and
+effects of multithreading this calculation is not correct. This will be correct
+only for a single-threaded reader.
+
+If we actually sleep "tdiff" seconds, the net bandwidth comes out to way
+lesser than the expected. So, I am doing some internal adjustments
+on the actual amount of time to sleep on the connection.
+
+I am waiting for the svn reset to check-in the code. If google does not
+reset the trunk within the week-end, I will check in the code as earlier
+without the history.
+
+Please give your comments.
+
+--Anand
+
+On Thu, Jun 19, 2008 at 7:38 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>     It is a cumulative bandwidth for the entire program, not per thread.
+> So, I will rename it as "maxbandwidth".
+>
+> On Thu, Jun 19, 2008 at 7:35 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Thu, Jun 19, 2008 at 8:54 AM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> Hi list,
+>>>
+>>>  I have an initial implementation ready for throttling. I am about to add
+>>> the config parameter in the config.xml file. This should go to the <limits>
+>>> element of the <control> top-level element.
+>>>
+>>> Is the name "throttle" apt for this variable ? Or should it be "bandwidth" ?
+>>> For the time being I am opting for "bandwidth". Please give feedback.
+>>
+>> bandwidth sounds better to me.
+>>
+>> Is it a bandwidth per thread? or maxbandwidth?
+>>
+>> If max, then I would go with maxbandwidth.
+>
+>>
+>> Thanks,
+>> Lucas
+>>
+>>
+>>>
+>>> Here is a sample XML element including this new param.
+>>>
+>>> <control>
+>>> ....
+>>>    <limits>
+>>>        <maxextservers value="0"/>
+>>>        <maxextdirs value="0"/>
+>>>        <maxfiles value="100"/>
+>>>        <maxfilesize value="5242880"/>
+>>>        <connections value="5"/>
+>>>        <bandwidth value="5.0" />
+>>>        <timelimit value="-1"/>
+>>>    </limits>
+>>> ...
+>>> </control>
+>>>
+>>> The value needs to be specified in kb/sec , not in bytes/sec .
+>>>
+>>> --
+>>> -Anand
+>>> _______________________________________________
+>>> HarvestMan-devel mailing list
+>>> HarvestMan-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>>
+>>
+>>
+>>
+>> --
+>> Where was my car manufactured?
+>> http://cars.lucasmanual.com/vin
+>> TurboGears Manual-Howto
+>> http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Jun 20 12:50:23 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 20 Jun 2008 16:20:23 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+Message-ID: <8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+
+The table did not come out right. Here it is...
+
+C      |   MRB   |   AB |
+----------------------------
+5         5          5.4
+5         10        9.4
+5         15        13.0
+10        5         5.2
+10       10         9.3
+10       15        13.0
+--------------------------
+
+C => Max connections
+MRB => Max requested bandwidth
+AB  => Achieved Bandwidth
+
+As you can see, the achieved bandwidth is not related to max connections,
+which is the way it should be.
+
+Regards
+
+--Anand
+On Fri, Jun 20, 2008 at 4:15 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi,
+>
+>         This implementation is now completed. I have been able to achieve
+> very close net bandwidth limits to the user specified limit.
+>
+>        Here are results from actual crawls.
+>
+> URL: http://www.python.org/doc/current/tut/tut.html
+> Fetchlevel: 0       (Directory-only  crawl)
+> Files Saved: 29
+>
+> Max Connections  |   Max Requested Bandwidth   |   Achieved Bandwidth  (Avg)|
+> ---------------------------------------------------------------------------------------------------------
+> 5                           |        5 kbps
+>  |       5.4  kbps
+> 5                           |        10 kbps
+>  |       9.4  kbps
+> 5                           |        15 kbps
+>  |       13.0 kbps
+> 10                         |         5 kbps
+>  |       5.2  kbps
+> 10                         |        10 kbps
+> |       9.3 kbps
+> 10                         |         15 kbps
+> |       13.0 kbps
+> ----------------------------------------------------------------------------------------------
+>
+> The throttling calculates a dynamic bandwidth limit for each connection
+> by dividing the net bandwidth limit by total number of active
+> connections, instead
+> of making this a static factor. This helps to keep the actual bandwidth closer
+> to the required bandwidth.
+>
+> For throttling, I introduced a special file object in connector module which
+> reads data in blocks and using the expected bandwidth and data read so
+> far, calculates a time period for sleeping on the read. This is calculated
+> as follows.
+>
+> tsart = start timestamp of reading from connection
+> tcurrent = current timestamp
+> bw = expected bandwidth for this connection in bytes per sec
+> clength = length of data read so far in bytes
+>
+> So, using this,
+>
+> texpected (Expected time for reading 'clength' data) = clength/bw
+> tactual = tcurrent - tstart
+>
+> If we are "ahead" in reading, i.e overshooting the bandwidth, then actual
+> time, "tactual" will be less than texpected, so we need to sleep
+> (texpected - tactual) secs on this connection.
+>
+> tdiff = texpected - tactual
+> if tdiff>0: sleep(tdiff)
+>
+> However, I found that due to other internal delays in HarvestMan and
+> effects of multithreading this calculation is not correct. This will be correct
+> only for a single-threaded reader.
+>
+> If we actually sleep "tdiff" seconds, the net bandwidth comes out to way
+> lesser than the expected. So, I am doing some internal adjustments
+> on the actual amount of time to sleep on the connection.
+>
+> I am waiting for the svn reset to check-in the code. If google does not
+> reset the trunk within the week-end, I will check in the code as earlier
+> without the history.
+>
+> Please give your comments.
+>
+> --Anand
+>
+> On Thu, Jun 19, 2008 at 7:38 PM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lucas,
+>>
+>>     It is a cumulative bandwidth for the entire program, not per thread.
+>> So, I will rename it as "maxbandwidth".
+>>
+>> On Thu, Jun 19, 2008 at 7:35 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> On Thu, Jun 19, 2008 at 8:54 AM, Anand Balachandran Pillai
+>>> <abpillai at gmail.com> wrote:
+>>>> Hi list,
+>>>>
+>>>>  I have an initial implementation ready for throttling. I am about to add
+>>>> the config parameter in the config.xml file. This should go to the <limits>
+>>>> element of the <control> top-level element.
+>>>>
+>>>> Is the name "throttle" apt for this variable ? Or should it be "bandwidth" ?
+>>>> For the time being I am opting for "bandwidth". Please give feedback.
+>>>
+>>> bandwidth sounds better to me.
+>>>
+>>> Is it a bandwidth per thread? or maxbandwidth?
+>>>
+>>> If max, then I would go with maxbandwidth.
+>>
+>>>
+>>> Thanks,
+>>> Lucas
+>>>
+>>>
+>>>>
+>>>> Here is a sample XML element including this new param.
+>>>>
+>>>> <control>
+>>>> ....
+>>>>    <limits>
+>>>>        <maxextservers value="0"/>
+>>>>        <maxextdirs value="0"/>
+>>>>        <maxfiles value="100"/>
+>>>>        <maxfilesize value="5242880"/>
+>>>>        <connections value="5"/>
+>>>>        <bandwidth value="5.0" />
+>>>>        <timelimit value="-1"/>
+>>>>    </limits>
+>>>> ...
+>>>> </control>
+>>>>
+>>>> The value needs to be specified in kb/sec , not in bytes/sec .
+>>>>
+>>>> --
+>>>> -Anand
+>>>> _______________________________________________
+>>>> HarvestMan-devel mailing list
+>>>> HarvestMan-devel at lists.berlios.de
+>>>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>>>
+>>>
+>>>
+>>>
+>>> --
+>>> Where was my car manufactured?
+>>> http://cars.lucasmanual.com/vin
+>>> TurboGears Manual-Howto
+>>> http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+>>> _______________________________________________
+>>> HarvestMan-devel mailing list
+>>> HarvestMan-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>>
+>>
+>>
+>>
+>> --
+>> -Anand
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Fri Jun 20 16:18:10 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 20 Jun 2008 09:18:10 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+Message-ID: <804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+
+On Fri, Jun 20, 2008 at 5:45 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi,
+>
+>         This implementation is now completed. I have been able to achieve
+> very close net bandwidth limits to the user specified limit.
+>
+>        Here are results from actual crawls.
+>
+> URL: http://www.python.org/doc/current/tut/tut.html
+> Fetchlevel: 0       (Directory-only  crawl)
+> Files Saved: 29
+>
+> Max Connections  |   Max Requested Bandwidth   |   Achieved Bandwidth  (Avg)|
+> ---------------------------------------------------------------------------------------------------------
+> 5                           |        5 kbps
+>  |       5.4  kbps
+> 5                           |        10 kbps
+>  |       9.4  kbps
+> 5                           |        15 kbps
+>  |       13.0 kbps
+> 10                         |         5 kbps
+>  |       5.2  kbps
+> 10                         |        10 kbps
+> |       9.3 kbps
+> 10                         |         15 kbps
+> |       13.0 kbps
+> ----------------------------------------------------------------------------------------------
+>
+> The throttling calculates a dynamic bandwidth limit for each connection
+> by dividing the net bandwidth limit by total number of active
+> connections, instead
+> of making this a static factor. This helps to keep the actual bandwidth closer
+> to the required bandwidth.
+
+Sounds great. I think this is a good enough approximation for achieved
+bandwidth. I think the big concern from the user perspective is to
+make sure they don't bring down the server they are downloading from.
++-2kb 13%are enough.  I just wonder how does that changes when I go to
+128kb speed, and limit download to 100kb, will it still be 13%.
+
+
+>
+> For throttling, I introduced a special file object in connector module which
+> reads data in blocks and using the expected bandwidth and data read so
+> far, calculates a time period for sleeping on the read. This is calculated
+> as follows.
+>
+> tsart = start timestamp of reading from connection
+> tcurrent = current timestamp
+> bw = expected bandwidth for this connection in bytes per sec
+> clength = length of data read so far in bytes
+>
+> So, using this,
+>
+> texpected (Expected time for reading 'clength' data) = clength/bw
+> tactual = tcurrent - tstart
+>
+> If we are "ahead" in reading, i.e overshooting the bandwidth, then actual
+> time, "tactual" will be less than texpected, so we need to sleep
+> (texpected - tactual) secs on this connection.
+>
+> tdiff = texpected - tactual
+> if tdiff>0: sleep(tdiff)
+>
+> However, I found that due to other internal delays in HarvestMan and
+> effects of multithreading this calculation is not correct. This will be correct
+> only for a single-threaded reader.
+>
+> If we actually sleep "tdiff" seconds, the net bandwidth comes out to way
+> lesser than the expected. So, I am doing some internal adjustments
+> on the actual amount of time to sleep on the connection.
+>
+
+So pretty much we add a "realistic" constant that adjusts the time
+differences. It seems to me as the only way we could get better
+approximation is if we find some kind of pattern, or constant that
+would work best for low to high bandwidth.
+
+
+
+> I am waiting for the svn reset to check-in the code. If google does not
+> reset the trunk within the week-end, I will check in the code as earlier
+> without the history.
+
+Sounds good. It does take them a bit to reset it. As soon as you check
+it it, I will test it out. I have few websites I need to crawl slowly.
+
+Thanks,
+Lucas
+
+>
+> Please give your comments.
+>
+> --Anand
+>
+> On Thu, Jun 19, 2008 at 7:38 PM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lucas,
+>>
+>>     It is a cumulative bandwidth for the entire program, not per thread.
+>> So, I will rename it as "maxbandwidth".
+>>
+>> On Thu, Jun 19, 2008 at 7:35 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> On Thu, Jun 19, 2008 at 8:54 AM, Anand Balachandran Pillai
+>>> <abpillai at gmail.com> wrote:
+>>>> Hi list,
+>>>>
+>>>>  I have an initial implementation ready for throttling. I am about to add
+>>>> the config parameter in the config.xml file. This should go to the <limits>
+>>>> element of the <control> top-level element.
+>>>>
+>>>> Is the name "throttle" apt for this variable ? Or should it be "bandwidth" ?
+>>>> For the time being I am opting for "bandwidth". Please give feedback.
+>>>
+>>> bandwidth sounds better to me.
+>>>
+>>> Is it a bandwidth per thread? or maxbandwidth?
+>>>
+>>> If max, then I would go with maxbandwidth.
+>>
+>>>
+>>> Thanks,
+>>> Lucas
+>>>
+>>>
+>>>>
+>>>> Here is a sample XML element including this new param.
+>>>>
+>>>> <control>
+>>>> ....
+>>>>    <limits>
+>>>>        <maxextservers value="0"/>
+>>>>        <maxextdirs value="0"/>
+>>>>        <maxfiles value="100"/>
+>>>>        <maxfilesize value="5242880"/>
+>>>>        <connections value="5"/>
+>>>>        <bandwidth value="5.0" />
+>>>>        <timelimit value="-1"/>
+>>>>    </limits>
+>>>> ...
+>>>> </control>
+>>>>
+>>>> The value needs to be specified in kb/sec , not in bytes/sec .
+>>>>
+>>>> --
+>>>> -Anand
+>>>> _______________________________________________
+>>>> HarvestMan-devel mailing list
+>>>> HarvestMan-devel at lists.berlios.de
+>>>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>>>
+>>>
+>>>
+>>>
+>>> --
+>>> Where was my car manufactured?
+>>> http://cars.lucasmanual.com/vin
+>>> TurboGears Manual-Howto
+>>> http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+>>> _______________________________________________
+>>> HarvestMan-devel mailing list
+>>> HarvestMan-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>>
+>>
+>>
+>>
+>> --
+>> -Anand
+>>
+>
+>
+>
+> --
+> -Anand
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+Where was my car manufactured?
+http://cars.lucasmanual.com/vin
+TurboGears Manual-Howto
+http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+
+
+From szybalski at gmail.com  Fri Jun 20 16:21:05 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 20 Jun 2008 09:21:05 -0500
+Subject: [HarvestMan-devel] [done] Re:  svn dump, and trunk reset.
+In-Reply-To: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+References: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+Message-ID: <804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+
+they've reseted the svn.
+
+Give it a try,
+
+Lucas
+
+
+From abpillai at gmail.com  Fri Jun 20 23:24:46 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sat, 21 Jun 2008 02:54:46 +0530
+Subject: [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+In-Reply-To: <804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+References: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+	<804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+Message-ID: <8548c5f30806201424u30180483j63f41619eeb7d8d9@mail.gmail.com>
+
+Hi Lucas,
+
+  I am trying to sync the repository, but keep getting this error.
+
+$ /cygdrive/c/subversion/bin/svnsync.exe init --username abpillai
+https://harvestman
+-crawler.googlecode.com/svn http://svn.eiao.net/robacc/HarvestMan-2.0/
+svnsync: Session is rooted at
+'http://svn.eiao.net/robacc/HarvestMan-2.0' but the rep
+os root is 'http://svn.eiao.net/robacc'
+
+The code is in http://svn.eiao.net/robacc/HarvestMan-2.0 . I don't
+want to sync the entire repository to google, since it contains a lot
+of other code apart from HarvestMan.
+
+Any idea, how to do this ?
+
+Thanks
+
+--Anand
+
+On 6/20/08, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> they've reseted the svn.
+>
+> Give it a try,
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Sat Jun 21 00:06:04 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 20 Jun 2008 17:06:04 -0500
+Subject: [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+In-Reply-To: <8548c5f30806201424u30180483j63f41619eeb7d8d9@mail.gmail.com>
+References: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+	<804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+	<8548c5f30806201424u30180483j63f41619eeb7d8d9@mail.gmail.com>
+Message-ID: <804e5c70806201506s7ea95b86q245101da8126342e@mail.gmail.com>
+
+On Fri, Jun 20, 2008 at 4:24 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>  I am trying to sync the repository, but keep getting this error.
+>
+> $ /cygdrive/c/subversion/bin/svnsync.exe init --username abpillai
+> https://harvestman
+> -crawler.googlecode.com/svn http://svn.eiao.net/robacc/experimental/HarvestMan-2.0/
+> svnsync: Session is rooted at
+> 'http://svn.eiao.net/robacc/HarvestMan-2.0' but the rep
+> os root is 'http://svn.eiao.net/robacc'
+
+Do you have access to actual files of the repository?
+
+Files like:
+ls /cygdrive/c/path/to/svn/database/files/HarvestMan-2.0/
+conf  dav  db  format  hooks  locks  README.txt
+
+
+normally this would look like
+svnsync.exe init --username abpillai
+https://harvestman-crawler.googlecode.com/svn
+/cygdrive/c/path/to/svn/database/files/HarvestMan-2.0
+
+then
+svnsync sync --username YOURUSERNAME https://YOURPROJECT.googlecode.com/svn
+
+
+
+Is the harvestman a separate repository? Do you have a folder
+/HarvestMan-2.0/ and inside you have db, hooks,...etc.
+
+This page is just a view of what is inside of repository.
+http://svn.eiao.net/robacc/experimental/HarvestMan-2.0/
+
+Let me know.
+Lucas
+
+
+>
+> The code is in http://svn.eiao.net/robacc/HarvestMan-2.0 . I don't
+> want to sync the entire repository to google, since it contains a lot
+> of other code apart from HarvestMan.
+>
+> Any idea, how to do this ?
+>
+> Thanks
+>
+> --Anand
+>
+> On 6/20/08, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> they've reseted the svn.
+>>
+>> Give it a try,
+>>
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+> --
+> -Anand
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+Where was my car manufactured?
+http://cars.lucasmanual.com/vin
+TurboGears Manual-Howto
+http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+
+
+From szybalski at gmail.com  Sat Jun 21 00:10:30 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 20 Jun 2008 17:10:30 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+Message-ID: <804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+
+Hello,
+Actually is there a max download size. After max bandwidth , I would
+like to say, download maximum of  50mb.
+
+Then I could schedule it to run every day at 23, and download 50mb at 5kb.
+
+
+Lucas
+
+
+From szybalski at gmail.com  Sat Jun 21 00:15:46 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 20 Jun 2008 17:15:46 -0500
+Subject: [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+In-Reply-To: <804e5c70806201506s7ea95b86q245101da8126342e@mail.gmail.com>
+References: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+	<804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+	<8548c5f30806201424u30180483j63f41619eeb7d8d9@mail.gmail.com>
+	<804e5c70806201506s7ea95b86q245101da8126342e@mail.gmail.com>
+Message-ID: <804e5c70806201515t67e228f4mc989996eafba13b6@mail.gmail.com>
+
+On Fri, Jun 20, 2008 at 5:06 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Fri, Jun 20, 2008 at 4:24 PM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lucas,
+>>
+>>  I am trying to sync the repository, but keep getting this error.
+>>
+>> $ /cygdrive/c/subversion/bin/svnsync.exe init --username abpillai
+>> https://harvestman
+>> -crawler.googlecode.com/svn http://svn.eiao.net/robacc/experimental/HarvestMan-2.0/
+>> svnsync: Session is rooted at
+>> 'http://svn.eiao.net/robacc/HarvestMan-2.0' but the rep
+>> os root is 'http://svn.eiao.net/robacc'
+>
+> Do you have access to actual files of the repository?
+>
+> Files like:
+> ls /cygdrive/c/path/to/svn/database/files/HarvestMan-2.0/
+> conf  dav  db  format  hooks  locks  README.txt
+>
+>
+> normally this would look like
+> svnsync.exe init --username abpillai
+> https://harvestman-crawler.googlecode.com/svn
+> /cygdrive/c/path/to/svn/database/files/HarvestMan-2.0
+>
+> then
+> svnsync sync --username YOURUSERNAME https://YOURPROJECT.googlecode.com/svn
+>
+>
+>
+> Is the harvestman a separate repository? Do you have a folder
+> /HarvestMan-2.0/ and inside you have db, hooks,...etc.
+>
+> This page is just a view of what is inside of repository.
+> http://svn.eiao.net/robacc/experimental/HarvestMan-2.0/
+>
+
+
+Also try this:
+http://whynotwiki.com/How_I_moved_my_code_repository_to_Google_Code
+
+Lucas
+
+
+From szybalski at gmail.com  Sat Jun 21 05:31:13 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 20 Jun 2008 22:31:13 -0500
+Subject: [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+In-Reply-To: <804e5c70806201515t67e228f4mc989996eafba13b6@mail.gmail.com>
+References: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+	<804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+	<8548c5f30806201424u30180483j63f41619eeb7d8d9@mail.gmail.com>
+	<804e5c70806201506s7ea95b86q245101da8126342e@mail.gmail.com>
+	<804e5c70806201515t67e228f4mc989996eafba13b6@mail.gmail.com>
+Message-ID: <804e5c70806202031p163ba6aai20388e53954033c5@mail.gmail.com>
+
+> Also try this:
+> http://whynotwiki.com/How_I_moved_my_code_repository_to_Google_Code
+
+and also:
+http://svnbook.red-bean.com/en/1.0/ch05s03.html
+
+
+So the story goes like this:
+
+You need access to actual repository files, if you have ssh access to
+the server, that would be great. (ftp or any other way)
+I would download it to your computer if its not big. or do it on the server.
+
+1. Dump the whole repository
+svnadmin dump /path/to/repos > repos-dumpfile
+
+2. Filter harvestman, and get rid of empty revisions
+cat repos-dumpfile | svndumpfilter --drop-empty-revs --renumber-revs
+include HarvestMan-2.0 > HarvestMan-2.0-dumpfile
+
+3. create new repository and load harvestman dump file
+svnadmin create HarvestMan; svnadmin load HarvestMan < HarvestMan-2.0-dumpfile
+
+4. proceed with sync as mentioned in google instructions.
+
+Let me know if that helps.
+I could do it for you if you can give me the ssh access to that
+server. (if you have one)
+
+Lucas
+
+
+From abpillai at gmail.com  Mon Jun 23 09:07:21 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 23 Jun 2008 12:37:21 +0530
+Subject: [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+In-Reply-To: <804e5c70806202031p163ba6aai20388e53954033c5@mail.gmail.com>
+References: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+	<804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+	<8548c5f30806201424u30180483j63f41619eeb7d8d9@mail.gmail.com>
+	<804e5c70806201506s7ea95b86q245101da8126342e@mail.gmail.com>
+	<804e5c70806201515t67e228f4mc989996eafba13b6@mail.gmail.com>
+	<804e5c70806202031p163ba6aai20388e53954033c5@mail.gmail.com>
+Message-ID: <8548c5f30806230007q729f234fi3d2aaf7d962c36d0@mail.gmail.com>
+
+Thanks for the URLs and tips. It is clear how to do this now.
+But I don't have access to the subversion server yet. The server
+sits in Norway. I have requested the admin for access. I hope
+I can complete the code transfer by today evening then.
+
+--Anand
+
+On Sat, Jun 21, 2008 at 9:01 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> Also try this:
+>> http://whynotwiki.com/How_I_moved_my_code_repository_to_Google_Code
+>
+> and also:
+> http://svnbook.red-bean.com/en/1.0/ch05s03.html
+>
+>
+> So the story goes like this:
+>
+> You need access to actual repository files, if you have ssh access to
+> the server, that would be great. (ftp or any other way)
+> I would download it to your computer if its not big. or do it on the server.
+>
+> 1. Dump the whole repository
+> svnadmin dump /path/to/repos > repos-dumpfile
+>
+> 2. Filter harvestman, and get rid of empty revisions
+> cat repos-dumpfile | svndumpfilter --drop-empty-revs --renumber-revs
+> include HarvestMan-2.0 > HarvestMan-2.0-dumpfile
+>
+> 3. create new repository and load harvestman dump file
+> svnadmin create HarvestMan; svnadmin load HarvestMan < HarvestMan-2.0-dumpfile
+>
+> 4. proceed with sync as mentioned in google instructions.
+>
+> Let me know if that helps.
+> I could do it for you if you can give me the ssh access to that
+> server. (if you have one)
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Jun 23 15:06:36 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 23 Jun 2008 08:06:36 -0500
+Subject: [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+In-Reply-To: <8548c5f30806230007q729f234fi3d2aaf7d962c36d0@mail.gmail.com>
+References: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+	<804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+	<8548c5f30806201424u30180483j63f41619eeb7d8d9@mail.gmail.com>
+	<804e5c70806201506s7ea95b86q245101da8126342e@mail.gmail.com>
+	<804e5c70806201515t67e228f4mc989996eafba13b6@mail.gmail.com>
+	<804e5c70806202031p163ba6aai20388e53954033c5@mail.gmail.com>
+	<8548c5f30806230007q729f234fi3d2aaf7d962c36d0@mail.gmail.com>
+Message-ID: <804e5c70806230606u5393d026hb037951fa7bcf35d@mail.gmail.com>
+
+On Mon, Jun 23, 2008 at 2:07 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Thanks for the URLs and tips. It is clear how to do this now.
+> But I don't have access to the subversion server yet. The server
+> sits in Norway. I have requested the admin for access. I hope
+> I can complete the code transfer by today evening then.
+
+Sounds good.
+Thanks.
+
+Lucas
+
+
+From abpillai at gmail.com  Mon Jun 23 16:05:13 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 23 Jun 2008 19:35:13 +0530
+Subject: [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+In-Reply-To: <804e5c70806230606u5393d026hb037951fa7bcf35d@mail.gmail.com>
+References: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+	<804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+	<8548c5f30806201424u30180483j63f41619eeb7d8d9@mail.gmail.com>
+	<804e5c70806201506s7ea95b86q245101da8126342e@mail.gmail.com>
+	<804e5c70806201515t67e228f4mc989996eafba13b6@mail.gmail.com>
+	<804e5c70806202031p163ba6aai20388e53954033c5@mail.gmail.com>
+	<8548c5f30806230007q729f234fi3d2aaf7d962c36d0@mail.gmail.com>
+	<804e5c70806230606u5393d026hb037951fa7bcf35d@mail.gmail.com>
+Message-ID: <8548c5f30806230705y11c1156ag7751510e115fda2a@mail.gmail.com>
+
+Hi Lucas,
+
+         I just completed this, but it did not work out well at all.
+For some reason, the harvestman repository created contained
+revisions not uptodate with the current code. Even the folder structure
+was old. Since I renumbered revisions, I am not sure, where and how this
+happened (there were 16 revisions in the final repository).
+
+      Also, since the code is at
+http://svn.eiao.net/robacc/experimental/HarvestMan-2.0,
+there is no way to get rid of the "experimental" prefix in the
+repository. I tried
+to include "/HarvestMan-2.0" and "HarvestMan-2.0" in the svndumpfilter, but
+it never worked. Only "/experimental/HarvestMan-2.0" worked and it
+means, the prefix "/experimental" will be there in the synced repository.
+
+      The results are there at
+http://harvestman-crawler.googlecode.com/svn/experimental/ .
+But since this is not the code we want, I am skipping this whole svn
+history exercise
+and adding my current code into the svn repository at
+http://harvestman-crawler.googlecode.com/svn/trunk/  . I don't have the time
+to go through the svnsync exercise anymore.  Anyway, since the code is
+well commented, the history won't have much for you.  I never added
+proper comments
+in code checkins, so I don't think this whole exercise is worth the time.
+
+The uptodate code is at
+http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan/ including
+the throttling code (not complete yet). Since I was behind this
+svnsync thing, I
+did not do any coding the last two days. I will update regarding the throttling
+in its own thread.
+
+Thanks
+
+--Anand
+
+On Mon, Jun 23, 2008 at 6:36 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Mon, Jun 23, 2008 at 2:07 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Thanks for the URLs and tips. It is clear how to do this now.
+>> But I don't have access to the subversion server yet. The server
+>> sits in Norway. I have requested the admin for access. I hope
+>> I can complete the code transfer by today evening then.
+>
+> Sounds good.
+> Thanks.
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Jun 23 16:13:18 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 23 Jun 2008 19:43:18 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+	<804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+Message-ID: <8548c5f30806230713n3dce2f87r9daec5d607b9fb4a@mail.gmail.com>
+
+Hi Lucas,
+
+On Sat, Jun 21, 2008 at 3:40 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+> Actually is there a max download size. After max bandwidth , I would
+> like to say, download maximum of  50mb.
+Well, it is not what you think. It is a maximum size of a single file (URL).
+There is no control variable for a net total download size in bytes. But
+I will add this, since it sounds like a useful thing. Perhaps "maxbytes" ?
+
+>
+> Then I could schedule it to run every day at 23, and download 50mb at 5kb.
+Yes, this will be possible once a control var for "maxbytes" is added.
+
+>
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Jun 23 16:22:39 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 23 Jun 2008 09:22:39 -0500
+Subject: [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+In-Reply-To: <8548c5f30806230705y11c1156ag7751510e115fda2a@mail.gmail.com>
+References: <804e5c70806190815t41578e5bp4989a930a8271e15@mail.gmail.com>
+	<804e5c70806200721s2e31af84vea3e054c5101278@mail.gmail.com>
+	<8548c5f30806201424u30180483j63f41619eeb7d8d9@mail.gmail.com>
+	<804e5c70806201506s7ea95b86q245101da8126342e@mail.gmail.com>
+	<804e5c70806201515t67e228f4mc989996eafba13b6@mail.gmail.com>
+	<804e5c70806202031p163ba6aai20388e53954033c5@mail.gmail.com>
+	<8548c5f30806230007q729f234fi3d2aaf7d962c36d0@mail.gmail.com>
+	<804e5c70806230606u5393d026hb037951fa7bcf35d@mail.gmail.com>
+	<8548c5f30806230705y11c1156ag7751510e115fda2a@mail.gmail.com>
+Message-ID: <804e5c70806230722u10a6aad9x82e344e26d036f15@mail.gmail.com>
+
+On Mon, Jun 23, 2008 at 9:05 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>         I just completed this, but it did not work out well at all.
+> For some reason, the harvestman repository created contained
+> revisions not uptodate with the current code. Even the folder structure
+> was old. Since I renumbered revisions, I am not sure, where and how this
+> happened (there were 16 revisions in the final repository).
+>
+>      Also, since the code is at
+> http://svn.eiao.net/robacc/experimental/HarvestMan-2.0,
+> there is no way to get rid of the "experimental" prefix in the
+> repository. I tried
+> to include "/HarvestMan-2.0" and "HarvestMan-2.0" in the svndumpfilter, but
+> it never worked. Only "/experimental/HarvestMan-2.0" worked and it
+> means, the prefix "/experimental" will be there in the synced repository.
+
+I see. I guess the experimental part would somehow have to be
+converted to a /trunk.
+
+>
+>      The results are there at
+> http://harvestman-crawler.googlecode.com/svn/experimental/
+
+I don't know if you only had 16 checkins, but I guess we have some
+start.... http://code.google.com/p/harvestman-crawler/source/list
+
+
+> But since this is not the code we want, I am skipping this whole svn
+> history exercise
+
+Sounds good. It does take some time to do these things. I guess when
+you check in your next code we can svn del experimental. Now that we
+have it in revision history, it will always exist there if anybody
+wants to look at it. Unless there is some code in there that we need
+to move over to trunk?
+
+
+> and adding my current code into the svn repository at
+> http://harvestman-crawler.googlecode.com/svn/trunk/  . I don't have the time
+> to go through the svnsync exercise anymore.  Anyway, since the code is
+> well commented, the history won't have much for you.  I never added
+> proper comments
+> in code checkins, so I don't think this whole exercise is worth the time.
+>
+> The uptodate code is at
+> http://harvestman-crawler.googlecode.com/svn/trunk/HarvestMan/
+
+I'll check out the new version then, and we go from here.
+
+
+including
+> the throttling code (not complete yet). Since I was behind this
+> svnsync thing, I
+> did not do any coding the last two days. I will update regarding the throttling
+> in its own thread.
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Mon Jun 23 16:28:38 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 23 Jun 2008 09:28:38 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806230713n3dce2f87r9daec5d607b9fb4a@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+	<804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+	<8548c5f30806230713n3dce2f87r9daec5d607b9fb4a@mail.gmail.com>
+Message-ID: <804e5c70806230728l6de29c88v3bd32dac31865b05@mail.gmail.com>
+
+On Mon, Jun 23, 2008 at 9:13 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+> On Sat, Jun 21, 2008 at 3:40 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> Hello,
+>> Actually is there a max download size. After max bandwidth , I would
+>> like to say, download maximum of  50mb.
+> Well, it is not what you think. It is a maximum size of a single file (URL).
+I see
+> There is no control variable for a net total download size in bytes. But
+> I will add this, since it sounds like a useful thing. Perhaps "maxbytes" ?
+
+Can we use a a mb,kb  when setting it up. For example something
+reasonable would be 50mb, or 500mb in a day, so converting that number
+to bytes would be troublesome. It would be best if we can use "50mb"
+or assume the default "maxbytes" is in "megabytes MB".
+
+
+maxbytes = 50mb or maxbytes = 50
+
+I don't think anybody would use kb or less as that is too small to get anything.
+maxbytes = 50kb
+maxbytes = 50   (50 bytes)
+
+
+>
+>>
+>> Then I could schedule it to run every day at 23, and download 50mb at 5kb.
+> Yes, this will be possible once a control var for "maxbytes" is added.
+
+Thanks.
+Lucas
+
+
+From szybalski at gmail.com  Mon Jun 23 16:35:11 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 23 Jun 2008 09:35:11 -0500
+Subject: [HarvestMan-devel] Companion website+ other
+In-Reply-To: <804e5c70806190805r44a49ac8q6795e9dd24636ef5@mail.gmail.com>
+References: <804e5c70806130721k26aca83bq4543c680b872f4d5@mail.gmail.com>
+	<601c1ad00806130732x7d1bc146k30baf6bae94d8207@mail.gmail.com>
+	<8548c5f30806152357s48d19e63v103b817c0294662a@mail.gmail.com>
+	<804e5c70806160623w3a86c9c6h4ba4ff02a5edbe7f@mail.gmail.com>
+	<8548c5f30806160625r342599d8o6c04ff85994ab0@mail.gmail.com>
+	<804e5c70806190805r44a49ac8q6795e9dd24636ef5@mail.gmail.com>
+Message-ID: <804e5c70806230735n19a96670s2581337d1b3acd4a@mail.gmail.com>
+
+On Thu, Jun 19, 2008 at 10:05 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> Hello,
+> It would be a good idea if you point or forward,
+> http://www.harvestmanontheweb.com/ to
+> http://code.google.com/p/harvestman-crawler/
+>
+> I think that would consolidate all traffic and any confusion that
+> might happen as far as where you should download it.
+>
+
+Could you add a link on the right side of the google page code to a
+"mailing list"
+
+Thanks,
+Lucas
+
+
+From abpillai at gmail.com  Mon Jun 23 16:39:26 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 23 Jun 2008 20:09:26 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <804e5c70806230728l6de29c88v3bd32dac31865b05@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+	<804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+	<8548c5f30806230713n3dce2f87r9daec5d607b9fb4a@mail.gmail.com>
+	<804e5c70806230728l6de29c88v3bd32dac31865b05@mail.gmail.com>
+Message-ID: <8548c5f30806230739i23ba278odbcf746e98cc15a@mail.gmail.com>
+
+Hi Lucas,
+
+ Could you look into this ? I added it as issue #5.
+
+http://code.google.com/p/harvestman-crawler/issues/detail?id=5
+is assigned to you.
+
+It is very easy to add a new param and relate it to a config variable
+in harvestman. Also, to implement maxbytes control is also easy, since
+there is already a controller thread that takes care of enforcing
+max file count and max time limit. We can add this as part of it.
+
+Look into modules config.py, datamgr.py . Former contains all
+option/config parsing and latter contains code for the control thread
+at the end.
+
+Ping me for any questions.
+
+Thanks!
+
+--Anand
+
+On Mon, Jun 23, 2008 at 7:58 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Mon, Jun 23, 2008 at 9:13 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lucas,
+>>
+>> On Sat, Jun 21, 2008 at 3:40 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> Hello,
+>>> Actually is there a max download size. After max bandwidth , I would
+>>> like to say, download maximum of  50mb.
+>> Well, it is not what you think. It is a maximum size of a single file (URL).
+> I see
+>> There is no control variable for a net total download size in bytes. But
+>> I will add this, since it sounds like a useful thing. Perhaps "maxbytes" ?
+>
+> Can we use a a mb,kb  when setting it up. For example something
+> reasonable would be 50mb, or 500mb in a day, so converting that number
+> to bytes would be troublesome. It would be best if we can use "50mb"
+> or assume the default "maxbytes" is in "megabytes MB".
+>
+>
+> maxbytes = 50mb or maxbytes = 50
+>
+> I don't think anybody would use kb or less as that is too small to get anything.
+> maxbytes = 50kb
+> maxbytes = 50   (50 bytes)
+>
+>
+>>
+>>>
+>>> Then I could schedule it to run every day at 23, and download 50mb at 5kb.
+>> Yes, this will be possible once a control var for "maxbytes" is added.
+>
+> Thanks.
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Mon Jun 23 16:43:57 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Mon, 23 Jun 2008 20:13:57 +0530
+Subject: [HarvestMan-devel] Companion website+ other
+In-Reply-To: <804e5c70806230735n19a96670s2581337d1b3acd4a@mail.gmail.com>
+References: <804e5c70806130721k26aca83bq4543c680b872f4d5@mail.gmail.com>
+	<601c1ad00806130732x7d1bc146k30baf6bae94d8207@mail.gmail.com>
+	<8548c5f30806152357s48d19e63v103b817c0294662a@mail.gmail.com>
+	<804e5c70806160623w3a86c9c6h4ba4ff02a5edbe7f@mail.gmail.com>
+	<8548c5f30806160625r342599d8o6c04ff85994ab0@mail.gmail.com>
+	<804e5c70806190805r44a49ac8q6795e9dd24636ef5@mail.gmail.com>
+	<804e5c70806230735n19a96670s2581337d1b3acd4a@mail.gmail.com>
+Message-ID: <8548c5f30806230743x3bfe886qa0d8ffe6621e0585@mail.gmail.com>
+
+>
+> Could you add a link on the right side of the google page code to a
+> "mailing list"
+
+Done.
+>
+> Thanks,
+> Lucas
+
+
+--Anand
+
+
+From szybalski at gmail.com  Mon Jun 23 17:27:53 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 23 Jun 2008 10:27:53 -0500
+Subject: [HarvestMan-devel] Companion website+ other
+In-Reply-To: <8548c5f30806230743x3bfe886qa0d8ffe6621e0585@mail.gmail.com>
+References: <804e5c70806130721k26aca83bq4543c680b872f4d5@mail.gmail.com>
+	<601c1ad00806130732x7d1bc146k30baf6bae94d8207@mail.gmail.com>
+	<8548c5f30806152357s48d19e63v103b817c0294662a@mail.gmail.com>
+	<804e5c70806160623w3a86c9c6h4ba4ff02a5edbe7f@mail.gmail.com>
+	<8548c5f30806160625r342599d8o6c04ff85994ab0@mail.gmail.com>
+	<804e5c70806190805r44a49ac8q6795e9dd24636ef5@mail.gmail.com>
+	<804e5c70806230735n19a96670s2581337d1b3acd4a@mail.gmail.com>
+	<8548c5f30806230743x3bfe886qa0d8ffe6621e0585@mail.gmail.com>
+Message-ID: <804e5c70806230827h62ec0d3bu849e06966835d0a4@mail.gmail.com>
+
+On Mon, Jun 23, 2008 at 9:43 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+>>
+>> Could you add a link on the right side of the google page code to a
+>> "mailing list"
+>
+> Done.
+
+Thanks,
+Could you fill in the blanks in the history of harverman...
+http://code.google.com/p/harvestman-crawler/wiki/AboutHarvestMan
+
+I noticed the checkins by other people, so if you could fill in the
+stuff about harvestman history and talk a little of what has happen
+with it that would be great.
+
+Lucas
+
+>>
+>> Thanks,
+>> Lucas
+>
+>
+> --Anand
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+Where was my car manufactured?
+http://cars.lucasmanual.com/vin
+TurboGears Manual-Howto
+http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+
+
+From szybalski at gmail.com  Tue Jun 24 05:06:23 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 23 Jun 2008 22:06:23 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806230739i23ba278odbcf746e98cc15a@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+	<804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+	<8548c5f30806230713n3dce2f87r9daec5d607b9fb4a@mail.gmail.com>
+	<804e5c70806230728l6de29c88v3bd32dac31865b05@mail.gmail.com>
+	<8548c5f30806230739i23ba278odbcf746e98cc15a@mail.gmail.com>
+Message-ID: <804e5c70806232006j7a6b47e0o9710310dd61184ab@mail.gmail.com>
+
+On Mon, Jun 23, 2008 at 9:39 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>  Could you look into this ? I added it as issue #5.
+>
+> http://code.google.com/p/harvestman-crawler/issues/detail?id=5
+> is assigned to you.
+>
+> It is very easy to add a new param and relate it to a config variable
+> in harvestman.
+
+I added maxbytes, and self.maxbytes to config.py.
+
+
+Also, to implement maxbytes control is also easy, since
+> there is already a controller thread that takes care of enforcing
+> max file count and max time limit. We can add this as part of it.
+
+I added
+def _manage_maxbytes_limits(self):
+which uses:
+
+ lsaved = self._dmgr.savedbytes
+ lmax = self._cfg.maxbytes
+
+and incrementing the count in
+def update_bytes(self, count):
+
+Lets hope that's right.
+How would I test it now?
+
+Lucas
+
+
+>
+> Look into modules config.py, datamgr.py . Former contains all
+> option/config parsing and latter contains code for the control thread
+> at the end.
+>
+> Ping me for any questions.
+>
+> Thanks!
+>
+> --Anand
+>
+> On Mon, Jun 23, 2008 at 7:58 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Mon, Jun 23, 2008 at 9:13 AM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> Hi Lucas,
+>>>
+>>> On Sat, Jun 21, 2008 at 3:40 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>>> Hello,
+>>>> Actually is there a max download size. After max bandwidth , I would
+>>>> like to say, download maximum of  50mb.
+>>> Well, it is not what you think. It is a maximum size of a single file (URL).
+>> I see
+>>> There is no control variable for a net total download size in bytes. But
+>>> I will add this, since it sounds like a useful thing. Perhaps "maxbytes" ?
+>>
+>> Can we use a a mb,kb  when setting it up. For example something
+>> reasonable would be 50mb, or 500mb in a day, so converting that number
+>> to bytes would be troublesome. It would be best if we can use "50mb"
+>> or assume the default "maxbytes" is in "megabytes MB".
+>>
+>>
+>> maxbytes = 50mb or maxbytes = 50
+>>
+>> I don't think anybody would use kb or less as that is too small to get anything.
+>> maxbytes = 50kb
+>> maxbytes = 50   (50 bytes)
+>>
+>>
+>>>
+>>>>
+>>>> Then I could schedule it to run every day at 23, and download 50mb at 5kb.
+>>> Yes, this will be possible once a control var for "maxbytes" is added.
+>>
+>> Thanks.
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> -Anand
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+Where was my car manufactured?
+http://cars.lucasmanual.com/vin
+TurboGears Manual-Howto
+http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+
+
+From szybalski at gmail.com  Tue Jun 24 05:29:19 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 23 Jun 2008 22:29:19 -0500
+Subject: [HarvestMan-devel] Companion website+ other
+In-Reply-To: <804e5c70806230827h62ec0d3bu849e06966835d0a4@mail.gmail.com>
+References: <804e5c70806130721k26aca83bq4543c680b872f4d5@mail.gmail.com>
+	<601c1ad00806130732x7d1bc146k30baf6bae94d8207@mail.gmail.com>
+	<8548c5f30806152357s48d19e63v103b817c0294662a@mail.gmail.com>
+	<804e5c70806160623w3a86c9c6h4ba4ff02a5edbe7f@mail.gmail.com>
+	<8548c5f30806160625r342599d8o6c04ff85994ab0@mail.gmail.com>
+	<804e5c70806190805r44a49ac8q6795e9dd24636ef5@mail.gmail.com>
+	<804e5c70806230735n19a96670s2581337d1b3acd4a@mail.gmail.com>
+	<8548c5f30806230743x3bfe886qa0d8ffe6621e0585@mail.gmail.com>
+	<804e5c70806230827h62ec0d3bu849e06966835d0a4@mail.gmail.com>
+Message-ID: <804e5c70806232029j44fa3362jf5a9beb5fbbfc891@mail.gmail.com>
+
+On Mon, Jun 23, 2008 at 10:27 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Mon, Jun 23, 2008 at 9:43 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>>>
+>>> Could you add a link on the right side of the google page code to a
+>>> "mailing list"
+>>
+
+I put a epydoc script that you can run to generate epydoc
+documentation in doc folder.
+sh harvestman-epydoc.sh
+
+
+Here is a link to my site. I'm not sure if somehow we can move the
+files over to code.google.com?
+http://lucasmanual.com/docs/harvestman-epydoc/
+
+Lucas
+
+
+From abpillai at gmail.com  Tue Jun 24 08:39:19 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 24 Jun 2008 12:09:19 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <804e5c70806232006j7a6b47e0o9710310dd61184ab@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+	<804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+	<8548c5f30806230713n3dce2f87r9daec5d607b9fb4a@mail.gmail.com>
+	<804e5c70806230728l6de29c88v3bd32dac31865b05@mail.gmail.com>
+	<8548c5f30806230739i23ba278odbcf746e98cc15a@mail.gmail.com>
+	<804e5c70806232006j7a6b47e0o9710310dd61184ab@mail.gmail.com>
+Message-ID: <8548c5f30806232339y6ae29b5dnb76f81c938f46810@mail.gmail.com>
+
+Hi Lucas,
+
+On Tue, Jun 24, 2008 at 8:36 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Mon, Jun 23, 2008 at 9:39 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi Lucas,
+>>
+>>  Could you look into this ? I added it as issue #5.
+>>
+>> http://code.google.com/p/harvestman-crawler/issues/detail?id=5
+>> is assigned to you.
+>>
+>> It is very easy to add a new param and relate it to a config variable
+>> in harvestman.
+>
+> I added maxbytes, and self.maxbytes to config.py.
+
+Just adding this is not enough. You need to make an entry in
+the dictionary self.xml_map and associate the XML element/attribute
+to an action.
+
+This is done as follows. For elements, you create a key with the
+element name. For attributes, you suffix "_<attrname>" to the element
+name and create a key with that.
+
+The value is a pair of ('<configparam>', '<action>') where '<configparam>'
+is the param to which the value is finally assigned in the config object.
+'<action>' can be either a data type or a function.
+
+For example, to set a simple value, say 'connections' in config XML
+and assign it to 'maxconnections' on the config object. Assume that
+'connections' in the XML specifies its value in the "value" attribute.
+
+<connections value="5" />
+
+The entry for this in self.xml_map would be,
+
+{'connections_value':  ('maxconnections', 'int'),
+ ...
+}
+
+This is interpreted as => The value of "value" attribute of
+'connections' element
+is assigned to 'maxconnections' attribute after converting it to 'int' type.
+
+However for values which require complex processing, a simple conversion
+won't work, so you need functions. In this case you do, since you want
+to support different specifications for the 'maxbytes' param such as '5 kb',
+'5 mb' etc.
+
+To assign a function to processing of an element/attribute, simply replace
+the type name above with 'func:<funcname>'. So in this case,
+
+{'maxbytes_value' : ('maxbytes', 'func:set_maxbytes'),
+ ...
+ }
+
+The function template is as follows.
+
+def f(self, key, val, dict):
+      ...
+
+where,
+
+  key => name of the XML element
+  val  => value of the key in xml map above
+  dict => Attribute dictionary of the element
+
+So for <maxbytes value="50 k" />, these would be
+
+key => 'maxbytes'
+val => '50 k'
+dict => {u'value': u'50 k'}
+
+Then the function needs to process the value and assign it to the
+config variable.
+
+I have already made this change and checked in the code. Look
+at function 'set_maxbytes' in config.py .
+
+>
+>
+> Also, to implement maxbytes control is also easy, since
+>> there is already a controller thread that takes care of enforcing
+>> max file count and max time limit. We can add this as part of it.
+>
+> I added
+> def _manage_maxbytes_limits(self):
+> which uses:
+>
+>  lsaved = self._dmgr.savedbytes
+>  lmax = self._cfg.maxbytes
+>
+> and incrementing the count in
+> def update_bytes(self, count):
+>
+> Lets hope that's right.
+
+_bytes is same as savedbytes, so latter is not needed. I just made _bytes
+as public to 'bytes'. The controller thread checks 'bytes'.
+
+The function _manage_maxbytes_limits was fine, but you forgot to
+call it from the thread's run loop :). I fixed that also. Also you need to
+change the check "if lsaved==lmax" to "if lsaved>=lmax", since
+we can never be sure that the limit we gave would be equaled
+during the run, mostly it will be surpassed, since we save different
+URLs with non-uniform sizes.
+
+> How would I test it now?
+It is working fine now, except for a minor issue which is basically an effect
+of multi-threading. Even after the controller kills the threads as
+limit is reached,
+still the threads which were downloading data at the time, will complete their
+writing to disk after that and then only exit - this is required to make sure
+that threads shutdown cleanly.
+
+So even if you specify your limit as X bytes, the actual bytes saved would
+be X+dx, where dx is mostly a random factor, depending on the number of
+max connections, thread state etc. This is not a problem with large limits,
+since it will be exceeded only by a few KBs, but for a smaller limit,
+the difference
+can be significant.
+
+In the config-sample.xml I indicate a max limit of 50 K, but the actual
+download comes to 123k due to this. This can be fixed by use of internal
+state flags which will indicate to connector objects to not save their data to
+disk, if the threads are killed - let me know if you want to work on this.
+The code will have to be changed in connector.py, datamgr.py and perhaps
+in crawler.py, urlthread.py and urlqueue.py, otherwise I will implement this
+and close the bug.
+
+Anyway, I have checked in these changes I made, so you can test it
+at your end.
+
+>
+> Lucas
+>
+>
+>>
+>> Look into modules config.py, datamgr.py . Former contains all
+>> option/config parsing and latter contains code for the control thread
+>> at the end.
+>>
+>> Ping me for any questions.
+>>
+>> Thanks!
+>>
+>> --Anand
+>>
+>> On Mon, Jun 23, 2008 at 7:58 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>> On Mon, Jun 23, 2008 at 9:13 AM, Anand Balachandran Pillai
+>>> <abpillai at gmail.com> wrote:
+>>>> Hi Lucas,
+>>>>
+>>>> On Sat, Jun 21, 2008 at 3:40 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>>>>> Hello,
+>>>>> Actually is there a max download size. After max bandwidth , I would
+>>>>> like to say, download maximum of  50mb.
+>>>> Well, it is not what you think. It is a maximum size of a single file (URL).
+>>> I see
+>>>> There is no control variable for a net total download size in bytes. But
+>>>> I will add this, since it sounds like a useful thing. Perhaps "maxbytes" ?
+>>>
+>>> Can we use a a mb,kb  when setting it up. For example something
+>>> reasonable would be 50mb, or 500mb in a day, so converting that number
+>>> to bytes would be troublesome. It would be best if we can use "50mb"
+>>> or assume the default "maxbytes" is in "megabytes MB".
+>>>
+>>>
+>>> maxbytes = 50mb or maxbytes = 50
+>>>
+>>> I don't think anybody would use kb or less as that is too small to get anything.
+>>> maxbytes = 50kb
+>>> maxbytes = 50   (50 bytes)
+>>>
+>>>
+>>>>
+>>>>>
+>>>>> Then I could schedule it to run every day at 23, and download 50mb at 5kb.
+>>>> Yes, this will be possible once a control var for "maxbytes" is added.
+>>>
+>>> Thanks.
+>>> Lucas
+>>> _______________________________________________
+>>> HarvestMan-devel mailing list
+>>> HarvestMan-devel at lists.berlios.de
+>>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>>
+>>
+>>
+>>
+>> --
+>> -Anand
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> Where was my car manufactured?
+> http://cars.lucasmanual.com/vin
+> TurboGears Manual-Howto
+> http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Tue Jun 24 08:45:13 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 24 Jun 2008 12:15:13 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806232339y6ae29b5dnb76f81c938f46810@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+	<804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+	<8548c5f30806230713n3dce2f87r9daec5d607b9fb4a@mail.gmail.com>
+	<804e5c70806230728l6de29c88v3bd32dac31865b05@mail.gmail.com>
+	<8548c5f30806230739i23ba278odbcf746e98cc15a@mail.gmail.com>
+	<804e5c70806232006j7a6b47e0o9710310dd61184ab@mail.gmail.com>
+	<8548c5f30806232339y6ae29b5dnb76f81c938f46810@mail.gmail.com>
+Message-ID: <8548c5f30806232345q4e21ec19u332c5ab9c9774bc@mail.gmail.com>
+
+To test, give a value to 'maxbytes' in config-sample.xml and run
+$ python harvestman.py -C config-sample.xml
+
+Since this project  saves maximum of 458139 bytes, the maxbytes
+has to be less than this value. Or better, try a different URL with
+larger data.
+
+--Anand
+
+
+From szybalski at gmail.com  Tue Jun 24 19:11:54 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 24 Jun 2008 12:11:54 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806232339y6ae29b5dnb76f81c938f46810@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+	<804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+	<8548c5f30806230713n3dce2f87r9daec5d607b9fb4a@mail.gmail.com>
+	<804e5c70806230728l6de29c88v3bd32dac31865b05@mail.gmail.com>
+	<8548c5f30806230739i23ba278odbcf746e98cc15a@mail.gmail.com>
+	<804e5c70806232006j7a6b47e0o9710310dd61184ab@mail.gmail.com>
+	<8548c5f30806232339y6ae29b5dnb76f81c938f46810@mail.gmail.com>
+Message-ID: <804e5c70806241011x65bdc518m5af2f3be22814440@mail.gmail.com>
+
+On Tue, Jun 24, 2008 at 1:39 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+> On Tue, Jun 24, 2008 at 8:36 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Mon, Jun 23, 2008 at 9:39 AM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> Hi Lucas,
+>>>
+>>>  Could you look into this ? I added it as issue #5.
+>>>
+>>> http://code.google.com/p/harvestman-crawler/issues/detail?id=5
+>>> is assigned to you.
+>>>
+>>> It is very easy to add a new param and relate it to a config variable
+>>> in harvestman.
+>>
+>> I added maxbytes, and self.maxbytes to config.py.
+>
+> Just adding this is not enough. You need to make an entry in
+> the dictionary self.xml_map and associate the XML element/attribute
+> to an action.
+
+I saw them, but wasn't sure what you used it for. Now I know.
+
+>
+> This is done as follows. For elements, you create a key with the
+> element name. For attributes, you suffix "_<attrname>" to the element
+> name and create a key with that.
+>
+> The value is a pair of ('<configparam>', '<action>') where '<configparam>'
+> is the param to which the value is finally assigned in the config object.
+> '<action>' can be either a data type or a function.
+>
+> For example, to set a simple value, say 'connections' in config XML
+> and assign it to 'maxconnections' on the config object. Assume that
+> 'connections' in the XML specifies its value in the "value" attribute.
+>
+> <connections value="5" />
+>
+> The entry for this in self.xml_map would be,
+>
+> {'connections_value':  ('maxconnections', 'int'),
+>  ...
+> }
+>
+> This is interpreted as => The value of "value" attribute of
+> 'connections' element
+> is assigned to 'maxconnections' attribute after converting it to 'int' type.
+
+That is the whole process for converting xml style to python style. Makes sense.
+What do you use the: CONFIG_XML_TEMPLATE for?
+
+
+>
+> However for values which require complex processing, a simple conversion
+> won't work, so you need functions. In this case you do, since you want
+> to support different specifications for the 'maxbytes' param such as '5 kb',
+> '5 mb' etc.
+
+
+>
+> To assign a function to processing of an element/attribute, simply replace
+> the type name above with 'func:<funcname>'. So in this case,
+>
+> {'maxbytes_value' : ('maxbytes', 'func:set_maxbytes'),
+>  ...
+>  }
+>
+> The function template is as follows.
+>
+> def f(self, key, val, dict):
+>      ...
+>
+> where,
+>
+>  key => name of the XML element
+>  val  => value of the key in xml map above
+>  dict => Attribute dictionary of the element
+>
+> So for <maxbytes value="50 k" />, these would be
+>
+> key => 'maxbytes'
+> val => '50 k'
+> dict => {u'value': u'50 k'}
+>
+> Then the function needs to process the value and assign it to the
+> config variable.
+>
+> I have already made this change and checked in the code. Look
+> at function 'set_maxbytes' in config.py .
+
+ok. I wonder if we should include tb? I've added it to my code.
+I'm just thinking who will download 1tb+ of data in single download. I
+think undo my changes.
+
+>
+>>
+>>
+>> Also, to implement maxbytes control is also easy, since
+>>> there is already a controller thread that takes care of enforcing
+>>> max file count and max time limit. We can add this as part of it.
+>>
+>> I added
+>> def _manage_maxbytes_limits(self):
+>> which uses:
+>>
+>>  lsaved = self._dmgr.savedbytes
+>>  lmax = self._cfg.maxbytes
+>>
+>> and incrementing the count in
+>> def update_bytes(self, count):
+>>
+>> Lets hope that's right.
+>
+> _bytes is same as savedbytes, so latter is not needed. I just made _bytes
+> as public to 'bytes'. The controller thread checks 'bytes'.
+
+I wasn't sure if the _bytes is something that might be used by a
+thread or in a global setting?
+When do you call clean up code ?
+
+
+>
+> The function _manage_maxbytes_limits was fine, but you forgot to
+> call it from the thread's run loop :). I fixed that also. Also you need to
+> change the check "if lsaved==lmax" to "if lsaved>=lmax", since
+> we can never be sure that the limit we gave would be equaled
+> during the run, mostly it will be surpassed, since we save different
+> URLs with non-uniform sizes.
+>
+>> How would I test it now?
+> It is working fine now, except for a minor issue which is basically an effect
+> of multi-threading. Even after the controller kills the threads as
+> limit is reached,
+> still the threads which were downloading data at the time, will complete their
+> writing to disk after that and then only exit - this is required to make sure
+> that threads shutdown cleanly.
+
+Sounds good.
+
+>
+> So even if you specify your limit as X bytes, the actual bytes saved would
+> be X+dx, where dx is mostly a random factor, depending on the number of
+> max connections, thread state etc. This is not a problem with large limits,
+> since it will be exceeded only by a few KBs, but for a smaller limit,
+> the difference
+> can be significant.
+>
+> In the config-sample.xml I indicate a max limit of 50 K, but the actual
+> download comes to 123k due to this.
+
+I think this is only because the small size. If average page is 100kb,
+then 100kb * # of threads will be our +- constant.  That sounds good
+to me.  I think it would matter if mb or gb are way off.
+
+ This can be fixed by use of internal
+> state flags which will indicate to connector objects to not save their data to
+> disk, if the threads are killed - let me know if you want to work on this.
+
+I think if the thread finishes downloading and stops that will be
+fine. If we tell it to don't save the data, then we have to make sure
+we do it in index, history, etc....I think that would be to much.
+Unless there would be another reason for it, which I don't see
+currently.
+
+> The code will have to be changed in connector.py, datamgr.py and perhaps
+> in crawler.py, urlthread.py and urlqueue.py, otherwise I will implement this
+> and close the bug.
+>
+> Anyway, I have checked in these changes I made, so you can test it
+> at your end.
+
+Thanks,
+Lucas
+
+
+From szybalski at gmail.com  Tue Jun 24 20:14:58 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Tue, 24 Jun 2008 13:14:58 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+Message-ID: <804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+
+On Fri, Jun 20, 2008 at 5:50 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> The table did not come out right. Here it is...
+>
+> C      |   MRB   |   AB |
+> ----------------------------
+> 5         5          5.4
+> 5         10        9.4
+> 5         15        13.0
+> 10        5         5.2
+> 10       10         9.3
+> 10       15        13.0
+> --------------------------
+>
+> C => Max connections
+> MRB => Max requested bandwidth
+> AB  => Achieved Bandwidth
+>
+> As you can see, the achieved bandwidth is not related to max connections,
+> which is the way it should be.
+>
+
+Is the maxbandwith done? I'm not sure if you said you finished it, or
+your are still working on it?
+
+Lucas
+
+
+From abpillai at gmail.com  Wed Jun 25 10:20:31 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 25 Jun 2008 13:50:31 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+	<804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+Message-ID: <8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+
+Hi Lucas,
+
+      This is done. However for the sleep delay I am using a factor
+of 0.2, which seems to give the right results. Still, I am yet to test
+it on sufficiently large crawls.  Will do that today and close the issue.
+
+--Anand
+
+On Tue, Jun 24, 2008 at 11:44 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Fri, Jun 20, 2008 at 5:50 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> The table did not come out right. Here it is...
+>>
+>> C      |   MRB   |   AB |
+>> ----------------------------
+>> 5         5          5.4
+>> 5         10        9.4
+>> 5         15        13.0
+>> 10        5         5.2
+>> 10       10         9.3
+>> 10       15        13.0
+>> --------------------------
+>>
+>> C => Max connections
+>> MRB => Max requested bandwidth
+>> AB  => Achieved Bandwidth
+>>
+>> As you can see, the achieved bandwidth is not related to max connections,
+>> which is the way it should be.
+>>
+>
+> Is the maxbandwith done? I'm not sure if you said you finished it, or
+> your are still working on it?
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jun 25 10:42:06 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 25 Jun 2008 14:12:06 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+	<804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+	<8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+Message-ID: <8548c5f30806250142m318e78e4y22b49cc42f5cfca6@mail.gmail.com>
+
+I ran a crawl on http://docs.python.org/lib/lib.html with a bandwidth
+limit of 10 kbps. The crawl downloaded 1005 files totaling nearly
+10 MB at 11.1 kbps in about 14 minutes. It comes to a difference
+of speed from expected of 0.001 kb per downloaded URL, which
+I guess is  good enough.
+
+So, I am going to close this issue as fixed. Let me know your
+comments.
+
+--Anand
+
+
+On Wed, Jun 25, 2008 at 1:50 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>      This is done. However for the sleep delay I am using a factor
+> of 0.2, which seems to give the right results. Still, I am yet to test
+> it on sufficiently large crawls.  Will do that today and close the issue.
+>
+> --Anand
+>
+> On Tue, Jun 24, 2008 at 11:44 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> On Fri, Jun 20, 2008 at 5:50 AM, Anand Balachandran Pillai
+>> <abpillai at gmail.com> wrote:
+>>> The table did not come out right. Here it is...
+>>>
+>>> C      |   MRB   |   AB |
+>>> ----------------------------
+>>> 5         5          5.4
+>>> 5         10        9.4
+>>> 5         15        13.0
+>>> 10        5         5.2
+>>> 10       10         9.3
+>>> 10       15        13.0
+>>> --------------------------
+>>>
+>>> C => Max connections
+>>> MRB => Max requested bandwidth
+>>> AB  => Achieved Bandwidth
+>>>
+>>> As you can see, the achieved bandwidth is not related to max connections,
+>>> which is the way it should be.
+>>>
+>>
+>> Is the maxbandwith done? I'm not sure if you said you finished it, or
+>> your are still working on it?
+>>
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jun 25 13:58:05 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 25 Jun 2008 17:28:05 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <804e5c70806241011x65bdc518m5af2f3be22814440@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<804e5c70806200718y30c7a7cuc388705938134d32@mail.gmail.com>
+	<804e5c70806201510qa9c8595lb16eed2ec014abe3@mail.gmail.com>
+	<8548c5f30806230713n3dce2f87r9daec5d607b9fb4a@mail.gmail.com>
+	<804e5c70806230728l6de29c88v3bd32dac31865b05@mail.gmail.com>
+	<8548c5f30806230739i23ba278odbcf746e98cc15a@mail.gmail.com>
+	<804e5c70806232006j7a6b47e0o9710310dd61184ab@mail.gmail.com>
+	<8548c5f30806232339y6ae29b5dnb76f81c938f46810@mail.gmail.com>
+	<804e5c70806241011x65bdc518m5af2f3be22814440@mail.gmail.com>
+Message-ID: <8548c5f30806250458v2dbbfd9bkd392673cb856af90@mail.gmail.com>
+
+Hi,
+
+On Tue, Jun 24, 2008 at 10:41 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>
+> That is the whole process for converting xml style to python style. Makes sense.
+> What do you use the: CONFIG_XML_TEMPLATE for?
+
+This is used to create the basic config file entries in the system
+(/etc/harvestman)
+and for the user ~/.harvestman/conf/config.xml . The former happens when
+the program is installed (using setup.py) and latter when the user
+runs the program
+for the first time.
+
+Every time the system and user conf files are loaded in that order. This allows
+to customize the program at a global level (for all users) and specifically for
+the user. So effectively there are many levels of config file customization...
+
+1. system
+2. User
+3. Project(s)
+
+At every level settings, override that of the previous level.
+
+
+> ok. I wonder if we should include tb? I've added it to my code.
+> I'm just thinking who will download 1tb+ of data in single download. I
+> think undo my changes.
+
+Yes. I dont think anyone uses this program or will use it to download
+terabytes of data :)
+
+>
+> I wasn't sure if the _bytes is something that might be used by a
+> thread or in a global setting?
+> When do you call clean up code ?
+
+It is a global setting which is updated by every thread. Since it is an
+integer, no locking is necessary. Clean up is done, right at the
+end in the "finalize()" method of "HarvestMan" class.
+
+
+>> So even if you specify your limit as X bytes, the actual bytes saved would
+>> be X+dx, where dx is mostly a random factor, depending on the number of
+>> max connections, thread state etc. This is not a problem with large limits,
+>> since it will be exceeded only by a few KBs, but for a smaller limit,
+>> the difference
+>> can be significant.
+>>
+>> In the config-sample.xml I indicate a max limit of 50 K, but the actual
+>> download comes to 123k due to this.
+>
+> I think this is only because the small size. If average page is 100kb,
+> then 100kb * # of threads will be our +- constant.  That sounds good
+> to me.  I think it would matter if mb or gb are way off.
+
+I added a fix for this, by using a "blockwrite" flag in connector objects.
+In the "endloop" method of the queue class (in urlqueue.py) which
+is called by the controller thread to end crawling, I get all active
+connectors and sets this flag. The connectors check this flag before
+writing the data to disk.
+
+Also, I modified the exit logic so that for controller triggered exits
+(file, bytes or time limits), we don't wait for the threads to complete
+their action.
+
+Again, I modified limit checking on bytes to trigger exit at 90% of
+the max limit.
+
+Further we had a bug in the code. We were printing the actual
+bytes downloaded at the end which need not equal the actual saved
+bytes (to disk) for a controller-triggered exit on maxbytes. Hence I
+added a 'savedbytes' counter to the data manager class and a
+function to update it. This is updated by the connector objects only
+after a successful write to disk. We also check this counter in the
+controller thread, not "bytes". Finally, this is printed on the console
+separately.
+
+All these 4 changes makes sure we exit with saved bytes very
+close to the required limit.
+
+My tests show saved bytes average of 54 kb for a 50 kb limit,
+102 kb for a 100 kb limit etc, after this change, which is pretty
+good and much better than before.
+
+> I think if the thread finishes downloading and stops that will be
+> fine. If we tell it to don't save the data, then we have to make sure
+> we do it in index, history, etc....I think that would be to much.
+> Unless there would be another reason for it, which I don't see
+> currently.
+
+This is not required, because we are setting the flag (state) on
+the connectors, and not messing up the threads.
+
+>
+>> The code will have to be changed in connector.py, datamgr.py and perhaps
+>> in crawler.py, urlthread.py and urlqueue.py, otherwise I will implement this
+>> and close the bug.
+>>
+>> Anyway, I have checked in these changes I made, so you can test it
+>> at your end.
+
+You can close the bug now after testing it by running the crawler on
+config-sample.xml .
+>
+> Thanks,
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jun 25 14:01:30 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 25 Jun 2008 17:31:30 +0530
+Subject: [HarvestMan-devel] virtualenv setup bug
+Message-ID: <8548c5f30806250501p4f2bf765u65c25550fed7af27@mail.gmail.com>
+
+Hi Lucas,
+
+         Could you assign this to yourself and fix it ? I am not
+yet very familiar with virtualenv, so it might take more time
+for me to understand and fix this issue.
+
+Thanks
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jun 25 14:39:28 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 25 Jun 2008 18:09:28 +0530
+Subject: [HarvestMan-devel] Issues
+Message-ID: <8548c5f30806250539p5a427d39y16f9eb79d14dc89b@mail.gmail.com>
+
+Hi
+
+    Currently there are 9 issues in the trac including 5
+new issues I added today. Of these 3 are major tasks (RSS
+integration, UI, crawler strategies) and 2 are minor tasks (improve
+filtering and
+implement scheduling). Rest are defects.
+
+    However once all these "bugs" are fixed and closed, we
+can consider 2.0 development as completed.
+
+    I will be now focusing on issues #4 and #8 (strategies
+and UI). It would be great if someone could look at RSS
+integration (#10) and scheduling (#9).
+
+     I am hoping to wrap up development by July end
+so this version can be released by September, when it will
+be 3 years since a HarvestMan public release was done.
+Last was in Sep 2005 and the program has come a long
+way since then, but with no public releases. It is very important
+to do this version and release it at the earliest with ample
+documentation.
+
+Thanks
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Wed Jun 25 15:03:57 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 25 Jun 2008 18:33:57 +0530
+Subject: [HarvestMan-devel] Issues
+In-Reply-To: <601c1ad00806250546s10c05246p8d269bb4fa339c37@mail.gmail.com>
+References: <8548c5f30806250539p5a427d39y16f9eb79d14dc89b@mail.gmail.com>
+	<601c1ad00806250546s10c05246p8d269bb4fa339c37@mail.gmail.com>
+Message-ID: <8548c5f30806250603wdddeb52qe55558634f6e3b7@mail.gmail.com>
+
+Please reply to list for mails posted to list, hereafter. I have
+changed the list setting to do this when you click "Reply", so
+I am not sure if you are doing this explicitly or if it is still
+a problem with the list setting.
+
+I did not understand your question. Anyway, by RSS integraion
+I mean a way for the crawler to understand RSS feeds and to
+use RSS as way of triggering site crawls and also a sample
+RSS crawler which can crawl and fetch data from RSS feeds
+for "personal data mining".
+
+This has nothing to do with the UI or templating.
+
+Let me know if I answered your question satisfactorily or
+you want more clarification.
+
+Thanks
+
+--Anand
+
+On Wed, Jun 25, 2008 at 6:16 PM, Anush Shetty <mail at anushshetty.com> wrote:
+>>
+>>
+>>    I will be now focusing on issues #4 and #8 (strategies
+>> and UI). It would be great if someone could look at RSS
+>> integration (#10) and scheduling (#9).
+>>
+>>
+>
+> Correct me if I am wrong. Wont the templating take care of the rss part i.e
+> web.py ?
+>
+> -
+> Anush
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Wed Jun 25 15:27:37 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Wed, 25 Jun 2008 08:27:37 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806250142m318e78e4y22b49cc42f5cfca6@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+	<804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+	<8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+	<8548c5f30806250142m318e78e4y22b49cc42f5cfca6@mail.gmail.com>
+Message-ID: <804e5c70806250627g173a3ab9k38b8c6e64b3afdf1@mail.gmail.com>
+
+On Wed, Jun 25, 2008 at 3:42 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> I ran a crawl on http://docs.python.org/lib/lib.html with a bandwidth
+> limit of 10 kbps. The crawl downloaded 1005 files totaling nearly
+> 10 MB at 11.1 kbps in about 14 minutes. It comes to a difference
+> of speed from expected of 0.001 kb per downloaded URL, which
+> I guess is  good enough.
+>
+> So, I am going to close this issue as fixed. Let me know your
+> comments.
+>
+
+ 0.001kb per download is good.
+I'll try to test it on my side tonight.
+I think we can close the issue since you tested it and it worked.
+
+Lucas
+
+
+From szybalski at gmail.com  Wed Jun 25 15:29:28 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Wed, 25 Jun 2008 08:29:28 -0500
+Subject: [HarvestMan-devel] virtualenv setup bug
+In-Reply-To: <8548c5f30806250501p4f2bf765u65c25550fed7af27@mail.gmail.com>
+References: <8548c5f30806250501p4f2bf765u65c25550fed7af27@mail.gmail.com>
+Message-ID: <804e5c70806250629i65f00f2fs6e8f2d16cc1f469c@mail.gmail.com>
+
+On Wed, Jun 25, 2008 at 7:01 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>         Could you assign this to yourself and fix it ? I am not
+> yet very familiar with virtualenv, so it might take more time
+> for me to understand and fix this issue.
+>
+ok.
+
+I setup a branch for converting the setup.py to paste/setuptools/egg
+style package. It is a new topic for me as well but slowly I seem to
+be getting a hand on it.
+
+Lucas
+
+
+-- 
+Where was my car manufactured?
+http://cars.lucasmanual.com/vin
+TurboGears Manual-Howto
+http://lucasmanual.com/pdf/TurboGears-Manual-Howto.pdf
+
+
+From szybalski at gmail.com  Wed Jun 25 15:45:56 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Wed, 25 Jun 2008 08:45:56 -0500
+Subject: [HarvestMan-devel] Issues
+In-Reply-To: <8548c5f30806250539p5a427d39y16f9eb79d14dc89b@mail.gmail.com>
+References: <8548c5f30806250539p5a427d39y16f9eb79d14dc89b@mail.gmail.com>
+Message-ID: <804e5c70806250645j6d87b33nde05dc46fcf6b9d5@mail.gmail.com>
+
+On Wed, Jun 25, 2008 at 7:39 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi
+>
+>    Currently there are 9 issues in the trac including 5
+> new issues I added today. Of these 3 are major tasks (RSS
+> integration, UI, crawler strategies) and 2 are minor tasks (improve
+> filtering and
+> implement scheduling). Rest are defects.
+>
+>    However once all these "bugs" are fixed and closed, we
+> can consider 2.0 development as completed.
+>
+>    I will be now focusing on issues #4 and #8 (strategies
+> and UI).
+
+As the UI part. It would be nice to move the genconfig.py (config file
+generation) to one of the tabs in ui. One of the tabs in harvestman
+--ui  would be "config.xml" which would allow for just one place to
+go.
+
+
+ It would be great if someone could look at RSS
+> integration (#10) and
+
+scheduling (#9).
+I don't know if we want to build a scheduler? I was thinking that
+after I get my config files I would setup a cronjob (on
+linux)/scheduled task(windows) to start the harvestman, with my
+config.xml as a paramter, and let it do its job. For me that would
+seem more natural as I will let my operating system to run everything.
+Comments?
+
+
+>
+>     I am hoping to wrap up development by July end
+> so this version can be released by September, when it will
+> be 3 years since a HarvestMan public release was done.
+> Last was in Sep 2005 and the program has come a long
+> way since then, but with no public releases. It is very important
+> to do this version and release it at the earliest with ample
+> documentation.
+
+Could you update the wiki with this information.
+http://code.google.com/p/harvestman-crawler/wiki/AboutHarvestMan
+
+Lucas
+
+
+From anushshetty at gmail.com  Wed Jun 25 15:56:53 2008
+From: anushshetty at gmail.com (Anush Shetty)
+Date: Wed, 25 Jun 2008 19:26:53 +0530
+Subject: [HarvestMan-devel] Issues
+In-Reply-To: <8548c5f30806250603wdddeb52qe55558634f6e3b7@mail.gmail.com>
+References: <8548c5f30806250539p5a427d39y16f9eb79d14dc89b@mail.gmail.com>
+	<601c1ad00806250546s10c05246p8d269bb4fa339c37@mail.gmail.com>
+	<8548c5f30806250603wdddeb52qe55558634f6e3b7@mail.gmail.com>
+Message-ID: <601c1ad00806250656h6a170e1bu72bb07735488d5d6@mail.gmail.com>
+
+>
+>
+>
+> I did not understand your question. Anyway, by RSS integraion
+> I mean a way for the crawler to understand RSS feeds and to
+> use RSS as way of triggering site crawls and also a sample
+> RSS crawler which can crawl and fetch data from RSS feeds
+> for "personal data mining".
+>
+
+Thanks. Probably the thing to do is integrating FeedParser (feedparser) with
+HarvestMan.
+
+-
+Anush
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/harvestman-devel/attachments/20080625/becf36d9/attachment.html>
+
+From abpillai at gmail.com  Wed Jun 25 16:19:28 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Wed, 25 Jun 2008 19:49:28 +0530
+Subject: [HarvestMan-devel] Issues
+In-Reply-To: <804e5c70806250645j6d87b33nde05dc46fcf6b9d5@mail.gmail.com>
+References: <8548c5f30806250539p5a427d39y16f9eb79d14dc89b@mail.gmail.com>
+	<804e5c70806250645j6d87b33nde05dc46fcf6b9d5@mail.gmail.com>
+Message-ID: <8548c5f30806250719v537964faq766a8ff3909c34c8@mail.gmail.com>
+
+Hi,
+
+On Wed, Jun 25, 2008 at 7:15 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+
+> Could you update the wiki with this information.
+> http://code.google.com/p/harvestman-crawler/wiki/AboutHarvestMan
+
+Updated History and added Future  ;)
+
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Fri Jun 27 11:25:55 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Fri, 27 Jun 2008 14:55:55 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <804e5c70806250627g173a3ab9k38b8c6e64b3afdf1@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+	<804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+	<8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+	<8548c5f30806250142m318e78e4y22b49cc42f5cfca6@mail.gmail.com>
+	<804e5c70806250627g173a3ab9k38b8c6e64b3afdf1@mail.gmail.com>
+Message-ID: <8548c5f30806270225q5b0b7f19x218443dc10cb4a1a@mail.gmail.com>
+
+Hi Lucas,
+
+       This is closed. Please close issue #5 after doing a quick test.
+I can't close it since it is assigned to you.
+
+--Anand
+
+
+On Wed, Jun 25, 2008 at 6:57 PM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Wed, Jun 25, 2008 at 3:42 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> I ran a crawl on http://docs.python.org/lib/lib.html with a bandwidth
+>> limit of 10 kbps. The crawl downloaded 1005 files totaling nearly
+>> 10 MB at 11.1 kbps in about 14 minutes. It comes to a difference
+>> of speed from expected of 0.001 kb per downloaded URL, which
+>> I guess is  good enough.
+>>
+>> So, I am going to close this issue as fixed. Let me know your
+>> comments.
+>>
+>
+>  0.001kb per download is good.
+> I'll try to test it on my side tonight.
+> I think we can close the issue since you tested it and it worked.
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Fri Jun 27 20:20:35 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 27 Jun 2008 13:20:35 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806270225q5b0b7f19x218443dc10cb4a1a@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+	<804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+	<8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+	<8548c5f30806250142m318e78e4y22b49cc42f5cfca6@mail.gmail.com>
+	<804e5c70806250627g173a3ab9k38b8c6e64b3afdf1@mail.gmail.com>
+	<8548c5f30806270225q5b0b7f19x218443dc10cb4a1a@mail.gmail.com>
+Message-ID: <804e5c70806271120h7eda5c08j40a319d9bc2976ea@mail.gmail.com>
+
+On Fri, Jun 27, 2008 at 4:25 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>       This is closed. Please close issue #5 after doing a quick test.
+> I can't close it since it is assigned to you.
+
+closed.
+
+
+From szybalski at gmail.com  Fri Jun 27 20:40:20 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Fri, 27 Jun 2008 13:40:20 -0500
+Subject: [HarvestMan-devel]  Download update
+Message-ID: <804e5c70806271140o7827062br9ae1b5d8ad522728@mail.gmail.com>
+
+Hello,
+Does harvestman currently do "continue downloading partial file, and
+have time stamp support" for downloads. Meaning, in wget I can specify
+a command "-cN" which means download partially downloaded files and
+turn on the time stamp.
+
+So If I downloaded a file on Monday 10mb file.tgz, and on wednesday
+the file is 11mb with a new timestamp, when I run -cN, I only download
+1mb, and my download is done.
+
+Is something like that in harvestman already?
+
+Lucas
+
+
+From szybalski at gmail.com  Sat Jun 28 08:22:20 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sat, 28 Jun 2008 01:22:20 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806270225q5b0b7f19x218443dc10cb4a1a@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<804e5c70806190705q5237b0dejd00e7826d1793f72@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+	<804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+	<8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+	<8548c5f30806250142m318e78e4y22b49cc42f5cfca6@mail.gmail.com>
+	<804e5c70806250627g173a3ab9k38b8c6e64b3afdf1@mail.gmail.com>
+	<8548c5f30806270225q5b0b7f19x218443dc10cb4a1a@mail.gmail.com>
+Message-ID: <804e5c70806272322i78fd06actb0944dbad3851079@mail.gmail.com>
+
+I just tested the speed and for some reason I get:
+
+<maxbandwidth value="5"/>
+
+4120 links scanned in 1 server .
+[01:12:54] 69 files written.
+[01:12:54] 1450624  bytes received at the rate of 8.12 KB/sec .
+[01:12:54] 9498335  bytes were written to disk.
+
+
+try crawling:
+http://www.automotive.com/used-cars/index.html
+
+to test this.
+Thanks.
+Lucas
+
+
+From abpillai at gmail.com  Sat Jun 28 16:19:37 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sat, 28 Jun 2008 19:49:37 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <804e5c70806272322i78fd06actb0944dbad3851079@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<8548c5f30806190708u2a40f510i6fe31e2081f8dbf2@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+	<804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+	<8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+	<8548c5f30806250142m318e78e4y22b49cc42f5cfca6@mail.gmail.com>
+	<804e5c70806250627g173a3ab9k38b8c6e64b3afdf1@mail.gmail.com>
+	<8548c5f30806270225q5b0b7f19x218443dc10cb4a1a@mail.gmail.com>
+	<804e5c70806272322i78fd06actb0944dbad3851079@mail.gmail.com>
+Message-ID: <8548c5f30806280719we68cda0jf1b3c9834bcefab@mail.gmail.com>
+
+Hi Lucas,
+
+    Well, this shows that the logic is not fool-proof. I had
+found 0.2 as a factor for sleeping in my tests for achieving
+a close enough speed to the required. Clearly this factor
+was only for my network (at office) and not a general factor.
+
+ If we sleep the full time without multiplying by
+a factor, then we are sure we will keep less than the
+required bandwidth but I found it to be much less like 50-60%
+less, which is why I opted for the factor.
+
+  I will think this through and improve the logic. I get the
+feeling that instead of finding out how much we are lagging
+or ahead of the bandwidth on a per connector basis, we need
+to do it on *all* the data downloaded by all connectors and
+then find a sleep time, and divide the sleep time by number of
+connectors and let the connectors sleep that time, multiplied
+perhaps by a load factor close to 1.0. I think this will be a much more
+accurate solution.
+
+However this is much more difficult to implement, which is why I
+went for the easier solution, doing this per connector, without
+checking for the total data downloaded so far. I guess the total
+data solution has to be on a different thread. The controller thread
+looks best for this. It can keep monitoring this by summing over
+data from connectors and keeping track of time, and then adjust
+the sleep time on the connectors.
+
+Will implement this approach next week. Let me know what
+you think.
+
+Thanks
+
+--Anand
+
+On Sat, Jun 28, 2008 at 11:52 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> I just tested the speed and for some reason I get:
+>
+> <maxbandwidth value="5"/>
+>
+> 4120 links scanned in 1 server .
+> [01:12:54] 69 files written.
+> [01:12:54] 1450624  bytes received at the rate of 8.12 KB/sec .
+> [01:12:54] 9498335  bytes were written to disk.
+>
+>
+> try crawling:
+> http://www.automotive.com/used-cars/index.html
+>
+> to test this.
+> Thanks.
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From abpillai at gmail.com  Sat Jun 28 16:24:39 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Sat, 28 Jun 2008 19:54:39 +0530
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806280719we68cda0jf1b3c9834bcefab@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+	<804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+	<8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+	<8548c5f30806250142m318e78e4y22b49cc42f5cfca6@mail.gmail.com>
+	<804e5c70806250627g173a3ab9k38b8c6e64b3afdf1@mail.gmail.com>
+	<8548c5f30806270225q5b0b7f19x218443dc10cb4a1a@mail.gmail.com>
+	<804e5c70806272322i78fd06actb0944dbad3851079@mail.gmail.com>
+	<8548c5f30806280719we68cda0jf1b3c9834bcefab@mail.gmail.com>
+Message-ID: <8548c5f30806280724s74f9b1earef8f687672d66fe6@mail.gmail.com>
+
+I have re-opened this.
+
+On Sat, Jun 28, 2008 at 7:49 PM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>    Well, this shows that the logic is not fool-proof. I had
+> found 0.2 as a factor for sleeping in my tests for achieving
+> a close enough speed to the required. Clearly this factor
+> was only for my network (at office) and not a general factor.
+>
+>  If we sleep the full time without multiplying by
+> a factor, then we are sure we will keep less than the
+> required bandwidth but I found it to be much less like 50-60%
+> less, which is why I opted for the factor.
+>
+>  I will think this through and improve the logic. I get the
+> feeling that instead of finding out how much we are lagging
+> or ahead of the bandwidth on a per connector basis, we need
+> to do it on *all* the data downloaded by all connectors and
+> then find a sleep time, and divide the sleep time by number of
+> connectors and let the connectors sleep that time, multiplied
+> perhaps by a load factor close to 1.0. I think this will be a much more
+> accurate solution.
+>
+> However this is much more difficult to implement, which is why I
+> went for the easier solution, doing this per connector, without
+> checking for the total data downloaded so far. I guess the total
+> data solution has to be on a different thread. The controller thread
+> looks best for this. It can keep monitoring this by summing over
+> data from connectors and keeping track of time, and then adjust
+> the sleep time on the connectors.
+>
+> Will implement this approach next week. Let me know what
+> you think.
+>
+> Thanks
+>
+> --Anand
+>
+> On Sat, Jun 28, 2008 at 11:52 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+>> I just tested the speed and for some reason I get:
+>>
+>> <maxbandwidth value="5"/>
+>>
+>> 4120 links scanned in 1 server .
+>> [01:12:54] 69 files written.
+>> [01:12:54] 1450624  bytes received at the rate of 8.12 KB/sec .
+>> [01:12:54] 9498335  bytes were written to disk.
+>>
+>>
+>> try crawling:
+>> http://www.automotive.com/used-cars/index.html
+>>
+>> to test this.
+>> Thanks.
+>> Lucas
+>> _______________________________________________
+>> HarvestMan-devel mailing list
+>> HarvestMan-devel at lists.berlios.de
+>> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>>
+>
+>
+>
+> --
+> -Anand
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Sun Jun 29 06:41:39 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sat, 28 Jun 2008 23:41:39 -0500
+Subject: [HarvestMan-devel] Throttling/Bandwidth Control
+In-Reply-To: <8548c5f30806280719we68cda0jf1b3c9834bcefab@mail.gmail.com>
+References: <8548c5f30806190654t7486d463r2eb3e661797d7ba7@mail.gmail.com>
+	<8548c5f30806200345t3b2639fawc71812070c142f36@mail.gmail.com>
+	<8548c5f30806200350u21720df9gd11beb3902fac833@mail.gmail.com>
+	<804e5c70806241114t6554cd37icf122b911064658@mail.gmail.com>
+	<8548c5f30806250120n15eebb6bla30423604c91583e@mail.gmail.com>
+	<8548c5f30806250142m318e78e4y22b49cc42f5cfca6@mail.gmail.com>
+	<804e5c70806250627g173a3ab9k38b8c6e64b3afdf1@mail.gmail.com>
+	<8548c5f30806270225q5b0b7f19x218443dc10cb4a1a@mail.gmail.com>
+	<804e5c70806272322i78fd06actb0944dbad3851079@mail.gmail.com>
+	<8548c5f30806280719we68cda0jf1b3c9834bcefab@mail.gmail.com>
+Message-ID: <804e5c70806282141p2be5d74bs72cd7582e719a6cd@mail.gmail.com>
+
+On Sat, Jun 28, 2008 at 9:19 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi Lucas,
+>
+>    Well, this shows that the logic is not fool-proof. I had
+> found 0.2 as a factor for sleeping in my tests for achieving
+> a close enough speed to the required. Clearly this factor
+> was only for my network (at office) and not a general factor.
+>
+>  If we sleep the full time without multiplying by
+> a factor, then we are sure we will keep less than the
+> required bandwidth but I found it to be much less like 50-60%
+> less, which is why I opted for the factor.
+>
+>  I will think this through and improve the logic. I get the
+> feeling that instead of finding out how much we are lagging
+> or ahead of the bandwidth on a per connector basis, we need
+> to do it on *all* the data downloaded by all connectors and
+> then find a sleep time, and divide the sleep time by number of
+> connectors and let the connectors sleep that time, multiplied
+> perhaps by a load factor close to 1.0. I think this will be a much more
+> accurate solution.
+>
+> However this is much more difficult to implement, which is why I
+> went for the easier solution, doing this per connector, without
+> checking for the total data downloaded so far. I guess the total
+> data solution has to be on a different thread. The controller thread
+> looks best for this. It can keep monitoring this by summing over
+> data from connectors and keeping track of time, and then adjust
+> the sleep time on the connectors.
+>
+> Will implement this approach next week. Let me know what
+> you think.
+>
+
+Not sure if this might help.
+http://www.velocityreviews.com/forums/t583705-urllib2-rate-limiting.html
+
+Lucas
+
+

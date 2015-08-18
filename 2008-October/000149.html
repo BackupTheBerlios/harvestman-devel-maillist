@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70810071853y6354d1f3ie8bfba3043c31e20%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000147.html">
+   <LINK REL="Next"  HREF="000150.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70810071853y6354d1f3ie8bfba3043c31e20%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">szybalski at gmail.com
+       </A><BR>
+    <I>Wed Oct  8 03:53:36 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000147.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000150.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#149">[ date ]</a>
+              <a href="thread.html#149">[ thread ]</a>
+              <a href="subject.html#149">[ subject ]</a>
+              <a href="author.html#149">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>1. I've merged the changes from trunk to branch, fixed issues, and
+then from branch to trunk.
+
+I used the following instructions.
+<A HREF="http://kenkinder.com/svnmerge/">http://kenkinder.com/svnmerge/</A>
+I was ok. I think I need to read up more on it, and on svn 1.5 which
+suppose to be better with merges.
+
+The new setup.py file is just installing the requirements using
+easy_install/setuptools which means setuptools is required. (python
+style ! yeaaay...)
+I'll update the installation instructions, and I will upload the trunk
+version of the egg to PyPI.
+<A HREF="http://pypi.python.org/pypi/">http://pypi.python.org/pypi/</A>
+
+I also want to move the code that puts the config.xml somewhere where
+it will only be run on python setup.py install(or develop) and not on
+python setup.py  bdist_egg
+
+I wonder if this config.xml is required in /etc/ folder or can we have
+it with the rest of the py files in /apps/config.xml ??
+
+2. the config.py was putting the file in
+/home/lucas/tmp/etc/harvestman instead of
+/home/lucas/tmp/myvirtualENV/etc/harvestman so I fixed that in a code.
+
+3. Tests are passing so I think all went well.
+
+
+I'll let you know when I finish uploading to PYPI, and fix the egg
+creation, and I will close issue 2 then.
+
+Thanks,
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000147.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000150.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#149">[ date ]</a>
+              <a href="thread.html#149">[ thread ]</a>
+              <a href="subject.html#149">[ subject ]</a>
+              <a href="author.html#149">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

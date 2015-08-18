@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Issue%201%20in%20harvestman-crawler%3A%20Implement%0A%09download%20throttling%20to%20constraint%20download%20speeds&In-Reply-To=%3C804e5c70807012124t2cb6611cse78ffbc5f17bec87%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000078.html">
+   <LINK REL="Next"  HREF="000080.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Issue%201%20in%20harvestman-crawler%3A%20Implement%0A%09download%20throttling%20to%20constraint%20download%20speeds&In-Reply-To=%3C804e5c70807012124t2cb6611cse78ffbc5f17bec87%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds">szybalski at gmail.com
+       </A><BR>
+    <I>Wed Jul  2 06:24:42 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000078.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+        <LI>Next message: <A HREF="000080.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#79">[ date ]</a>
+              <a href="thread.html#79">[ thread ]</a>
+              <a href="subject.html#79">[ subject ]</a>
+              <a href="author.html#79">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, Jul 1, 2008 at 8:01 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> On Tue, Jul 1, 2008 at 4:45 AM, Anand Balachandran Pillai
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> Hi Lucas,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>        I have fixed both issues #1 and #11. #1 is fixed by moving the
+</I>&gt;&gt;<i> bandwidth checking logic to the controller thread on the entire
+</I>&gt;&gt;<i> data downloaded so far. The thread then calculates the lagging time,
+</I>&gt;&gt;<i> divides it by number of connectors and sets it as the sleep time per
+</I>&gt;&gt;<i> connector. I use a factor of 1% more on the sleep time, otherwise
+</I>&gt;&gt;<i> the threads won't sleep enough and finally a single connector will
+</I>&gt;&gt;<i> have to sleep off the accumulated sleep time.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> This works fine in my tests. It was even able to limit the speed
+</I>&gt;&gt;<i> to 2.08 kbps when 2.00 was requested! It is slightly on the conservative
+</I>&gt;&gt;<i> side, so that even if we under achieve the speeds, we never overshoot
+</I>&gt;&gt;<i> them.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Please test now and close the bug as verified. I have marked it as fixed.
+</I>&gt;<i>
+</I>&gt;<i> I'll test it tonight.
+</I>&gt;<i>
+</I>
+I've tested it and for some reason I still get the speed of 8kb when I
+crawl automotive.com at 5kb and max download of 5mb.
+
+ Saved to /home/lucas/crawl/www.automotive.com-used/www.automotive.com/used-cars/01/nissan/index.html
+[23:15:03] Specified maxbytes limit of 5242880 reached!
+[23:15:03]
+[23:15:04]
+[23:15:04] HarvestMan mirror www.automotive.com-used completed in 75.63 seconds.
+[23:15:04] 1816 links scanned in 1 server .
+[23:15:04] 41 files written.
+[23:15:04] 655314  bytes received at the rate of 8.46 KB/sec .
+[23:15:04] 4738867  bytes were written to disk.
+
+I'll try to look at the code, and provide more feedback, if not we
+leave it as is I guess.
+Thanks,
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000078.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+	<LI>Next message: <A HREF="000080.html">[HarvestMan-devel] Issue 1 in harvestman-crawler: Implement	download throttling to constraint download speeds
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#79">[ date ]</a>
+              <a href="thread.html#79">[ thread ]</a>
+              <a href="subject.html#79">[ subject ]</a>
+              <a href="author.html#79">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

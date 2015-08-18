@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20%5Bdone%5D%20Re%3A%20svn%20dump%2C%20and%20trunk%20reset.&In-Reply-To=%3C804e5c70806202031p163ba6aai20388e53954033c5%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000040.html">
+   <LINK REL="Next"  HREF="000042.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] [done] Re: svn dump, and trunk reset.</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20%5Bdone%5D%20Re%3A%20svn%20dump%2C%20and%20trunk%20reset.&In-Reply-To=%3C804e5c70806202031p163ba6aai20388e53954033c5%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] [done] Re: svn dump, and trunk reset.">szybalski at gmail.com
+       </A><BR>
+    <I>Sat Jun 21 05:31:13 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000040.html">[HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+</A></li>
+        <LI>Next message: <A HREF="000042.html">[HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#41">[ date ]</a>
+              <a href="thread.html#41">[ thread ]</a>
+              <a href="subject.html#41">[ subject ]</a>
+              <a href="author.html#41">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>&gt;<i> Also try this:
+</I>&gt;<i> <A HREF="http://whynotwiki.com/How_I_moved_my_code_repository_to_Google_Code">http://whynotwiki.com/How_I_moved_my_code_repository_to_Google_Code</A>
+</I>
+and also:
+<A HREF="http://svnbook.red-bean.com/en/1.0/ch05s03.html">http://svnbook.red-bean.com/en/1.0/ch05s03.html</A>
+
+
+So the story goes like this:
+
+You need access to actual repository files, if you have ssh access to
+the server, that would be great. (ftp or any other way)
+I would download it to your computer if its not big. or do it on the server.
+
+1. Dump the whole repository
+svnadmin dump /path/to/repos &gt; repos-dumpfile
+
+2. Filter harvestman, and get rid of empty revisions
+cat repos-dumpfile | svndumpfilter --drop-empty-revs --renumber-revs
+include HarvestMan-2.0 &gt; HarvestMan-2.0-dumpfile
+
+3. create new repository and load harvestman dump file
+svnadmin create HarvestMan; svnadmin load HarvestMan &lt; HarvestMan-2.0-dumpfile
+
+4. proceed with sync as mentioned in google instructions.
+
+Let me know if that helps.
+I could do it for you if you can give me the ssh access to that
+server. (if you have one)
+
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000040.html">[HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+</A></li>
+	<LI>Next message: <A HREF="000042.html">[HarvestMan-devel] [done] Re: svn dump, and trunk reset.
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#41">[ date ]</a>
+              <a href="thread.html#41">[ thread ]</a>
+              <a href="subject.html#41">[ subject ]</a>
+              <a href="author.html#41">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Harvestman install problem
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-July/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Harvestman%20install%20problem&In-Reply-To=%3C8548c5f30807100720t1c6a95f2ha9514517c022f9bd%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000102.html">
+   <LINK REL="Next"  HREF="000105.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Harvestman install problem</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Harvestman%20install%20problem&In-Reply-To=%3C8548c5f30807100720t1c6a95f2ha9514517c022f9bd%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Harvestman install problem">abpillai at gmail.com
+       </A><BR>
+    <I>Thu Jul 10 16:20:54 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000102.html">[HarvestMan-devel] Harvestman install problem
+</A></li>
+        <LI>Next message: <A HREF="000105.html">[HarvestMan-devel] Enhancement of filters
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#103">[ date ]</a>
+              <a href="thread.html#103">[ thread ]</a>
+              <a href="subject.html#103">[ subject ]</a>
+              <a href="author.html#103">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi wenjie,
+
+        A recent bug-fix in connector.py which added the ability to frequently
+flush crawled data to temp files, introduced a bug and the connector unit
+tests were failing because of this. I did not run the unit-tests
+before committing this
+fix :)
+
+        Now everything is fixed. All unit-tests will work now. Let me know
+if you still face trouble. I have not added a unit-test log yet, but will
+add it tonight.
+
+   Thanks for your feedbacks!
+
+Regards,
+
+--Anand
+
+On Thu, Jul 10, 2008 at 6:16 PM, wenjie zheng &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">wenjie.zheng at gmail.com</A>&gt; wrote:
+&gt;<i> Thanks.
+</I>&gt;<i>
+</I>&gt;<i> After doing svn up, another error popped up.
+</I>&gt;<i>
+</I>&gt;<i> Traceback (most recent call last):
+</I>&gt;<i>  File &quot;setup.py&quot;, line 463, in ?
+</I>&gt;<i>    main()
+</I>&gt;<i>  File &quot;setup.py&quot;, line 435, in main
+</I>&gt;<i>    from harvestman.test import run_tests
+</I>&gt;<i>  File &quot;/home/wzheng/code/HarvestMan-2.0/harvestman/test/run_tests.py&quot;,
+</I>&gt;<i> line 10, in ?
+</I>&gt;<i>    import test_connector
+</I>&gt;<i>  File &quot;/home/wzheng/code/HarvestMan-2.0/harvestman/test/test_connector.py&quot;,
+</I>&gt;<i> line 14, in ?
+</I>&gt;<i>    test_base.setUp()
+</I>&gt;<i>  File &quot;/home/wzheng/code/HarvestMan-2.0/harvestman/test/test_base.py&quot;,
+</I>&gt;<i> line 34, in setUp
+</I>&gt;<i>    from lib import datamgr
+</I>&gt;<i>  File &quot;/home/wzheng/code/HarvestMan-2.0/harvestman/lib/datamgr.py&quot;,
+</I>&gt;<i> line 57, in ?
+</I>&gt;<i>    from mirrors import HarvestManMirrorManager
+</I>&gt;<i>  File &quot;/home/wzheng/code/HarvestMan-2.0/harvestman/lib/mirrors.py&quot;,
+</I>&gt;<i> line 135, in ?
+</I>&gt;<i>    class HarvestManMirrorSearch(object):
+</I>&gt;<i>  File &quot;/home/wzheng/code/HarvestMan-2.0/harvestman/lib/mirrors.py&quot;,
+</I>&gt;<i> line 144, in HarvestManMirrorSearch
+</I>&gt;<i>    quotes_re = re.compile(r'[\'\&quot;]')
+</I>&gt;<i> NameError: name 're' is not defined
+</I>&gt;<i>
+</I>&gt;<i> It can be fixed by adding &quot;import re&quot;.
+</I>&gt;<i>
+</I>&gt;<i> However, after installation successfully finished, 1 unit test failed.
+</I>&gt;<i>
+</I>&gt;<i> Fresh installation, running unit tests...
+</I>&gt;<i> Running test_connector...
+</I>&gt;<i> test_connect...
+</I>&gt;<i> test_connect_etag...
+</I>&gt;<i> test_connect_lmt...
+</I>&gt;<i> Running test_urlparser...
+</I>&gt;<i> Ran 10 tests, 9 passes, 1 failures
+</I>&gt;<i> Creating application links...
+</I>&gt;<i> Creating application link for harvestman...
+</I>&gt;<i> Creating application link for hget...
+</I>&gt;<i>
+</I>&gt;<i> Do you know where I can find out which unit test failed and where the log is?
+</I>&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Wenjie
+</I>&gt;<i>
+</I>&gt;<i> On Thu, Jul 10, 2008 at 4:50 AM, Anand Balachandran Pillai
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> Thanks, fixed this. Update your svn and it will install.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Hereafter please CC &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">harvestman-devel at lists.berlios.de</A>&gt; also in your emails
+</I>&gt;&gt;<i> regarding HarvestMan.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thanks
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --Anand
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> On Thu, Jul 10, 2008 at 2:46 AM, wenjie zheng &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">wenjie.zheng at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;&gt;<i> Hi Anand,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I encountered a problem when I tried to install the latest version
+</I>&gt;&gt;&gt;<i> Harvestman (svn co ...)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> It got stuck when trying to creating config file
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> ...
+</I>&gt;&gt;&gt;<i> Creating basic configuration in /etc/harvestman...
+</I>&gt;&gt;&gt;<i> Traceback (most recent call last):
+</I>&gt;&gt;&gt;<i>  File &quot;setup.py&quot;, line 463, in ?
+</I>&gt;&gt;&gt;<i>    main()
+</I>&gt;&gt;&gt;<i>  File &quot;setup.py&quot;, line 406, in main
+</I>&gt;&gt;&gt;<i>    conf_data = cfg.generate_system_configuration()
+</I>&gt;&gt;&gt;<i>  File &quot;/home/wzheng/code/HarvestMan-2.0/harvestman/lib/config.py&quot;,
+</I>&gt;&gt;&gt;<i> line 1526, in generate_system_configuration
+</I>&gt;&gt;&gt;<i>    return CONFIG_XML_TEMPLATE % self
+</I>&gt;&gt;&gt;<i> KeyError: 'USERAGENT'
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I am using Python 2.4.3 on a CentOS box with 2.6 kernel.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Thanks a bunch!
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Wenjie
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> -Anand
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000102.html">[HarvestMan-devel] Harvestman install problem
+</A></li>
+	<LI>Next message: <A HREF="000105.html">[HarvestMan-devel] Enhancement of filters
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#103">[ date ]</a>
+              <a href="thread.html#103">[ thread ]</a>
+              <a href="subject.html#103">[ subject ]</a>
+              <a href="author.html#103">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

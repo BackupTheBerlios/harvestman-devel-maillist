@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman checkin (not distributed ver)
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2006-January/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20checkin%20%28not%20distributed%20ver%29&In-Reply-To=%3C20060110090608.OZP20050.fed1rmmtao06.cox.net%40zt3000%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman checkin (not distributed ver)</H1>
+    <B>John Kleven</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20checkin%20%28not%20distributed%20ver%29&In-Reply-To=%3C20060110090608.OZP20050.fed1rmmtao06.cox.net%40zt3000%3E"
+       TITLE="[HarvestMan-devel] harvestman checkin (not distributed ver)">jkleven at alumni.calpoly.edu
+       </A><BR>
+    <I>Tue Jan 10 10:08:42 CET 2006</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+
+ 
+
+Checked in the following stuff to HarvestMan:
+
+ 
+
+config.py
+
+config.xml
+
+pageparser.py
+
+urlparser.py
+
+xmlparser.py
+
+ 
+
+Of course it wouldn't be a first checkin if I didn't mess something up.  I
+checked in config.xml twice because the first checkin had my local copy, not
+the copy I really wanted in the repository.  Anyways, it's fixed now :-P
+
+ 
+
+I ran it through a couple of page crawls and everything looked good.  No
+intense intense testing though .... 
+
+ 
+
+Here's some details on what I changed.
+
+ 
+
+1) in xmlparser.py.  Before if we had a config file entry like this in
+config.xml there is a problem:
+
+&lt;url&gt;<A HREF="http://asdf.com/cgi-bin/dbman.cgi?db=store&amp;amp;uid=default&lt;/url">http://asdf.com/cgi-bin/dbman.cgi?db=store&amp;uid=default&lt;/url</A>&gt;
+
+ 
+
+That used to break xml parsing because expat xml parser will call char_data
+3 times -- just for this one http string.  It would call it with
+&quot;<A HREF="http://asdf.com/cgi-bin/dbman.cgi?db=store">http://asdf.com/cgi-bin/dbman.cgi?db=store</A>&quot;
+
+Then with &quot;&amp;&quot;
+
+Then finally with &quot;uid=default&quot;
+
+With the old code, the whole string will not be put into the Url config --
+only the first string &quot;<A HREF="http://asdf.com/cgi-bin/dbman.cgi?db=store">http://asdf.com/cgi-bin/dbman.cgi?db=store</A>&quot;.
+
+ 
+
+What I have done is add an &quot;end_element&quot; callback as well and tweaked the
+char_data callback.  Now we will wait until the &quot;end_element&quot; callback is
+triggered before we actually place the XML config file data into our
+internal configuration structure.  This insures that we get all the data
+inbetween XML config file elements, regardless of how many times the expat
+parser call &quot;char_data&quot; inbetween elements.
+
+ 
+
+2) In general, second two changes are in regard to how we handle forms
+downloading.
+
+2.a)  I changed the name of skipqueryforms to getqueryforms.  Before
+skipqueryforms was mapped to &quot;forms&quot; in the &quot;download&quot; &quot;types&quot; segment of
+config.xml.  However, the meaning was reversed before.  If you put &lt;forms
+value=&quot;1&quot;/&gt; in the config before, it would NOT download forms.  This goes
+against the current paradigm, because if you put the same for html, or
+images, or javascript in the config, you WILL download the forms.
+
+ 
+
+In other words ... before if this (below) was the config file, we would have
+downloaded all html, images, js AND forms -- even though forms is set to
+zero.
+
+ 
+
+    &lt;download&gt;
+
+      &lt;types&gt;
+
+        &lt;html value=&quot;1&quot;/&gt;
+
+        &lt;images value=&quot;1&quot;/&gt;
+
+        &lt;javascript value=&quot;1&quot;/&gt;
+
+        &lt;javaapplet value=&quot;1&quot;/&gt;
+
+        &lt;forms value=&quot;0&quot;/&gt;
+
+        &lt;cookies value=&quot;1&quot;/&gt;
+
+      &lt;/types&gt;
+
+    &lt;/download&gt;
+
+ 
+
+Now forms behaves as the others.  If set to 1, we get forms.  If set to 0,
+we don't get forms.  I changed the default in config.xml as well to reflect
+this so functionality stays the same as before.  Anand you can turn this off
+if you want in config.xml ... dunno if we want that on by default.
+
+ 
+
+2.b) Before, even if we told HarvestMan to download forms, it still
+considers most form URL's to not be HTML.  I needed to add another if
+statement at the end of is_webpage() (that will only be checked when forms
+download is set to true) that will consider a typical &quot;forms&quot; style URL to
+be a webpage.  
+
+ 
+
+In other words, I changed is_webpage() to return true for URLs that appear
+to be forms.  Otherwise, there is no link scanning in forms generated HTML.
+Again, this check will only happen if forms downloading is set to True in
+config.xml (which again is defaulted on).
+
+ 
+
+Thanks
+
+John
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/harvestman-devel/attachments/20060110/346dd218/attachment.html">https://lists.berlios.de/pipermail/harvestman-devel/attachments/20060110/346dd218/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

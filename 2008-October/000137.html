@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Installation Problem and a Parsing Question
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Installation%20Problem%20and%20a%20Parsing%20Question&In-Reply-To=%3C8548c5f30810051235y4f13c447pd1372a00969cba9d%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000136.html">
+   <LINK REL="Next"  HREF="000138.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Installation Problem and a Parsing Question</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Installation%20Problem%20and%20a%20Parsing%20Question&In-Reply-To=%3C8548c5f30810051235y4f13c447pd1372a00969cba9d%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Installation Problem and a Parsing Question">abpillai at gmail.com
+       </A><BR>
+    <I>Sun Oct  5 21:35:04 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000136.html">[HarvestMan-devel] Installation Problem and a Parsing Question
+</A></li>
+        <LI>Next message: <A HREF="000138.html">[HarvestMan-devel] HarvestMan module paths
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#137">[ date ]</a>
+              <a href="thread.html#137">[ thread ]</a>
+              <a href="subject.html#137">[ subject ]</a>
+              <a href="author.html#137">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Ersin,
+
+I assume you are trying to install from the 2.0 trunk.
+
+On Thu, Oct 2, 2008 at 7:14 PM, Ersin Esen &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">ersinesen at gmail.com</A>&gt; wrote:
+&gt;<i>
+</I>&gt;<i> Just a small problem during installation, but it halts the installation:
+</I>&gt;<i>
+</I>&gt;<i> It did not create Python24\Lib\site-packages\harvestman path, and stop the
+</I>&gt;<i> installation. Manually creating the path resolved the problem. (I use
+</I>&gt;<i> Python2.4 and Win XP Home)
+</I>The installation still has problems on Windows. It is not sufficiently
+tested. I am working on fixing this as well as adjusting the installation
+and relative path imports so that I can create a working HarvestMan
+executable for 2.0 under Windows using py2exe. I hope to
+finish this off this week.
+
+&gt;<i>
+</I>&gt;<i> And my aim regarding parsing a webpage with a pattern is as follows:
+</I>&gt;<i>
+</I>&gt;<i> The url pattern is www.foo.com/[yyyy]/[mm]/[dd]/*.html
+</I>&gt;<i> I could not figure out how to achieve this via filters and could not find a
+</I>&gt;<i> proper sample. Any help or a sample link will be appreciated.
+</I>&gt;<i>
+</I>
+Again, this is a work in progress. I am working on a generic URL
+filter which will allow you to do this. For the time being, you
+can overload events which allow you to filter links. Look at
+harvestman/apps/samples for some sample crawlers which
+perform similar work - examples are searchingcrawler.py etc.
+
+
+&gt;<i> -ee
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> HarvestMan-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000136.html">[HarvestMan-devel] Installation Problem and a Parsing Question
+</A></li>
+	<LI>Next message: <A HREF="000138.html">[HarvestMan-devel] HarvestMan module paths
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#137">[ date ]</a>
+              <a href="thread.html#137">[ thread ]</a>
+              <a href="subject.html#137">[ subject ]</a>
+              <a href="author.html#137">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

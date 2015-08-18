@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70809252019o31844e2cu923dc0f43414d772%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000127.html">
+   <LINK REL="Next"  HREF="000129.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C804e5c70809252019o31844e2cu923dc0f43414d772%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">szybalski at gmail.com
+       </A><BR>
+    <I>Fri Sep 26 05:19:48 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000127.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000129.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>ok try now:
+
+cd
+cd tmp
+
+virtualenv --no-site-packages harvENV
+source harvENV/bin/activate
+
+cd /path..to/HarvestMan-topaste/HarvestMan
+svn update
+
+python setup.py develop
+....
+....
+
+harvestman --selftest
+
+module_path /home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman
+Loading system configuration...
+Loading user configuration...
+Running self-test...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_connector.py...
+Error in fetching data, skipping tests...
+Error in fetching data, skipping tests...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_pageparser.py...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urlcollections.py...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urltypes.py...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urlparser.py...
+Running unit-test for
+/home/lucas/projects/harvestman-crawler/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_logger.py...
+&lt;unittest.TestResult run=18 errors=4 failures=3&gt;
+self-test failed. Please check your installation!
+
+
+Could you look into why there are 4 errors ?
+
+Thanks,
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000127.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000129.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000143.html">
+   <LINK REL="Next"  HREF="000147.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C8548c5f30810061207k2e4193a9m5c2ebe9c0820f0ec%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">abpillai at gmail.com
+       </A><BR>
+    <I>Mon Oct  6 21:07:51 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000143.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000147.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#144">[ date ]</a>
+              <a href="thread.html#144">[ thread ]</a>
+              <a href="subject.html#144">[ subject ]</a>
+              <a href="author.html#144">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Lukasz,
+
+On Tue, Oct 7, 2008 at 12:30 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+
+&gt;<i>
+</I>&gt;<i> Also, I think we should use the from harvestman.lib import xyz&quot; in all
+</I>&gt;<i> files, and subfolders. It makes it easier to follow your code. When
+</I>&gt;<i> you say from common import *, it is hard for a new person to figure
+</I>&gt;<i> out if common is a python package or is it part of harvesman ?
+</I>&gt;<i> So having from harvestman.lib import common makes it really clear that
+</I>&gt;<i> this is harvestman library.
+</I>
+I thought about this. This would be of course nice, but considering
+the amount of work to be done in all modules in &quot;lib&quot; I thought
+it was more important to get cross folder imports (app-&gt;lib)
+(ext-&gt;lib), (test-&gt;lib) in order. Inside lib,  there is a sub-folder
+named common, so it is really not very difficult to figure out
+that the common refers to the local folder. Anyway in Python
+it always tries the local module before trying to import anything
+from outside, so if there is package named &quot;common&quot; locally,
+it will import from it.
+
+Still this would be nice, but not quite urgent in the &quot;lib&quot; package.
+
+&gt;<i>
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Lucas
+</I>&gt;<i>
+</I>
+
+Thanks
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000143.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000147.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#144">[ date ]</a>
+              <a href="thread.html#144">[ thread ]</a>
+              <a href="subject.html#144">[ subject ]</a>
+              <a href="author.html#144">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

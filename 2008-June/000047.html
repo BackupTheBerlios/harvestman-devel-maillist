@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Throttling/Bandwidth Control
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-June/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C804e5c70806230728l6de29c88v3bd32dac31865b05%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000045.html">
+   <LINK REL="Next"  HREF="000049.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Throttling/Bandwidth Control</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Throttling/Bandwidth%20Control&In-Reply-To=%3C804e5c70806230728l6de29c88v3bd32dac31865b05%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Throttling/Bandwidth Control">szybalski at gmail.com
+       </A><BR>
+    <I>Mon Jun 23 16:28:38 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000045.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+        <LI>Next message: <A HREF="000049.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#47">[ date ]</a>
+              <a href="thread.html#47">[ thread ]</a>
+              <a href="subject.html#47">[ subject ]</a>
+              <a href="author.html#47">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, Jun 23, 2008 at 9:13 AM, Anand Balachandran Pillai
+&lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+&gt;<i> Hi Lucas,
+</I>&gt;<i>
+</I>&gt;<i> On Sat, Jun 21, 2008 at 3:40 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> Hello,
+</I>&gt;&gt;<i> Actually is there a max download size. After max bandwidth , I would
+</I>&gt;&gt;<i> like to say, download maximum of  50mb.
+</I>&gt;<i> Well, it is not what you think. It is a maximum size of a single file (URL).
+</I>I see
+&gt;<i> There is no control variable for a net total download size in bytes. But
+</I>&gt;<i> I will add this, since it sounds like a useful thing. Perhaps &quot;maxbytes&quot; ?
+</I>
+Can we use a a mb,kb  when setting it up. For example something
+reasonable would be 50mb, or 500mb in a day, so converting that number
+to bytes would be troublesome. It would be best if we can use &quot;50mb&quot;
+or assume the default &quot;maxbytes&quot; is in &quot;megabytes MB&quot;.
+
+
+maxbytes = 50mb or maxbytes = 50
+
+I don't think anybody would use kb or less as that is too small to get anything.
+maxbytes = 50kb
+maxbytes = 50   (50 bytes)
+
+
+&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Then I could schedule it to run every day at 23, and download 50mb at 5kb.
+</I>&gt;<i> Yes, this will be possible once a control var for &quot;maxbytes&quot; is added.
+</I>
+Thanks.
+Lucas
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000045.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+	<LI>Next message: <A HREF="000049.html">[HarvestMan-devel] Throttling/Bandwidth Control
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#47">[ date ]</a>
+              <a href="thread.html#47">[ thread ]</a>
+              <a href="subject.html#47">[ subject ]</a>
+              <a href="author.html#47">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

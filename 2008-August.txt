@@ -1,0 +1,107 @@
+From szybalski at gmail.com  Tue Aug  5 04:38:49 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 4 Aug 2008 21:38:49 -0500
+Subject: [HarvestMan-devel] Trunk is broken
+In-Reply-To: <8548c5f30807230506l6005bb5asee349465fe3b5398@mail.gmail.com>
+References: <8548c5f30807230506l6005bb5asee349465fe3b5398@mail.gmail.com>
+Message-ID: <804e5c70808041938g17984182tc51cd54757efd124@mail.gmail.com>
+
+On Wed, Jul 23, 2008 at 7:06 AM, Anand Balachandran Pillai
+<abpillai at gmail.com> wrote:
+> Hi,
+>
+>  I am currently updating files in trunk for fixing issue #7.
+> Since these are partial checkins, the trunk is in an unstable
+> state now and will not mostly work.
+>
+
+Is trunk working again?
+
+Lucas
+
+
+From szybalski at gmail.com  Tue Aug  5 04:41:47 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Mon, 4 Aug 2008 21:41:47 -0500
+Subject: [HarvestMan-devel] harvestman index pages?
+Message-ID: <804e5c70808041941if3bfa7ah94935d49f4937928@mail.gmail.com>
+
+Hello,
+I was wondering if there are any index pages that harvestman generates.
+
+[url,datedownload, filename]
+....
+or something similar.. in a txt file that I could parse or work with.
+
+Lucas
+
+
+From abpillai at gmail.com  Tue Aug  5 08:51:12 2008
+From: abpillai at gmail.com (Anand Balachandran Pillai)
+Date: Tue, 5 Aug 2008 12:21:12 +0530
+Subject: [HarvestMan-devel] Trunk is broken
+In-Reply-To: <804e5c70808041938g17984182tc51cd54757efd124@mail.gmail.com>
+References: <8548c5f30807230506l6005bb5asee349465fe3b5398@mail.gmail.com>
+	<804e5c70808041938g17984182tc51cd54757efd124@mail.gmail.com>
+Message-ID: <8548c5f30808042351k2f8d3e66hbc1df87de6918b61@mail.gmail.com>
+
+No, it is still broken. I haven't worked on HarvestMan for last two weeks
+as I have been trying to get my hands dirty with python 3000 and contributing
+patches.
+
+Hopefully, I will get some time in the coming 2 days to complete the filter
+implementation and check it in, which should fix the trunk. The trunk
+is currently
+broken because of partial checkins for this issue.
+
+--Anand
+
+On Tue, Aug 5, 2008 at 8:08 AM, Lukasz Szybalski <szybalski at gmail.com> wrote:
+> On Wed, Jul 23, 2008 at 7:06 AM, Anand Balachandran Pillai
+> <abpillai at gmail.com> wrote:
+>> Hi,
+>>
+>>  I am currently updating files in trunk for fixing issue #7.
+>> Since these are partial checkins, the trunk is in an unstable
+>> state now and will not mostly work.
+>>
+>
+> Is trunk working again?
+>
+> Lucas
+> _______________________________________________
+> HarvestMan-devel mailing list
+> HarvestMan-devel at lists.berlios.de
+> https://lists.berlios.de/mailman/listinfo/harvestman-devel
+>
+
+
+
+-- 
+-Anand
+
+
+From szybalski at gmail.com  Mon Aug 25 04:47:46 2008
+From: szybalski at gmail.com (Lukasz Szybalski)
+Date: Sun, 24 Aug 2008 21:47:46 -0500
+Subject: [HarvestMan-devel] virtualenv setup bug
+In-Reply-To: <804e5c70806250629i65f00f2fs6e8f2d16cc1f469c@mail.gmail.com>
+References: <8548c5f30806250501p4f2bf765u65c25550fed7af27@mail.gmail.com>
+	<804e5c70806250629i65f00f2fs6e8f2d16cc1f469c@mail.gmail.com>
+Message-ID: <804e5c70808241947p5d171133w21c7234d62a8723@mail.gmail.com>
+
+Hello,
+I'm working on this branch to get the harvestman script working with setuptools.
+Are you doing anything with the __file__ description inside of the
+harvestman? I keep getting error that It cannot find lib.
+
+from harvestman.lib.event import HarvestManEvent
+ImportError: No module named lib.event
+
+If I do it from inside python it works. But If  I run "harvestman" I
+get an error... Any insides on how you handle file/lib references?
+
+Thanks,
+Lucas
+
+

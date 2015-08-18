@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-November/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C8548c5f30811112220v456a6c25sca58b62b563633c9%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000193.html">
+   <LINK REL="Next"  HREF="000188.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C8548c5f30811112220v456a6c25sca58b62b563633c9%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">abpillai at gmail.com
+       </A><BR>
+    <I>Wed Nov 12 07:20:36 CET 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000193.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000188.html">[HarvestMan-devel] resume controls
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#194">[ date ]</a>
+              <a href="thread.html#194">[ thread ]</a>
+              <a href="subject.html#194">[ subject ]</a>
+              <a href="author.html#194">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Lukasz,
+
+On Wed, Nov 12, 2008 at 7:41 AM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> Hello,
+</I>&gt;<i>
+</I>&gt;<i> Final change on setup.py.
+</I>&gt;<i> I would like to change the install options for harvestman and no
+</I>&gt;<i> longer install config.xml anywhere during setup. I would put this
+</I>&gt;<i> config file somewhere inside the package. I would leave the search
+</I>&gt;<i> path so if you have a config file in /etc/harvestman it would be read,
+</I>&gt;<i> but harvestman would not put the file there by default.
+</I>&gt;<i>
+</I>&gt;<i> I keep running into problems when I'm dealing with setup.py. There are
+</I>&gt;<i> a lot of commands on setup.py like build upgrade etc and I cannot use
+</I>&gt;<i> these if config.xml is being setup each time.
+</I>
+If this is conflicting with what you want to do, go ahead and change it.
+The system config file is not that important and anyway HarvestMan
+generates the user config file upon first run.
+
+However if it is possible, please provide an option in setup.py, that
+will install the system config file, separate from the regular install process.
+
+&gt;<i>
+</I>&gt;<i> This change will allow for installing harvestman like this:
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> easy_install harvestman   (done)
+</I>&gt;<i>
+</I>&gt;<i> Let me know if you any issues with this.
+</I>&gt;<i> Thanks,
+</I>&gt;<i> Lucas
+</I>&gt;<i>
+</I>
+
+Thanks
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000193.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000188.html">[HarvestMan-devel] resume controls
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#194">[ date ]</a>
+              <a href="thread.html#194">[ thread ]</a>
+              <a href="subject.html#194">[ subject ]</a>
+              <a href="author.html#194">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

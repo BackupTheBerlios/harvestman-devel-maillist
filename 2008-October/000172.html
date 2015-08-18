@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] cache status error
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-October/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20cache%20status%20error&In-Reply-To=%3C804e5c70810201906q548c30d5s7b47f34f3a5a119d%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000171.html">
+   <LINK REL="Next"  HREF="000173.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] cache status error</H1>
+    <B>Lukasz Szybalski</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20cache%20status%20error&In-Reply-To=%3C804e5c70810201906q548c30d5s7b47f34f3a5a119d%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] cache status error">szybalski at gmail.com
+       </A><BR>
+    <I>Tue Oct 21 04:06:47 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000171.html">[HarvestMan-devel] Fwd: Thread died due to exception =&gt;	'HarvestManUrl' object has no attribute 'get_original_url_directory'
+</A></li>
+        <LI>Next message: <A HREF="000173.html">[HarvestMan-devel] cache status error
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello,
+I still get this error when I generate using --genconf configuration.
+
+harvestman --genconf
+
+save the file and run
+harvestman -c myconfig.xml
+
+ harvestman -c lucas.xml
+Loading system configuration...
+Error assigning option &quot;cache_status&quot; =&gt; Error: invalid literal for
+int() with base 10: 'lucas.xml'
+Pass option -h for command line usage.
+Printing error traceback for debugging...
+  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+line 730, in set_option_xml
+    self.assign_option(option_val, value)
+  File &quot;/home/lucas/projects/harvestman-crawler/trunk/HarvestMan/harvestman/lib/config.py&quot;,
+line 623, in assign_option
+    raise HarvestManConfigError, &quot;Error: &quot; + str(e)
+
+
+
+Any idea why is this?
+
+Lucas
+
+-- 
+Turbogears2 Manual
+<A HREF="http://lucasmanual.com/mywiki/TurboGears2">http://lucasmanual.com/mywiki/TurboGears2</A>
+Bazaar and Launchpad
+<A HREF="http://lucasmanual.com/mywiki/bzr">http://lucasmanual.com/mywiki/bzr</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000171.html">[HarvestMan-devel] Fwd: Thread died due to exception =&gt;	'HarvestManUrl' object has no attribute 'get_original_url_directory'
+</A></li>
+	<LI>Next message: <A HREF="000173.html">[HarvestMan-devel] cache status error
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

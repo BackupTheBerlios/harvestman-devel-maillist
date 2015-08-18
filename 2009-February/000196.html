@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Extending imagecrawler.py to check file type
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2009-February/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Extending%20imagecrawler.py%20to%20check%20file%20type&In-Reply-To=%3Cb10f17190902041312k129bb521m11365c70a771e1cc%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000197.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Extending imagecrawler.py to check file type</H1>
+    <B>Abdulmajed Dakkak</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Extending%20imagecrawler.py%20to%20check%20file%20type&In-Reply-To=%3Cb10f17190902041312k129bb521m11365c70a771e1cc%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Extending imagecrawler.py to check file type">adakkak at eng.utoledo.edu
+       </A><BR>
+    <I>Wed Feb  4 22:12:04 CET 2009</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000197.html">[HarvestMan-devel] Extending imagecrawler.py to check file type
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#196">[ date ]</a>
+              <a href="thread.html#196">[ thread ]</a>
+              <a href="subject.html#196">[ subject ]</a>
+              <a href="author.html#196">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi, I am going through harvest man and had a few questions. In
+`imagecrawler.py`, you have the following:
+
+class ImageCrawler(HarvestMan):
+    def write_this_url(self, event, *args, **kwargs):
+        pass #code omitted
+
+    def include_links(self, event, *args, **kwargs):
+        pass #code omitted
+
+what is the difference between write_this_url and include_lins? also, in
+either of these functions there is
+
+ url = event.url
+ if url.is_image() or url.starturl:
+   pass
+
+suppose you want to crawl a different sort of file, say pdf. How do you do
+that? I was url.get_url().endswith(&quot;.pdf&quot;)but that ignore sites that have
+something like <A HREF="http://example.com/index.php?file=342">http://example.com/index.php?file=342</A> pointing to a pdf file.
+Is there something analogus to Unix file command. Along the same lines, is
+there a way to save the files with a different name from the url (for
+example something.pdf rather than index.php?file=342).
+
+Finally, harvest man cannot scale across processors --- right?
+
+Thanks for the great work,
+
+Abdul
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090204/d9fb65e6/attachment.html">https://lists.berlios.de/pipermail/harvestman-devel/attachments/20090204/d9fb65e6/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000197.html">[HarvestMan-devel] Extending imagecrawler.py to check file type
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#196">[ date ]</a>
+              <a href="thread.html#196">[ thread ]</a>
+              <a href="subject.html#196">[ subject ]</a>
+              <a href="author.html#196">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

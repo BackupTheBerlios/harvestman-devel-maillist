@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] Just checking
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Just%20checking&In-Reply-To=%3C8548c5f30809160007h1eb54edem6777f6fb0a142afb%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000129.html">
+   <LINK REL="Next"  HREF="000120.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] Just checking</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20Just%20checking&In-Reply-To=%3C8548c5f30809160007h1eb54edem6777f6fb0a142afb%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] Just checking">abpillai at gmail.com
+       </A><BR>
+    <I>Tue Sep 16 09:07:22 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000129.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000120.html">[HarvestMan-devel] Trunk is working again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#119">[ date ]</a>
+              <a href="thread.html#119">[ thread ]</a>
+              <a href="subject.html#119">[ subject ]</a>
+              <a href="author.html#119">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello Tom,
+
+    This is the way to do it.
+
+&gt;&gt;&gt;<i> from harvestman.apps.harvestmanimp import HarvestMan
+</I># Initialize crawler
+&gt;&gt;&gt;<i> spider = HarvestMan()
+</I>&gt;&gt;&gt;<i> spider.init()
+</I># Get config object
+&gt;&gt;&gt;<i> cfg = spider.get_config()
+</I># Add a URL as project
+&gt;&gt;&gt;<i> cfg.add('<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A>', 'pytut', '/tmp')
+</I># Set cfg up
+&gt;&gt;&gt;<i> cfg.setup()
+</I># See project info if you want
+&gt;&gt;&gt;<i> cfg.projects
+</I>[{'url': '<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A>', 'project':
+'pytut', 'verbosity': 20, 'basedir': '/tmp'}]
+# Run crawl
+&gt;&gt;&gt;<i> spider.main()
+</I>&gt;&gt;&gt;<i> spider.main()
+</I>[]
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[08:58:31] *** Log Started ***
+
+[08:58:31] Starting project pytut ...
+[08:58:31] Writing Project Files...
+[08:58:31] Starting download of url
+<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A> ...
+[08:58:31] Reading Project Cache...
+[08:58:31] Project cache not found
+[08:58:31] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A>
+[08:58:32] Saved to /tmp/pytut/www.python.org/doc/current/tut/tut.html
+[08:58:32] Fetching links for url <A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A>
+[08:58:32] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/node4.html">http://www.python.org/doc/current/tut/node4.html</A>
+[08:58:32] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/about.html">http://www.python.org/doc/current/tut/about.html</A>
+....
+
+Now if you try to run the project again without resetting the
+config object,
+
+&gt;&gt;&gt;<i> spider.main()
+</I>[]
+Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[09:04:06] *** Log Started ***
+
+Traceback (most recent call last):
+  File &quot;/usr/lib/python2.5/logging/__init__.py&quot;, line 750, in emit
+    self.stream.write(fs % msg)
+ValueError: I/O operation on closed file
+[09:04:06] Starting project pytut ...
+Traceback (most recent call last):
+  File &quot;/usr/lib/python2.5/logging/__init__.py&quot;, line 750, in emit
+    self.stream.write(fs % msg)
+ValueError: I/O operation on closed file
+[09:04:06] Writing Project Files...
+Traceback (most recent call last):
+  File &quot;/usr/lib/python2.5/logging/__init__.py&quot;, line 750, in emit
+    self.stream.write(fs % msg)
+ValueError: I/O operation on closed file
+[09:04:06] Starting download of url
+<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A> ...
+Traceback (most recent call last):
+
+Disaster happens, because you are trying to re-run a session which
+has closed handles to logging etc. In order to re-run the same project
+as different session,
+
+# Reset session (this creates a new session)
+&gt;&gt;&gt;<i> spider.reset()
+</I>&gt;&gt;&gt;<i> spider.main()
+</I>Starting HarvestMan 2.0 alpha 1...
+Copyright (C) 2004, Anand B Pillai
+
+[09:05:08] *** Log Started ***
+
+[09:05:08] Starting project pytut ...
+[09:05:08] Writing Project Files...
+[09:05:08] Starting download of url
+<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A> ...
+[09:05:08] Reading Project Cache...
+[09:05:08] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A>
+[09:05:09] Fetching links for url <A HREF="http://www.python.org/doc/current/tut/tut.html">http://www.python.org/doc/current/tut/tut.html</A>
+[09:05:09] Downloading file for url
+<A HREF="http://www.python.org/doc/current/tut/node4.html">http://www.python.org/doc/current/tut/node4.html</A>
+
+Hope it is clear.
+
+I have modified the config object. It no longer has a 'urls' list, but instead
+the project information including urls is kept in the 'projects' dictionary.
+
+Btw, I have modified the trunk so that it is working again. I have decided
+to do my changes to the rules filters in another branch...
+
+Perhaps you could add this somewhere in the Wiki.
+
+Sorry for the delayed reply. I have been putting off HarvestMan
+development to the &quot;next day&quot; for last few months. Finally I have
+decided to restart things today, so you will see lot of activity in the
+mailing list and subversion in the coming days...
+
+
+Regards
+
+--Anand
+
+On Mon, Sep 15, 2008 at 10:43 AM, Tom Smith &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">remarkability at gmail.com</A>&gt; wrote:
+&gt;<i> Hi Anand,
+</I>&gt;<i>
+</I>&gt;<i> Sorry to nag you, and I know this is a very simple question, but from the
+</I>&gt;<i> python shell, how would I create a crawler that simple calls one of my
+</I>&gt;<i> functions. I know Harvestman is designed to do this but every time I try and
+</I>&gt;<i> initiate an object with a cfg object, it doesn't seem clear how I add the
+</I>&gt;<i> base url?
+</I>&gt;<i> My basic needs are simply for a crawler that can be set running and I decide
+</I>&gt;<i> what to do in my code, I'm usually either grabbing all of a site or fishing
+</I>&gt;<i> out bits of data (I rarely need to actually get and save all the data)..
+</I>&gt;<i> regards and thanks
+</I>&gt;<i> tom
+</I>&gt;<i>
+</I>&gt;<i> Tom Smith --------------------
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">tom at everythingability.com</A>
+</I>&gt;<i> <A HREF="http://everythingability.com">http://everythingability.com</A>
+</I>&gt;<i> <A HREF="http://theotherblog.com">http://theotherblog.com</A>
+</I>&gt;<i> AIM: theotherblog
+</I>&gt;<i> Skype: everythingability
+</I>&gt;<i> +44 (0)7720 288285
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>
+
+
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000129.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000120.html">[HarvestMan-devel] Trunk is working again
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#119">[ date ]</a>
+              <a href="thread.html#119">[ thread ]</a>
+              <a href="subject.html#119">[ subject ]</a>
+              <a href="author.html#119">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>

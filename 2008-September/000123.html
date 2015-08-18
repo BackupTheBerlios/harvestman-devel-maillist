@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [HarvestMan-devel] harvestman installation and config.xml
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/harvestman-devel/2008-September/index.html" >
+   <LINK REL="made" HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C8548c5f30809160203j400be53ao4cc868a6b131814a%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000118.html">
+   <LINK REL="Next"  HREF="000126.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[HarvestMan-devel] harvestman installation and config.xml</H1>
+    <B>Anand Balachandran Pillai</B> 
+    <A HREF="mailto:harvestman-devel%40lists.berlios.de?Subject=Re%3A%20%5BHarvestMan-devel%5D%20harvestman%20installation%20and%20config.xml&In-Reply-To=%3C8548c5f30809160203j400be53ao4cc868a6b131814a%40mail.gmail.com%3E"
+       TITLE="[HarvestMan-devel] harvestman installation and config.xml">abpillai at gmail.com
+       </A><BR>
+    <I>Tue Sep 16 11:03:57 CEST 2008</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000118.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+        <LI>Next message: <A HREF="000126.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#123">[ date ]</a>
+              <a href="thread.html#123">[ thread ]</a>
+              <a href="subject.html#123">[ subject ]</a>
+              <a href="author.html#123">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Lukasz,
+
+On Fri, Sep 12, 2008 at 4:12 PM, Lukasz Szybalski &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">szybalski at gmail.com</A>&gt; wrote:
+&gt;<i> On Fri, Sep 12, 2008 at 2:38 AM, Anand Balachandran Pillai
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">abpillai at gmail.com</A>&gt; wrote:
+</I>&gt;&gt;<i> I saw the HarvestMan-to-paste branch. I will check it out and try this out.
+</I>&gt;&gt;<i> Btw, how do I setup this ? Do I need Python paste ? Is documentation
+</I>&gt;&gt;<i> available somewhere ?
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> I don't think you need &quot;paste&quot; it only created my setup.py and folder
+</I>&gt;<i> structure, thats all
+</I>&gt;<i>
+</I>&gt;<i> Just do:
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> svn checkout <A HREF="https://harvestman-crawler.googlecode.com/svn/branches/HarvestMan-topaste">https://harvestman-crawler.googlecode.com/svn/branches/HarvestMan-topaste</A>
+</I>&gt;<i> HarvestMan-topaste --username yourusername
+</I>&gt;<i>
+</I>&gt;<i> then
+</I>&gt;<i> virtualenv --no-site-packages harvenv   (This will create virtual environment)
+</I>&gt;<i> then
+</I>&gt;<i> source harvenv/bin/activate   (this will activate the environment)
+</I>&gt;<i> then
+</I>&gt;<i> cd HarvestMan-topaste/Harvestman
+</I>&gt;<i> python setup.py develop   (this will install harvestman and its
+</I>&gt;<i> requirements into harvenv enviroment)
+</I>&gt;<i>
+</I>&gt;<i> now you are running harvestman in virtual environment which is
+</I>&gt;<i> controlled by user (you)
+</I>&gt;<i>
+</I>&gt;<i> &quot;harvestman -h&quot; to see if it works.
+</I>&gt;<i>
+</I>&gt;<i> to deactivate the virtual environment use:
+</I>&gt;<i>
+</I>&gt;<i> deactivate
+</I>&gt;<i>
+</I>&gt;<i> Let me know.
+</I>
+I tried all this and everything worked, including harvestman -h.
+But when I tried to do 'harvestman --selftest', it failed.
+
+(harvenv)<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at anand-laptop</A>:~/projects/harvestman/branches/HarvestMan-topaste/HarvestMan$
+harvestman --selftest
+Loading user configuration...
+Running self-test...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_pageparser.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_logger.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urltypes.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urlcollections.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_urlparser.py...
+Running unit-test for
+/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/test/test_connector.py...
+Error in fetching data, skipping tests...
+Error in fetching data, skipping tests...
+Connecting to <A HREF="http://www.google.com...">http://www.google.com...</A>
+Redirected to <A HREF="http://www.google.no/...">http://www.google.no/...</A>
+Length: (Unknown) Type: text/html
+Content Encoding: plain
+
+RT: 1  index.html                           [&lt;=&gt;
+                              ](...)
+Saved to index.html
+0 bytes downloaded in 0:00:00 hours at an average of 0.00 kb/s.
+&lt;unittest.TestResult run=18 errors=3 failures=2&gt;
+self-test failed. Please check your installation!
+
+Btw, you had old harvestman test code, so I deleted it and copied
+the new test folder from the trunk. This is checked in, so it is fine.
+
+&gt;<i>
+</I>&gt;<i> The main difference now is that everything can be referenced by
+</I>&gt;<i> &quot;harvestman.lib.xyz or harvestman.lib.event harvestman.apps.hget
+</I>&gt;<i> ...from any file in the package. The configuration gets created in
+</I>&gt;<i> harveenv/etc/harvestman/config.xml... or /etc/harvestman/config.xml if
+</I>&gt;<i> you are installing without virtualenv.
+</I>&gt;<i>
+</I>&gt;<i> What is left for me to do is to get harvestman working again. If you
+</I>&gt;<i> wanted to go ahead with this new setup, if you got the trunk working
+</I>&gt;<i> then we could merge changes to trunk and continue from there. (let me
+</I>&gt;<i> know)
+</I>
+It would be nice to do that, but let us merge into the new 2.0-dev
+branch once it is working rather than into trunk. I dont want to touch
+the trunk, once we have every feature checked into the branch,
+well-tested and we are ready to merge back into trunk.
+
+It does not seem to work now, because I tested it right now and it failed.
+
+(harvenv)<A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">anand at anand-laptop</A>:~/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman$
+harvestman -C apps/config-sample.xml
+Loading user configuration...
+Using configuration file apps/config-sample.xml...
+Traceback (most recent call last):
+  File &quot;/home/anand/projects/harvestman/branches/harvenv/bin/harvestman&quot;,
+line 8, in &lt;module&gt;
+    load_entry_point('HarvestMan==2.0.2dev-r93', 'console_scripts',
+'harvestman')()
+  File &quot;/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/harvestman_run.py&quot;,
+line 685, in run
+    spider.initialize()
+  File &quot;/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/harvestman_run.py&quot;,
+line 427, in initialize
+    self.init_config()
+  File &quot;/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/harvestman_run.py&quot;,
+line 414, in init_config
+    self.process_plugins()
+  File &quot;/home/anand/projects/harvestman/branches/HarvestMan-topaste/HarvestMan/harvestman/apps/appbase.py&quot;,
+line 45, in process_plugins
+    from lib import hooks
+ImportError: No module named lib
+
+I think there are still some issues with internal paths. Let me know if
+you need me to look into this. I might be slow in doing this, since I
+am now planning to work on all remaining 2.0 features, which I guess
+is a lot of stuff to do!
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Lucas
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> HarvestMan-devel mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">HarvestMan-devel at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/harvestman-devel">https://lists.berlios.de/mailman/listinfo/harvestman-devel</A>
+</I>&gt;<i>
+</I>
+
+Regards
+-- 
+-Anand
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000118.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+	<LI>Next message: <A HREF="000126.html">[HarvestMan-devel] harvestman installation and config.xml
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#123">[ date ]</a>
+              <a href="thread.html#123">[ thread ]</a>
+              <a href="subject.html#123">[ subject ]</a>
+              <a href="author.html#123">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/harvestman-devel">More information about the HarvestMan-devel
+mailing list</a><br>
+</body></html>
